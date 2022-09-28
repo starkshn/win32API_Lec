@@ -34,6 +34,7 @@ public:
 
 public:
 	void SetName(wstring strName) { _sceneName = strName; }
+	Vector2 SetUICenterPos(Vector2 parent, Vector2 child);
 
 public:
 	const wstring& GetName() const { return _sceneName; }

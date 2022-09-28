@@ -114,6 +114,13 @@ void CScene::CreateTile(UINT xCount, UINT yCount)
 	}
 }
 
+Vector2 CScene::SetUICenterPos(Vector2 parent, Vector2 child)
+{
+	float x = (parent._x / 2.f) - (child._x / 2.f);
+	float y = (parent._y / 2.f) - (child._y / 2.f);
+	return Vector2(x, y);
+}
+
 
 
 

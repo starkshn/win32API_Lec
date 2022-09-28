@@ -47,6 +47,27 @@ void UI::finalUpdate()
 	finalUpdateChild();
 }
 
+void UI::OnMouseCheck()
+{
+	Vector2 mousePos = MOUSE_POS;
+	Vector2 uiScale = GetScale();
+
+	if (_cameraAffected)
+	{
+		CameraManager::GetInstance()->GetRealPos(mousePos);
+	}
+
+	if (_finalPos._x <= mousePos._x && mousePos._x <= _finalPos._x + uiScale._x &&
+		_finalPos._y <= mousePos._y && mousePos._y <= _finalPos._y + uiScale._y)
+	{
+		_onMouseCheck = true;
+	}
+	else
+	{
+		_onMouseCheck = false;
+	}
+}
+
 void UI::render(HDC dc)
 {
 	Vector2 pos = GetFinalPos();
@@ -81,8 +102,6 @@ void UI::render(HDC dc)
 		);
 	}
 
-	
-
 	// child render
 	renderChild(dc);
 }
@@ -111,26 +130,7 @@ void UI::renderChild(HDC dc)
 	}
 }
 
-void UI::OnMouseCheck()
-{
-	Vector2 mousePos = MOUSE_POS;
-	Vector2 uiScale = GetScale();
 
-	if (_cameraAffected)
-	{
-		CameraManager::GetInstance()->GetRealPos(mousePos);
-	}
-
-	if (_finalPos._x <= mousePos._x && mousePos._x <= _finalPos._x + uiScale._x &&
-		_finalPos._y <= mousePos._y && mousePos._y <= _finalPos._y + uiScale._y)
-	{
-		_onMouseCheck = true;
-	}
-	else
-	{
-		_onMouseCheck = false;
-	}
-}
 
 void UI::MouseOn()
 {
@@ -145,6 +145,7 @@ void UI::MouseLbtnDown()
 void UI::MouseLbtnUp()
 {
 	// 밖에서 누르고 안에서 땟을 때도 인식이 된다.
+
 }
 
 void UI::MouseLbtnClick()
