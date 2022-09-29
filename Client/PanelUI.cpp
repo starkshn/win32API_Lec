@@ -17,6 +17,11 @@ void PanelUI::update()
 
 }
 
+void PanelUI::render(HDC dc)
+{
+	UI::render(dc);
+}
+
 void PanelUI::MouseOn()
 {
 	if (IsLbtnDown())

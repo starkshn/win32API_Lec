@@ -16,7 +16,8 @@ UI::UI(bool cameraAffected)
 }
 
 UI::UI(const UI& origin) 
-	:
+	: 
+	CObject(origin),
 	p_parentUI(nullptr),
 	_cameraAffected(origin._cameraAffected),
 	_onMouseCheck(false),

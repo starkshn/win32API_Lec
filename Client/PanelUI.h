@@ -14,6 +14,7 @@ public:
 
 public:
 	virtual void update() override;
+	virtual void render(HDC dc) override;
 
 public:
 	virtual void MouseOn() override;

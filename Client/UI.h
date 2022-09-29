@@ -3,6 +3,11 @@
 
 class UI : public CObject
 {
+public:
+	// 객체 생성 방지
+	// virtual UI* Clone() = delete;
+	virtual UI* Clone() = 0;
+
 private:
 	vector<UI*> _vecChildUI; // 깊은 복사 진행 해야함.
 	UI*			p_parentUI;

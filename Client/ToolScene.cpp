@@ -60,56 +60,55 @@ void ToolScene::Enter()
 #pragma region "UI (4) UI 생성 테스트 작업부분"
 
 	// UI 하나 테스트 구현 (우측상단에 배치)
-	UI* parentUI = new UI(false);
-	parentUI->SetObjectName(L"parentUI");
-	parentUI->SetScale(Vector2(500.f, 300.f));
-	parentUI->SetPos(Vector2(resolution._x - parentUI->GetScale()._x, 0.f));
+	//UI* parentUI = new UI(false);
+	//parentUI->SetObjectName(L"parentUI");
+	//parentUI->SetScale(Vector2(500.f, 300.f));
+	//parentUI->SetPos(Vector2(resolution._x - parentUI->GetScale()._x, 0.f));
 
-	// 테스트용 자식 UI
-	UI* childUI = new UI(false);
-	childUI->SetObjectName(L"childUI");
-	childUI->SetScale(Vector2(100.f, 40.f));
-	childUI->SetPos(Vector2(0.f, 0.f));
+	//// 테스트용 자식 UI
+	//UI* childUI = new UI(false);
+	//childUI->SetObjectName(L"childUI");
+	//childUI->SetScale(Vector2(100.f, 40.f));
+	//childUI->SetPos(Vector2(0.f, 0.f));
 
-	// parent UI 자식 추가 (테스트 용)
-	parentUI->AddChild(childUI);
+	//// parent UI 자식 추가 (테스트 용)
+	//parentUI->AddChild(childUI);
 
-	// infoUI
-	UI* infoParentUI = new UI(false);
-	infoParentUI->SetObjectName(L"infoParentUI");
-	infoParentUI->SetScale(Vector2(800.f, 200.f));
-	infoParentUI->SetPos(Vector2((infoParentUI->GetScale()._x / 800.f) - 1, 0.f));
+	//// infoUI
+	//UI* infoParentUI = new UI(false);
+	//infoParentUI->SetObjectName(L"infoParentUI");
+	//infoParentUI->SetScale(Vector2(800.f, 200.f));
+	//infoParentUI->SetPos(Vector2((infoParentUI->GetScale()._x / 800.f) - 1, 0.f));
 
-	// infoUI 자식 : timeInfoUI, bmCountInfoUI, characterInfoUI
-	// bulletInfo 자식 : bulletUI, bombUI
-	// characterInfo 자식 : scoreUI, slugHpUI, lifeCountUI
+	//// infoUI 자식 : timeInfoUI, bmCountInfoUI, characterInfoUI
+	//// bulletInfo 자식 : bulletUI, bombUI
+	//// characterInfo 자식 : scoreUI, slugHpUI, lifeCountUI
 
-	// time UI
-	UI* timeInfoUI = new UI(false);
-	timeInfoUI->SetObjectName(L"timeInfoUI");
-	timeInfoUI->SetScale(Vector2(150.f, 150.f));
-	timeInfoUI->SetPos(SetUICenterPos(infoParentUI->GetScale(), timeInfoUI->GetScale()));
-	infoParentUI->AddChild(timeInfoUI);
+	//// time UI
+	//UI* timeInfoUI = new UI(false);
+	//timeInfoUI->SetObjectName(L"timeInfoUI");
+	//timeInfoUI->SetScale(Vector2(150.f, 150.f));
+	//timeInfoUI->SetPos(SetUICenterPos(infoParentUI->GetScale(), timeInfoUI->GetScale()));
+	//infoParentUI->AddChild(timeInfoUI);
 
-	// bmCountInfoUI
-	UI* bmCountInfoUI = new UI(false);
-	bmCountInfoUI->SetObjectName(L"bmCountInfoUI");
-	bmCountInfoUI->SetScale(Vector2(200.f, 170.f));
-	bmCountInfoUI->SetPos(SetUICenterPos(infoParentUI->GetScale(), bmCountInfoUI->GetScale()) - Vector2(250.f, 0.f));
-	infoParentUI->AddChild(bmCountInfoUI);
+	//// bmCountInfoUI
+	//UI* bmCountInfoUI = new UI(false);
+	//bmCountInfoUI->SetObjectName(L"bmCountInfoUI");
+	//bmCountInfoUI->SetScale(Vector2(200.f, 170.f));
+	//bmCountInfoUI->SetPos(SetUICenterPos(infoParentUI->GetScale(), bmCountInfoUI->GetScale()) - Vector2(250.f, 0.f));
+	//infoParentUI->AddChild(bmCountInfoUI);
 
-	// characterInfoUI
-	UI* characterInfoUI = new UI(false);
-	characterInfoUI->SetObjectName(L"characterInfoUI");
-	characterInfoUI->SetScale(Vector2(250.f, 180.f));
-	characterInfoUI->SetPos(SetUICenterPos(infoParentUI->GetScale(), characterInfoUI->GetScale()) + Vector2(250.f, 0.f));
-	infoParentUI->AddChild(characterInfoUI);
+	//// characterInfoUI
+	//UI* characterInfoUI = new UI(false);
+	//characterInfoUI->SetObjectName(L"characterInfoUI");
+	//characterInfoUI->SetScale(Vector2(250.f, 180.f));
+	//characterInfoUI->SetPos(SetUICenterPos(infoParentUI->GetScale(), characterInfoUI->GetScale()) + Vector2(250.f, 0.f));
+	//infoParentUI->AddChild(characterInfoUI);
 
-	// AddObject : 해주어야 렌더링 됨.
-	AddObject(parentUI, GROUP_TYPE::UI);
-	AddObject(infoParentUI, GROUP_TYPE::UI);
+	//// AddObject : 해주어야 렌더링 됨.
+	//AddObject(parentUI, GROUP_TYPE::UI);
+	//AddObject(infoParentUI, GROUP_TYPE::UI);
 #pragma endregion
-
 
 #pragma region "UI (5) 강의 UI 생성부분"
 	// PanelUI
@@ -129,7 +128,6 @@ void ToolScene::Enter()
 	AddObject(panelUI, GROUP_TYPE::UI);
 
 
-
 	// 복사생성자 구현후 CLONE 테스트
 	UI* clonePanel = panelUI->Clone();
 	// 위치가 완전히 똑같아지는 것을 피하기 위해 위치조정
@@ -138,10 +136,6 @@ void ToolScene::Enter()
 	AddObject(clonePanel, GROUP_TYPE::UI);
 
 #pragma endregion
-
-
-	
-
 };
 
 void ToolScene::Exit()
