@@ -9,7 +9,11 @@
 #include "Resource.h"
 #include "CSceneManager.h"
 #include "CScene.h"
-#include "UI.h"
+
+// #include "UI.h"
+#include "PanelUI.h"
+#include "ButtonUI.h"
+
 
 ToolScene::ToolScene()
 {
@@ -51,6 +55,9 @@ void ToolScene::Enter()
 	// Camera Look 지정
 	Vector2 resolution = CCore::GetInstance()->GetResolution();
 	CameraManager::GetInstance()->SetLookAtPos(resolution / 2.f);
+
+
+#pragma region "UI (4) UI 생성 테스트 작업부분"
 
 	// UI 하나 테스트 구현 (우측상단에 배치)
 	UI* parentUI = new UI(false);
@@ -101,6 +108,39 @@ void ToolScene::Enter()
 	// AddObject : 해주어야 렌더링 됨.
 	AddObject(parentUI, GROUP_TYPE::UI);
 	AddObject(infoParentUI, GROUP_TYPE::UI);
+#pragma endregion
+
+
+#pragma region "UI (5) 강의 UI 생성부분"
+	// PanelUI
+	UI* panelUI = new PanelUI();
+	panelUI->SetObjectName(L"panelUI");
+	panelUI->SetScale(Vector2(400.f, 400.f));
+	panelUI->SetPos(Vector2(resolution._x - panelUI->GetScale()._x, resolution._y - panelUI->GetScale()._y));
+
+	// ButtonUI
+	UI* buttonUI = new ButtonUI();
+	buttonUI->SetObjectName(L"buttonUI");
+	buttonUI->SetScale(Vector2(300.f, 300.f));
+	buttonUI->SetPos(Vector2(0.f, 0.f));
+
+	panelUI->AddChild(buttonUI);
+
+	AddObject(panelUI, GROUP_TYPE::UI);
+
+
+
+	// 복사생성자 구현후 CLONE 테스트
+	UI* clonePanel = panelUI->Clone();
+	// 위치가 완전히 똑같아지는 것을 피하기 위해 위치조정
+	clonePanel->SetPos(panelUI->GetPos() + Vector2(-300.f, 0.f));
+	
+	AddObject(clonePanel, GROUP_TYPE::UI);
+
+#pragma endregion
+
+
+	
 
 };
 

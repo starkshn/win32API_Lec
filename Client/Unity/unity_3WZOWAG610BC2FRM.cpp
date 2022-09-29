@@ -1,4 +1,7 @@
 
+#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\Resources.cpp"
+
+
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\Sound.cpp"
 
 

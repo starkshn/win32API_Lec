@@ -1,16 +1,13 @@
 #pragma once
 #include "UI.h"
-class PanelUI : public UI
+class ButtonUI : public UI
 {
 public:
-	CLONE(PanelUI);
-
-private:
-	Vector2 _lbtnDownMousePos;
+	CLONE(ButtonUI);
 
 public:
-	PanelUI();
-	virtual ~PanelUI() override;
+	ButtonUI();
+	virtual ~ButtonUI() override;
 
 public:
 	virtual void update() override;

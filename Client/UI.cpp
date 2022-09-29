@@ -6,7 +6,7 @@
 
 UI::UI(bool cameraAffected)
 	:
-	_vecUI{},
+	_vecChildUI{},
 	p_parentUI(nullptr),
 	_finalPos{},
 	_cameraAffected(cameraAffected),
@@ -15,9 +15,22 @@ UI::UI(bool cameraAffected)
 
 }
 
+UI::UI(const UI& origin) 
+	:
+	p_parentUI(nullptr),
+	_cameraAffected(origin._cameraAffected),
+	_onMouseCheck(false),
+	_lbtnDown(false)
+{
+	for (size_t i = 0; i < origin._vecChildUI.size(); ++i)
+	{
+		AddChild(origin._vecChildUI[i]->Clone());
+	}
+}
+
 UI::~UI()
 {
-	SafeDeleteVector(_vecUI);
+	SafeDeleteVector(_vecChildUI);
 }
 
 void UI::update()
@@ -108,25 +121,25 @@ void UI::render(HDC dc)
 
 void UI::updateChild()
 {
-	for (size_t i = 0; i < _vecUI.size(); ++i)
+	for (size_t i = 0; i < _vecChildUI.size(); ++i)
 	{
-		_vecUI[i]->update();
+		_vecChildUI[i]->update();
 	}
 }
 
 void UI::finalUpdateChild()
 {
-	for (size_t i = 0; i < _vecUI.size(); ++i)
+	for (size_t i = 0; i < _vecChildUI.size(); ++i)
 	{
-		_vecUI[i]->finalUpdate();
+		_vecChildUI[i]->finalUpdate();
 	}
 }
 
 void UI::renderChild(HDC dc)
 {
-	for (size_t i = 0; i < _vecUI.size(); ++i)
+	for (size_t i = 0; i < _vecChildUI.size(); ++i)
 	{
-		_vecUI[i]->render(dc);
+		_vecChildUI[i]->render(dc);
 	}
 }
 

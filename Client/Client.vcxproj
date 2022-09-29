@@ -163,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Animator.h" />
+    <ClInclude Include="ButtonUI.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CKeyManager.h" />
@@ -206,6 +207,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="ButtonUI.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="CCore.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

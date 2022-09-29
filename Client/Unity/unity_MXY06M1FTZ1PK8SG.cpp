@@ -5,6 +5,9 @@
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\Animator.cpp"
 
 
+#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\ButtonUI.cpp"
+
+
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\CameraManager.cpp"
 
 
@@ -24,7 +27,4 @@
 
 
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\ColliderManager.cpp"
-
-
-#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\CScene.cpp"
 

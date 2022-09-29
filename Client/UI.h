@@ -4,9 +4,7 @@
 class UI : public CObject
 {
 private:
-	CLONE(UI);
-
-	vector<UI*> _vecUI;
+	vector<UI*> _vecChildUI; // 깊은 복사 진행 해야함.
 	UI*			p_parentUI;
 
 	Vector2		_finalPos; // 최종 위치
@@ -17,6 +15,7 @@ private:
 
 public:
 	UI(bool cameraAffected);
+	UI(const UI& origin);
 	virtual ~UI() override;
 
 public:
@@ -31,6 +30,7 @@ public:
 public:
 	void OnMouseCheck();
 	bool IsMouseOn() { return _onMouseCheck; };
+	bool IsLbtnDown() { return _lbtnDown; }
 
 public:
 	virtual void MouseOn();
@@ -41,14 +41,14 @@ public:
 public:
 	void AddChild(UI* ui)
 	{
-		_vecUI.push_back(ui);
+		_vecChildUI.push_back(ui);
 		ui->p_parentUI = this;
 	}
 	
 public:
 	UI*					GetParentUI() { return p_parentUI; }
 	Vector2				GetFinalPos() { return _finalPos; }
-	const vector<UI*>	GetChild() { return _vecUI; }
+	const vector<UI*>	GetChild() { return _vecChildUI; }
 
 
 	friend class UIManager;
