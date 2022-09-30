@@ -15,6 +15,8 @@
 #include "PanelUI.h"
 #include "ButtonUI.h"
 
+#include "PathManager.h"
+
 void ChangeSceneByBtn(DWORD_PTR, DWORD_PTR);
 
 ToolScene::ToolScene()
@@ -117,6 +119,7 @@ void ToolScene::Enter()
 	clonePanel->SetPos(panelUI->GetPos() + Vector2(-300.f, 0.f));
 
 	// CloneUI에게만 콜백함수를 연결해주고 싶을 경우
+
 	dynamic_cast<ButtonUI*>(clonePanel->GetChild()[0])->SetClickedCallBack(ChangeSceneByBtn, 0, 0);
 	
 	AddObject(clonePanel, GROUP_TYPE::UI);
@@ -139,14 +142,27 @@ void ToolScene::update()
 
 	SetTileIdx();
 
+	// scene 변경
 	if (KEY_TAP(KEY::ENTER))
 	{
 		ChangeScene(SCENE_TYPE::START);
 	}
 
+	// 포커싱 UI 변경
 	if (KEY_TAP(KEY::P))
 	{
 		UIManager::GetInstance()->SetFocusUI(p_ui);
+	}
+
+	// Tile 데이터 저장
+	if (KEY_TAP(KEY::LSHIFT))
+	{
+		SaveTile(L"Tile\\Test.tile");
+	} 
+
+	if (KEY_TAP(KEY::CTRL))
+	{
+		LoadTile(L"Tile\\Test.tile");
 	}
 }
 
@@ -186,26 +202,32 @@ void ToolScene::SetTileIdx()
 	}
 }
 
-void ToolScene::ToolSceneService(TOOL_SCENE_SERVICE srv)
-{
-	switch (srv)
-	{
-		case TOOL_SCENE_SERVICE::CHANGE_IMAGE_IDX:
-		{
-			Vector2 mousePos = MOUSE_POS;
-
-
-		}
-			break;
-	}
-};
-
 void ChangeSceneByBtn(DWORD_PTR, DWORD_PTR)
 {
 	ChangeScene(SCENE_TYPE::START);
 }
 
+void ToolScene::SaveTile(const wstring& relativePath)
+{
+	wstring filePath = PathManager::GetInstance()->GetContentsPath();
+	filePath += relativePath;
 
+	// 커널오브젝트 : FILE
+	FILE* file = nullptr;
+
+	_wfopen_s(&file, filePath.c_str(), L"wb"); 
+	// 파일 열기 실패
+	assert(file);
+
+	// 데이터 저장
+	UINT xCount = GetTileX();
+	UINT yCount = GetTileY();
+
+	fwrite(&xCount, sizeof(UINT), 1, file);
+	fwrite(&yCount, sizeof(UINT), 1, file);
+
+	fclose(file);
+}
 
 
 // =======================

@@ -21,7 +21,9 @@ public:
 
 public:
 	void SetTileIdx();
-	void ToolSceneService(TOOL_SCENE_SERVICE srv);
+
+public:
+	void SaveTile(const wstring& relativePath);
 	
 public:
 

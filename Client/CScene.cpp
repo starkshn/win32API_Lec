@@ -6,6 +6,8 @@
 #include "Tile.h"
 #include "Texture.h"
 
+#include "PathManager.h"
+
 CScene::CScene()
 	:
 	_tileXCount(),
@@ -92,6 +94,8 @@ void CScene::DeleteAllGroups()
 
 void CScene::CreateTile(UINT xCount, UINT yCount)
 {
+	DeleteGroupObjects(GROUP_TYPE::TILE);
+
 	_tileXCount = xCount;
 	_tileYCount = yCount;
 
@@ -120,6 +124,29 @@ Vector2 CScene::SetUICenterPos(Vector2 parent, Vector2 child)
 	return Vector2(x, y);
 }
 
+void CScene::LoadTile(const wstring& relativePath)
+{
+	wstring filePath = PathManager::GetInstance()->GetContentsPath();
+	filePath += relativePath;
+
+	// 커널오브젝트 : FILE
+	FILE* file = nullptr;
+
+	_wfopen_s(&file, filePath.c_str(), L"rb");
+	// 파일 열기 실패
+	assert(file);
+
+	// 데이터 읽기
+	UINT xCount = 0;
+	UINT yCount = 0;
+
+	fread(&xCount, sizeof(UINT), 1, file);
+	fread(&yCount, sizeof(UINT), 1, file);
+
+	CreateTile(xCount, yCount);
+
+	fclose(file);
+}
 
 
 

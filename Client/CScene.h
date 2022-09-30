@@ -50,6 +50,8 @@ public:
 	UINT GetTileX() { return _tileXCount;  };
 	UINT GetTileY() { return _tileYCount;  };
 	
+public:
+	void LoadTile(const wstring& relativePath);
 
 };
 
