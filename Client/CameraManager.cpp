@@ -60,8 +60,12 @@ void CameraManager::CalDiff()
 	}
 	else
 	{
-		Vector2 lookDir = (_lookAtPos - _prevLookPos) + Vector2(0.0001f, 0.0001f);
-		_corLookPos = _prevLookPos + lookDir.Normalize() * _getTargetSpeed * DeltaTime_F;
+		Vector2 lookDir = (_lookAtPos - _prevLookPos);
+
+		if (!lookDir.IsZero())
+		{
+			_corLookPos = _prevLookPos + lookDir.Normalize() * _getTargetSpeed * DeltaTime_F;
+		}
 	}
 
 	// 둘 사이의 차이값을 뺀 것이 _corLookPos가 쫒아가야할 방향이다.

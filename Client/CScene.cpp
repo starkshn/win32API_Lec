@@ -77,7 +77,6 @@ void CScene::DeleteGroupObjects(GROUP_TYPE groupType)
 {
 	// SafeDeleteVector(_objects[static_cast<UINT>(groupType)]);
 
-
 	// 밑에처럼 명시적으로 호출하는 것이 원래는 정석이다.
 	SafeDeleteVector<CObject*>(_objects[static_cast<UINT>(groupType)]);
 }

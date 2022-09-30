@@ -15,6 +15,7 @@
 #include "PanelUI.h"
 #include "ButtonUI.h"
 
+void ChangeSceneByBtn(DWORD_PTR, DWORD_PTR);
 
 ToolScene::ToolScene()
 {
@@ -25,8 +26,6 @@ ToolScene::~ToolScene()
 {
 
 }
-
-
 
 void ToolScene::Enter()
 {
@@ -99,25 +98,33 @@ void ToolScene::Enter()
 	panelUI->SetPos(Vector2(resolution._x - panelUI->GetScale()._x, resolution._y - panelUI->GetScale()._y));
 
 	// ButtonUI
-	UI* buttonUI = new ButtonUI();
+	ButtonUI* buttonUI = new ButtonUI();
 	buttonUI->SetObjectName(L"buttonUI");
-	buttonUI->SetScale(Vector2(300.f, 300.f));
+	buttonUI->SetScale(Vector2(100.f, 100.f));
 	buttonUI->SetPos(Vector2(0.f, 0.f));
+
+	// ButtonUI에서 구현한 함수포인터
+	// 이렇게하면 CloneUI 까지 기능이 다 복사가 된다.
+	// buttonUI->SetClickedCallBack(ChangeSceneByBtn, 0, 0);
 
 	panelUI->AddChild(buttonUI);
 
 	AddObject(panelUI, GROUP_TYPE::UI);
 
-
 	// 복사생성자 구현후 CLONE 테스트
 	UI* clonePanel = panelUI->Clone();
 	// 위치가 완전히 똑같아지는 것을 피하기 위해 위치조정
 	clonePanel->SetPos(panelUI->GetPos() + Vector2(-300.f, 0.f));
+
+	// CloneUI에게만 콜백함수를 연결해주고 싶을 경우
+	dynamic_cast<ButtonUI*>(clonePanel->GetChild()[0])->SetClickedCallBack(ChangeSceneByBtn, 0, 0);
 	
 	AddObject(clonePanel, GROUP_TYPE::UI);
 
+	// p 클릭시 테스트를 위해 멤버 변수로 가지고있음.
 	p_ui = clonePanel;
-
+	
+	// ToolScene시작할 때의 위치 설정
 	CameraManager::GetInstance()->SetLookAtPos(resolution / 2.f);
 
 #pragma endregion
@@ -147,12 +154,11 @@ void ToolScene::render(HDC dc)
 {
 	CScene::render(dc);
 
-
 };
 
 void ToolScene::Exit()
 {
-	
+	DeleteAllGroups();
 }
 
 void ToolScene::SetTileIdx()
@@ -180,9 +186,6 @@ void ToolScene::SetTileIdx()
 	}
 }
 
-
-
-
 void ToolScene::ToolSceneService(TOOL_SCENE_SERVICE srv)
 {
 	switch (srv)
@@ -196,6 +199,13 @@ void ToolScene::ToolSceneService(TOOL_SCENE_SERVICE srv)
 			break;
 	}
 };
+
+void ChangeSceneByBtn(DWORD_PTR, DWORD_PTR)
+{
+	ChangeScene(SCENE_TYPE::START);
+}
+
+
 
 
 // =======================

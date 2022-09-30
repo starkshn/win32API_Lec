@@ -30,6 +30,13 @@ public :
 public :
 	
 public :
+	bool IsZero()
+	{
+		if (_x == 0.f && _y == 0.f)
+			return true;
+		return false;
+	}
+
 	float Length()
 	{
 		return sqrt(_x * _x + _y * _y);

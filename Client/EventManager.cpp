@@ -4,6 +4,8 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 
+#include "UIManager.h"
+
 EventManager::EventManager()
 {
 
@@ -70,6 +72,9 @@ void EventManager::ExcuteEvent(const Event& event)
 		{
 			// _objectPtr : nextScene
 			CSceneManager::GetInstance()->ChangeRealScene((SCENE_TYPE)event._objectPtr);
+
+			// 포커스  UI 해제 (이전 Scene의 FocusUI를 들고 있기 때문에)
+			UIManager::GetInstance()->SetFocusUI(nullptr);
 		}
 			break;
 	}

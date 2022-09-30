@@ -13,9 +13,9 @@ private :
 private:
 	void ChangeRealScene(SCENE_TYPE sceneType);
 
-	friend class EventManager;
+	
 
-public : 
+public:
 	void init();
 	void update();
 	void render(HDC sceneDC);
@@ -23,5 +23,7 @@ public :
 public:
 	CScene* GetCurScene() { return p_curScene; }
 
+
+	friend class EventManager;
 };
 

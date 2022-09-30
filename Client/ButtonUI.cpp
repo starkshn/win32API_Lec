@@ -31,3 +31,11 @@ void ButtonUI::MouseLbtnUp()
 
 }
 
+void ButtonUI::MouseLbtnClick()
+{
+	if (nullptr != f_btnFunc)
+	{
+		f_btnFunc(_param1, _param2);
+	}
+}
+
