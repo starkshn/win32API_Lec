@@ -42,6 +42,11 @@ public:
 	{
 		return _objects[static_cast<UINT>(type)];
 	}
+	vector<CObject*>& GetUIGroups(const GROUP_TYPE& type)
+	{
+		return _objects[static_cast<UINT>(GROUP_TYPE::UI)];
+	}
+
 	UINT GetTileX() { return _tileXCount;  };
 	UINT GetTileY() { return _tileYCount;  };
 	

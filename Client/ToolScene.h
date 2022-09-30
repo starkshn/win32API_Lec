@@ -1,9 +1,13 @@
 #pragma once
 #include "CScene.h"
 
+class UI;
+
 class ToolScene : public CScene
 {
 private :
+	UI* p_ui;
+
 
 public :
 	ToolScene();

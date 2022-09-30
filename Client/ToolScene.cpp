@@ -11,6 +11,7 @@
 #include "CScene.h"
 
 // #include "UI.h"
+#include "UIManager.h"
 #include "PanelUI.h"
 #include "ButtonUI.h"
 
@@ -25,27 +26,7 @@ ToolScene::~ToolScene()
 
 }
 
-void ToolScene::update()
-{
-	CScene::update();
 
-	// TOOL_SCENE_SERVICE service = TOOL_SCENE_SERVICE::CHANGE_IMAGE_IDX;
-	// ToolSceneService(service);
-
-	SetTileIdx();
-
-	if (KEY_TAP(KEY::ENTER))
-	{
-		ChangeScene(SCENE_TYPE::START);
-	}
-}
-
-void ToolScene::render(HDC dc)
-{
-	CScene::render(dc);
-
-
-};
 
 void ToolScene::Enter()
 {
@@ -135,7 +116,38 @@ void ToolScene::Enter()
 	
 	AddObject(clonePanel, GROUP_TYPE::UI);
 
+	p_ui = clonePanel;
+
+	CameraManager::GetInstance()->SetLookAtPos(resolution / 2.f);
+
 #pragma endregion
+};
+
+void ToolScene::update()
+{
+	CScene::update();
+
+	// TOOL_SCENE_SERVICE service = TOOL_SCENE_SERVICE::CHANGE_IMAGE_IDX;
+	// ToolSceneService(service);
+
+	SetTileIdx();
+
+	if (KEY_TAP(KEY::ENTER))
+	{
+		ChangeScene(SCENE_TYPE::START);
+	}
+
+	if (KEY_TAP(KEY::P))
+	{
+		UIManager::GetInstance()->SetFocusUI(p_ui);
+	}
+}
+
+void ToolScene::render(HDC dc)
+{
+	CScene::render(dc);
+
+
 };
 
 void ToolScene::Exit()
