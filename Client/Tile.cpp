@@ -55,6 +55,16 @@ void Tile::render(HDC dc)
 	);
 }
 
+void Tile::SaveTileInfo(FILE* file)
+{
+	fwrite(&_tileImageIdx, sizeof(int), 1, file);
+}
+
+void Tile::LoadTileInfo(FILE* file)
+{
+	fread(&_tileImageIdx, sizeof(int), 1, file);
+}
+
 
 
 

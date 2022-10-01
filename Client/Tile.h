@@ -21,6 +21,10 @@ private:
 	virtual void render(HDC dc) override;
 
 public:
+	virtual void SaveTileInfo(FILE* file);
+	virtual void LoadTileInfo(FILE* file);
+	
+public:
 	void AddImageIdx() { ++_tileImageIdx; };
 
 public:

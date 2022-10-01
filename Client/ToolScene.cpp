@@ -219,12 +219,20 @@ void ToolScene::SaveTile(const wstring& relativePath)
 	// 파일 열기 실패
 	assert(file);
 
-	// 데이터 저장
+	// 타일 가로, 세로 갯수 저장
 	UINT xCount = GetTileX();
 	UINT yCount = GetTileY();
 
 	fwrite(&xCount, sizeof(UINT), 1, file);
 	fwrite(&yCount, sizeof(UINT), 1, file);
+
+	// 모든 타일들을 개별적으로 저장할 데이터를 저장한다.
+	const vector<CObject*>& vecTile = GetGroupObjects(GROUP_TYPE::TILE);
+
+	for (size_t i = 0; i < vecTile.size(); ++i)
+	{
+		dynamic_cast<Tile*>(vecTile[i])->SaveTileInfo(file);
+	}
 
 	fclose(file);
 }

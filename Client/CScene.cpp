@@ -136,14 +136,23 @@ void CScene::LoadTile(const wstring& relativePath)
 	// 파일 열기 실패
 	assert(file);
 
-	// 데이터 읽기
+	// 타일의 가로 세로 갯수 불러오기
 	UINT xCount = 0;
 	UINT yCount = 0;
 
 	fread(&xCount, sizeof(UINT), 1, file);
 	fread(&yCount, sizeof(UINT), 1, file);
 
+	// 불러온 타일 갯수에 맞게 타일 생성
 	CreateTile(xCount, yCount);
+
+	// 만들어진 타일 개별로 필요한 정보를 불러오게 한다.
+	const vector<CObject*>& vecTile = GetGroupObjects(GROUP_TYPE::TILE);
+
+	for (size_t i = 0; i < vecTile.size(); ++i)
+	{
+		dynamic_cast<Tile*>(vecTile[i])->LoadTileInfo(file);
+	}
 
 	fclose(file);
 }
