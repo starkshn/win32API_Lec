@@ -3,6 +3,7 @@
 #include "CameraManager.h"
 #include "CKeyManager.h"
 #include "SelectGDI.h"
+#include "CScene.h"
 
 UI::UI(bool cameraAffected)
 	:

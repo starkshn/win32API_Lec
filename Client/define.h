@@ -36,6 +36,7 @@ enum class GROUP_TYPE
 	MONSTERMISSILE,
 
 	UI = 31,
+
 	END = 32,
 };
 

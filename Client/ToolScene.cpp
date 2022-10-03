@@ -104,27 +104,32 @@ void ToolScene::Enter()
 	buttonUI->SetObjectName(L"buttonUI");
 	buttonUI->SetScale(Vector2(100.f, 100.f));
 	buttonUI->SetPos(Vector2(0.f, 0.f));
-
+	
 	// ButtonUI에서 구현한 함수포인터
 	// 이렇게하면 CloneUI 까지 기능이 다 복사가 된다.
 	// buttonUI->SetClickedCallBack(ChangeSceneByBtn, 0, 0);
 
 	panelUI->AddChild(buttonUI);
-
 	AddObject(panelUI, GROUP_TYPE::UI);
 
+	// =======================================
 	// 복사생성자 구현후 CLONE 테스트
 	UI* clonePanel = panelUI->Clone();
+
 	// 위치가 완전히 똑같아지는 것을 피하기 위해 위치조정
 	clonePanel->SetPos(panelUI->GetPos() + Vector2(-300.f, 0.f));
 
 	// CloneUI에게만 콜백함수를 연결해주고 싶을 경우
+	// dynamic_cast<ButtonUI*>(clonePanel->GetChild()[0])->SetClickedCallBack(ChangeSceneByBtn, 0, 0);
+	// Scene의 멤버함수 포인터를 연결해주는 부분
+	dynamic_cast<ButtonUI*>(clonePanel->GetChild()[0])->SetClickedCallBack(this, (SCENE_MEMFUNC)&ToolScene::SaveTileData);
+	// dynamic_cast<ButtonUI*>(clonePanel->GetChild()[0])->SetClickedCallBack(this, (TOOL_SCENE_MEMFUNC)&ToolScene::SaveTileData);
 
-	dynamic_cast<ButtonUI*>(clonePanel->GetChild()[0])->SetClickedCallBack(ChangeSceneByBtn, 0, 0);
-	
+	// Object 추가
 	AddObject(clonePanel, GROUP_TYPE::UI);
+	// ========================================
 
-	// p 클릭시 테스트를 위해 멤버 변수로 가지고있음.
+	// p 클릭시 포커싱 테스트를 위해 멤버 변수로 가지고있음.
 	p_ui = clonePanel;
 	
 	// ToolScene시작할 때의 위치 설정
@@ -155,10 +160,11 @@ void ToolScene::update()
 	}
 
 	// Tile 데이터 저장
-	if (KEY_TAP(KEY::LSHIFT))
-	{
-		SaveTileData();
-	} 
+	// 이부분 CloneUI 버튼으로 옮김
+	// if (KEY_TAP(KEY::LSHIFT))
+	// {
+	// 	SaveTileData();
+	// } 
 
 	// 데이터 불러오기
 	if (KEY_TAP(KEY::CTRL))
@@ -210,7 +216,7 @@ void ChangeSceneByBtn(DWORD_PTR, DWORD_PTR)
 	ChangeScene(SCENE_TYPE::START);
 }
 
-void ToolScene::SaveTileData()
+void ToolScene::SaveTileData(void)
 {
 	// 파일 이름 + 최종 경로
 	wchar_t szName[256] = {};

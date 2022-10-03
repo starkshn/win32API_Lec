@@ -1,7 +1,21 @@
 #pragma once
 #include "UI.h"
 
+// class CScene;
+// class ToolScene;
+// class CObject;
+// 전방선언이 안 먹히기 때문에 어쩔수 없이 헤더 참조한다.
+#include "CScene.h"
+// #include "ToolScene.h"
+#include "CObject.h"
+
 typedef void(*BTN_TYPE) (DWORD_PTR, DWORD_PTR);
+
+// 멤버함수 포인터
+typedef void(CScene::*SCENE_MEMFUNC) (void);
+// typedef void(ToolScene::*TOOL_SCENE_MEMFUNC) (void);
+typedef void(CObject::*OBJECT_MEMFUNC) (void);
+
 
 class ButtonUI : public UI
 {
@@ -9,9 +23,19 @@ public:
 	CLONE(ButtonUI);
 
 private:
-	BTN_TYPE	f_btnFunc;
-	DWORD_PTR	_param1;
-	DWORD_PTR	_param2;
+	BTN_TYPE			pf_btnFunc;
+	DWORD_PTR			_param1;
+	DWORD_PTR			_param2;
+
+	// 호출할 객체도	필요
+	SCENE_MEMFUNC		pf_sceneFunc;
+	CScene*				p_sceneInstance;
+
+	// TOOL_SCENE_MEMFUNC	pf_toolSceneFunc;
+	// ToolScene*			p_toolSceneInstance;
+
+	OBJECT_MEMFUNC	pf_objectFunc;
+	CObject*		p_objectInstance;
 
 public:
 	ButtonUI();
@@ -29,10 +53,15 @@ public:
 public:
 	void SetClickedCallBack(BTN_TYPE func, DWORD_PTR param1, DWORD_PTR param2)
 	{
-		f_btnFunc = func;
+		pf_btnFunc = func;
 		_param1 = param1;
 		_param2 = param2;
 	}
+
+	void SetClickedCallBack(CScene* sceneInstance, SCENE_MEMFUNC func);
+	// void SetClickedCallBack(ToolScene* toolSceneInstance, TOOL_SCENE_MEMFUNC func);
+
+	void SetClickedCallBack(CObject* objectInstance, OBJECT_MEMFUNC func);
 
 };
 
