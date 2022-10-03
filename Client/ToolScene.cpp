@@ -157,12 +157,14 @@ void ToolScene::update()
 	// Tile 데이터 저장
 	if (KEY_TAP(KEY::LSHIFT))
 	{
-		SaveTile(L"Tile\\Test.tile");
+		SaveTileData();
 	} 
 
+	// 데이터 불러오기
 	if (KEY_TAP(KEY::CTRL))
 	{
-		LoadTile(L"Tile\\Test.tile");
+		// LoadTile(L"Tile\\Test.tile");
+		LoadTileData();
 	}
 }
 
@@ -202,20 +204,89 @@ void ToolScene::SetTileIdx()
 	}
 }
 
+
 void ChangeSceneByBtn(DWORD_PTR, DWORD_PTR)
 {
 	ChangeScene(SCENE_TYPE::START);
 }
 
-void ToolScene::SaveTile(const wstring& relativePath)
+void ToolScene::SaveTileData()
 {
-	wstring filePath = PathManager::GetInstance()->GetContentsPath();
-	filePath += relativePath;
+	// 파일 이름 + 최종 경로
+	wchar_t szName[256] = {};
+
+	OPENFILENAME ofn = {};
+
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = CCore::GetInstance()->GetMainHwnd();
+	
+	// 파일 완성된 경로
+	ofn.lpstrFile = szName;
+	// 파일 사이즈
+	ofn.nMaxFile = sizeof(szName);
+	// 파일 필터
+	ofn.lpstrFilter = L"ALL\0*.*\0Tile\0*.tile\0";
+	// 필터 인덱스 설정
+	ofn.nFilterIndex = 0;
+	// 타이틀 이름
+	ofn.lpstrFileTitle = nullptr;
+	// 타이틀 이름 사이즈.
+	ofn.nMaxFileTitle = 0;
+	// 초기 경로
+	wstring tileFolderPath = PathManager::GetInstance()->GetContentsPath();
+	tileFolderPath += L"Tile";
+
+	ofn.lpstrInitialDir = tileFolderPath.c_str();
+
+	// Flag
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+	// 셋팅한 정보를 토대로 윈도우 여는 함수
+	// Dialog 창이 뜬다. => Modal
+	if (GetSaveFileName(&ofn))
+	{
+		SaveTile(szName);
+	}
+
+}
+
+void ToolScene::LoadTileData()
+{
+	wchar_t szName[256] = {};
+
+	OPENFILENAME ofn = {};
+
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = CCore::GetInstance()->GetMainHwnd();
+	ofn.lpstrFile = szName;
+	ofn.nMaxFile = sizeof(szName);
+	ofn.lpstrFilter = L"ALL\0*.*\0Tile\0*.tile\0";
+	ofn.nFilterIndex = 0;
+	ofn.lpstrFileTitle = nullptr;
+	ofn.nMaxFileTitle = 0;
+	wstring tileFolderPath = PathManager::GetInstance()->GetContentsPath();
+	tileFolderPath += L"Tile";
+	ofn.lpstrInitialDir = tileFolderPath.c_str();
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+	// Modal
+	if (GetOpenFileName(&ofn))
+	{
+		wstring relativePath = PathManager::GetInstance()->GetRelativePath(szName);
+		LoadTile(relativePath);
+	}
+}
+
+void ToolScene::SaveTile(const wstring& _filePath)
+{
+	// 절대 경로가 들어 올 것이라 주석처리
+	//wstring filePath = PathManager::GetInstance()-//>GetContentsPath();
+	//filePath += _filePath;
 
 	// 커널오브젝트 : FILE
 	FILE* file = nullptr;
 
-	_wfopen_s(&file, filePath.c_str(), L"wb"); 
+	_wfopen_s(&file, _filePath.c_str(), L"wb");
 	// 파일 열기 실패
 	assert(file);
 
@@ -236,6 +307,7 @@ void ToolScene::SaveTile(const wstring& relativePath)
 
 	fclose(file);
 }
+
 
 
 // =======================

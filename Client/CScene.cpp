@@ -153,7 +153,7 @@ void CScene::LoadTile(const wstring& relativePath)
 	{
 		dynamic_cast<Tile*>(vecTile[i])->LoadTileInfo(file);
 	}
-
+	
 	fclose(file);
 }
 

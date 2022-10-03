@@ -30,3 +30,17 @@ void PathManager::init() // 경로 찾아내야한다.
 	
 	// SetWindowText(CCore::GetInstance()->GetMainHwnd(), _contentsPath);
 }
+
+wstring PathManager::GetRelativePath(const wchar_t* _filePath)
+{
+	// 전체 경로 : filePath
+	wstring filePath = _filePath;
+	// filePath.find();
+
+	size_t absLen = wcslen(_contentsPath);
+	size_t fullLen = filePath.length();
+	
+	wstring relativePath = filePath.substr(absLen, fullLen - absLen);
+
+	return relativePath;
+}

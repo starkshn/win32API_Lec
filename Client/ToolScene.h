@@ -20,11 +20,12 @@ public:
 	virtual void Exit();
 
 public:
+	void SaveTileData();
+	void SaveTile(const wstring& _filePath);
 	void SetTileIdx();
 
-public:
-	void SaveTile(const wstring& relativePath);
-	
+	void LoadTileData();
+
 public:
 
 	
