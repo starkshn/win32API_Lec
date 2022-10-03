@@ -1,9 +1,15 @@
 #include "pch.h"
 #include "PanelUI.h"
 #include "CKeyManager.h"
+#include "ResourceManager.h"
 
-PanelUI::PanelUI() : UI(false)
+PanelUI::PanelUI() 
+	: 
+	UI(false),
+	p_texture(nullptr)
 {
+	p_texture = ResourceManager::GetInstance()->LoadTexture(L"Paenl", L"Textures\\UI\\Panel.bmp");
+
 
 }
 
@@ -20,6 +26,23 @@ void PanelUI::update()
 void PanelUI::render(HDC dc)
 {
 	UI::render(dc);
+
+
+
+
+	/*BitBlt
+	(
+		dc,
+		int(renderPos._x),
+		int(renderPos._y),
+		int(scale._x),
+		int(scale._y),
+		p_tileTexture->GetDC(),
+		curCol * TILE_SIZE,
+		curRow * TILE_SIZE,
+		SRCCOPY
+	);*/
+	
 }
 
 void PanelUI::MouseOn()

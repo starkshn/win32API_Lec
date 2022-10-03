@@ -75,6 +75,7 @@ void CObject::render(HDC dc)
 	ComponentRender(dc);
 }
 
+// Collider || Animation을 가지고 있을 경우만
 void CObject::ComponentRender(HDC dc)
 {
 	if (nullptr != p_collider)

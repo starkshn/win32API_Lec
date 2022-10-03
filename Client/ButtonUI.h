@@ -9,6 +9,8 @@
 // #include "ToolScene.h"
 #include "CObject.h"
 
+class Texture;
+
 typedef void(*BTN_TYPE) (DWORD_PTR, DWORD_PTR);
 
 // 멤버함수 포인터
@@ -37,18 +39,33 @@ private:
 	OBJECT_MEMFUNC	pf_objectFunc;
 	CObject*		p_objectInstance;
 
+	// Component
+	Texture*		p_buttonTexture;
+	int				_buttonImageIdx;
+	int				_buttonTypeIdx;
+
 public:
-	ButtonUI();
+	ButtonUI(int buttonType);
 	virtual ~ButtonUI() override;
 
 public:
 	virtual void update() override;
+	virtual void render(HDC dc) override;
 
 public:
 	virtual void MouseOn() override;
 	virtual void MouseLbtnDown() override;
 	virtual void MouseLbtnUp() override;
 	virtual void MouseLbtnClick() override;
+
+public:
+	void AddButtonImageIdx() { ++_buttonImageIdx; }
+
+public:
+	void SetButtonTexture(Texture* buttonTexture)
+	{
+		p_buttonTexture = buttonTexture;
+	}
 
 public:
 	void SetClickedCallBack(BTN_TYPE func, DWORD_PTR param1, DWORD_PTR param2)

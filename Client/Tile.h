@@ -28,11 +28,10 @@ public:
 	void AddImageIdx() { ++_tileImageIdx; };
 
 public:
-	void SetTexture(Texture* tileTexture)
+	void SetTileTexture(Texture* tileTexture)
 	{
 		p_tileTexture = tileTexture;
 	}
-
 
 };
 

@@ -54,7 +54,8 @@ public:
 	UI*					GetParentUI() { return p_parentUI; }
 	Vector2				GetFinalPos() { return _finalPos; }
 	const vector<UI*>	GetChild() { return _vecChildUI; }
-
+	bool				GetLbtnDown() { return _lbtnDown; }
+	bool				GetIsMouseOn() { return _onMouseCheck; }
 
 	friend class UIManager;
 };

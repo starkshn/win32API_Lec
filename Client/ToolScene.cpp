@@ -100,16 +100,34 @@ void ToolScene::Enter()
 	panelUI->SetPos(Vector2(resolution._x - panelUI->GetScale()._x, resolution._y - panelUI->GetScale()._y));
 
 	// ButtonUI
-	ButtonUI* buttonUI = new ButtonUI();
+	ButtonUI* buttonUI = new ButtonUI(CHECK_BUTTON);
 	buttonUI->SetObjectName(L"buttonUI");
-	buttonUI->SetScale(Vector2(100.f, 100.f));
+	buttonUI->SetScale(Vector2(72.f, 72.f));
 	buttonUI->SetPos(Vector2(0.f, 0.f));
 	
 	// ButtonUI에서 구현한 함수포인터
 	// 이렇게하면 CloneUI 까지 기능이 다 복사가 된다.
 	// buttonUI->SetClickedCallBack(ChangeSceneByBtn, 0, 0);
 
+	// ========================================
+	// 다른 기능을 가지는 Button추가
+
+	ButtonUI* leftButtonUI = new ButtonUI(LEFT_BUTTON);
+	leftButtonUI->SetObjectName(L"LeftButtonUI");
+	leftButtonUI->SetScale(Vector2(72.f, 72.f));
+	leftButtonUI->SetPos(Vector2((panelUI->GetScale()._x / 2.f) - BUTTON_SIZE, 300.f));
+
+	ButtonUI* rightButtonUI = new ButtonUI(RIGHT_BUTTON);
+	rightButtonUI->SetObjectName(L"RightButtonUI");
+	rightButtonUI->SetScale(Vector2(72.f, 72.f));
+	rightButtonUI->SetPos(Vector2((panelUI->GetScale()._x / 2.f), 300.f));
+
+	// ========================================
+
+	// 자식추가
 	panelUI->AddChild(buttonUI);
+	panelUI->AddChild(leftButtonUI);
+	panelUI->AddChild(rightButtonUI);
 	AddObject(panelUI, GROUP_TYPE::UI);
 
 	// =======================================

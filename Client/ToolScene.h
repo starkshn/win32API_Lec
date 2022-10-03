@@ -8,7 +8,6 @@ class ToolScene : public CScene
 private :
 	UI* p_ui;
 
-
 public :
 	ToolScene();
 	virtual ~ToolScene() override;

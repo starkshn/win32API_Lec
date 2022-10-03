@@ -109,7 +109,7 @@ void CScene::CreateTile(UINT xCount, UINT yCount)
 
 			tile->SetPos(Vector2(static_cast<float>(x * TILE_SIZE), static_cast<float>(y * TILE_SIZE)));
 
-			tile->SetTexture(tileTexture);
+			tile->SetTileTexture(tileTexture);
 
 			AddObject(tile, GROUP_TYPE::TILE);
 

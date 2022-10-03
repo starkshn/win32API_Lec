@@ -21,6 +21,14 @@
 #define PI 3.1415926535f
 
 #define TILE_SIZE 63
+#define BUTTON_SIZE 72
+
+// Button UI Idx
+#define LEFT_BUTTON 10
+#define RIGHT_BUTTON 11
+#define CANCLE_BUTTON 15
+#define CHECK_BUTTON 16
+
 
 enum class GROUP_TYPE
 {

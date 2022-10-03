@@ -1,12 +1,17 @@
 #pragma once
 #include "UI.h"
+
+class Texture;
+
 class PanelUI : public UI
 {
 public:
 	CLONE(PanelUI);
 
 private:
-	Vector2 _lbtnDownMousePos;
+	Vector2		_lbtnDownMousePos;
+	
+	Texture*	p_texture;
 
 public:
 	PanelUI();
