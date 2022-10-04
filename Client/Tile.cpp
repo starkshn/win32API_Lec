@@ -2,6 +2,7 @@
 #include "Tile.h"
 #include "Texture.h"
 #include "CameraManager.h"
+#include "CSceneManager.h"
 
 Tile::Tile() : p_tileTexture(nullptr), _tileImageIdx(0)
 {
@@ -30,6 +31,9 @@ void Tile::render(HDC dc)
 	UINT maxCol = (width / TILE_SIZE);
 	// 타일 행 갯수가 나온다. (-1 빼주어야한다. 768px이여야 하는데 767px이라서
 	UINT maxRow = (height / TILE_SIZE);
+
+	CSceneManager::GetInstance()->SetTileMaxCol(maxCol);
+	CSceneManager::GetInstance()->SetTileMaxRow(maxRow);
 
 	UINT curRow = static_cast<UINT>(_tileImageIdx / maxCol);
 	UINT curCol = static_cast<UINT>(_tileImageIdx % maxRow);

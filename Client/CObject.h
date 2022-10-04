@@ -21,6 +21,8 @@ private :
 	Animator*	p_animator;
 
 	bool		_alive;
+
+
 	
 public:
 	CObject();
@@ -59,6 +61,7 @@ public :
 	void SetTheta(float theta) { _theta = theta; }
 	void SetDir(Vector2 dir) { _dir = dir; _dir.Normalize(); }
 	void SetObjectName(const wstring& name) { _objectName = name; }
+
 
 
 public:

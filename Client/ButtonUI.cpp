@@ -106,31 +106,33 @@ void ButtonUI::render(HDC dc)
 	//Vector2 parentUIScale = parentUI->GetScale();
 	//unsigned int tileButtonDiff = parentUIScale._x / TILE_SIZE;
 
-	Vector2 finalPos = GetFinalPos();
-
-	if (_buttonTypeIdx == 1 && (_tileImageIndex <= 35))
-	{				
+	if (_buttonTypeIdx == 1)
+	{
 		UINT row = _tileImageIndex / 6;
 		UINT col = _tileImageIndex % 7;
 
+		if (row >= 6)
+			return;
+
 		if (row == 0)
 		{
-			(p_toolScene->GetTileButtonVec(_tileImageIndex))->SetPos(Vector2(static_cast<float>(col * TILE_SIZE), static_cast<float>(row* TILE_SIZE + 100)));
+			(p_toolScene->GetTileButtonVec(_tileImageIndex))->SetPos(Vector2(static_cast<float>(col * TILE_SIZE + 3), static_cast<float>(row * TILE_SIZE + 100)));
 		}
 		else
 		{
-			(p_toolScene->GetTileButtonVec(_tileImageIndex))->SetPos(Vector2(static_cast<float>(col * TILE_SIZE), static_cast<float>(row * TILE_SIZE)));
+			(p_toolScene->GetTileButtonVec(_tileImageIndex))->SetPos(Vector2(static_cast<float>(col * TILE_SIZE + 3), static_cast<float>(row * TILE_SIZE + 2)));
 		}
-		
 	}
 
+	Vector2 finalPos = GetFinalPos();
+
+	
 	// checkButton 화면에 띄우는 부분
 	if (GetIsMouseOn())
 	{
 		if (_buttonTypeIdx == 1)
 		{
-
-			Rectangle(dc, GetPos()._x, GetPos()._y, 72, 72);
+			Rectangle(dc, finalPos._x, finalPos._y, GetScale()._x, GetScale()._y);
 
 			/*TransparentBlt
 			(

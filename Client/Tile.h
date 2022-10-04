@@ -16,6 +16,8 @@ private:
 
 	int			_tileIdxForFunctor;
 
+
+
 public:
 	Tile();
 	virtual ~Tile() override;
@@ -37,8 +39,10 @@ public:
 		p_tileTexture = tileTexture;
 	}
 
+
 public:
 	int GetTileIdxForFuctor() { return _tileIdxForFunctor; }
+
 
 };
 

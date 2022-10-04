@@ -56,6 +56,8 @@ private:
 	// tile 이미지의 인덱스를 얻기위한 정보
 	static UINT		sg_tileImageIndex;
 	UINT			_tileImageIndex = 0;
+	Tile*			_tile;
+	
 
 public:
 	ButtonUI(int buttonType);

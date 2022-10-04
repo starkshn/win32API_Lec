@@ -7,6 +7,7 @@
 #include "Texture.h"
 
 #include "PathManager.h"
+#include "CSceneManager.h"
 
 CScene::CScene()
 	:
@@ -100,6 +101,12 @@ void CScene::CreateTile(UINT xCount, UINT yCount)
 	_tileYCount = yCount;
 
 	Texture* tileTexture = ResourceManager::GetInstance()->LoadTexture(L"Tile", L"Textures\\tiles.bmp");
+
+	UINT maxCol = tileTexture->GetWidth() / TILE_SIZE;
+	UINT maxRow = tileTexture->GetHeight() / TILE_SIZE;
+
+	CSceneManager::GetInstance()->SetTileMaxCol(maxCol);
+	CSceneManager::GetInstance()->SetTileMaxRow(maxRow);
 
 	for (UINT y = 0; y < yCount; ++y)
 	{

@@ -156,9 +156,12 @@ void ToolScene::Enter()
 
 	ButtonUI* tileButton = nullptr;
 
-	for (UINT y = 0; y < tileYCount; ++y)
+	UINT maxRow = CSceneManager::GetInstance()->GetTileMaxRow();
+	UINT maxCol = CSceneManager::GetInstance()->GetTileMaxCol();
+
+	for (UINT row = 0; row < maxRow; ++row)
 	{
-		for (UINT x = 0; x < tileXCount; ++x)
+		for (UINT col = 0; col < maxCol; ++col)
 		{
 			tileButton = new ButtonUI(TILE_BUTTON);
 			tileButton->SetObjectName(L"TileButtonUI");
