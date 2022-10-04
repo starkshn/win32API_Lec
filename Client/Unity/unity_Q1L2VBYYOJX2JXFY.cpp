@@ -1,4 +1,7 @@
 
+#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\ColliderManager.cpp"
+
+
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\CScene.cpp"
 
 
@@ -24,7 +27,4 @@
 
 
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\PathManager.cpp"
-
-
-#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\ResourceManager.cpp"
 

@@ -5,11 +5,9 @@
 
 PanelUI::PanelUI() 
 	: 
-	UI(false),
-	p_texture(nullptr)
+	UI(false)
 {
-	p_texture = ResourceManager::GetInstance()->LoadTexture(L"Paenl", L"Textures\\UI\\Panel.bmp");
-
+	
 
 }
 

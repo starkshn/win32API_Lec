@@ -5,6 +5,7 @@
 // #include "CObject.h"
 #include "Texture.h"
 #include "ResourceManager.h"
+#include "ButtonInfo.h"
 
 ButtonUI::ButtonUI(int buttonTypeIdx) 
 	: 
@@ -24,6 +25,8 @@ ButtonUI::ButtonUI(int buttonTypeIdx)
 	SetScale(Vector2(BUTTON_SIZE, BUTTON_SIZE));
 
 	_buttonTypeIdx = buttonTypeIdx;
+
+	_info = ButtonInfo();
 }
 
 ButtonUI::~ButtonUI()

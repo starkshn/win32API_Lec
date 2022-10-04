@@ -96,7 +96,7 @@ void ToolScene::Enter()
 	// PanelUI
 	UI* panelUI = new PanelUI();
 	panelUI->SetObjectName(L"panelUI");
-	panelUI->SetScale(Vector2(400.f, 400.f));
+	panelUI->SetScale(Vector2(500.f, 500.f));
 	panelUI->SetPos(Vector2(resolution._x - panelUI->GetScale()._x, resolution._y - panelUI->GetScale()._y));
 
 	// ButtonUI
@@ -104,7 +104,7 @@ void ToolScene::Enter()
 	buttonUI->SetObjectName(L"buttonUI");
 	buttonUI->SetScale(Vector2(72.f, 72.f));
 	buttonUI->SetPos(Vector2(0.f, 0.f));
-	
+
 	// ButtonUI에서 구현한 함수포인터
 	// 이렇게하면 CloneUI 까지 기능이 다 복사가 된다.
 	// buttonUI->SetClickedCallBack(ChangeSceneByBtn, 0, 0);
@@ -115,40 +115,70 @@ void ToolScene::Enter()
 	ButtonUI* leftButtonUI = new ButtonUI(LEFT_BUTTON);
 	leftButtonUI->SetObjectName(L"LeftButtonUI");
 	leftButtonUI->SetScale(Vector2(72.f, 72.f));
-	leftButtonUI->SetPos(Vector2((panelUI->GetScale()._x / 2.f) - BUTTON_SIZE, 300.f));
+	leftButtonUI->SetPos(Vector2((panelUI->GetScale()._x / 2.f) - BUTTON_SIZE, 420.f));
 
 	ButtonUI* rightButtonUI = new ButtonUI(RIGHT_BUTTON);
 	rightButtonUI->SetObjectName(L"RightButtonUI");
 	rightButtonUI->SetScale(Vector2(72.f, 72.f));
-	rightButtonUI->SetPos(Vector2((panelUI->GetScale()._x / 2.f), 300.f));
-
+	rightButtonUI->SetPos(Vector2((panelUI->GetScale()._x / 2.f), 420.f));
 	// ========================================
+
 
 	// 자식추가
 	panelUI->AddChild(buttonUI);
 	panelUI->AddChild(leftButtonUI);
 	panelUI->AddChild(rightButtonUI);
+
+
+	// ========================================
+	// Tile 이미지 출력할 버튼 UI 추가부분
+	unsigned int tileXdiff = panelUI->GetScale()._x / 6;
+	unsigned int tileYdiff = panelUI->GetScale()._y / 4;
+
+	for (int i = 1; i < 5; ++i)
+	{
+		for (int j = 0; j < 6; ++j)
+		{
+			// TODO 
+			// 타일이 이제 더이상 없다라는 조건
+			ButtonUI* tileButton = new ButtonUI(RIGHT_BUTTON);
+			tileButton->SetObjectName(L"TileButtonUI");
+			tileButton->SetScale(Vector2(72.f, 72.f));
+			tileButton->SetPos(Vector2(static_cast<float>(j * tileXdiff), static_cast<float>(i * 80.f)));
+
+			panelUI->AddChild(tileButton);
+		}
+	}
+
 	AddObject(panelUI, GROUP_TYPE::UI);
 
-	// =======================================
-	// 복사생성자 구현후 CLONE 테스트
-	UI* clonePanel = panelUI->Clone();
+	// ========================================
 
-	// 위치가 완전히 똑같아지는 것을 피하기 위해 위치조정
-	clonePanel->SetPos(panelUI->GetPos() + Vector2(-300.f, 0.f));
+	dynamic_cast<ButtonUI*>(panelUI->GetChild()[0])->SetClickedCallBack(this, (SCENE_MEMFUNC)&ToolScene::SaveTileData);
 
-	// CloneUI에게만 콜백함수를 연결해주고 싶을 경우
-	// dynamic_cast<ButtonUI*>(clonePanel->GetChild()[0])->SetClickedCallBack(ChangeSceneByBtn, 0, 0);
-	// Scene의 멤버함수 포인터를 연결해주는 부분
-	dynamic_cast<ButtonUI*>(clonePanel->GetChild()[0])->SetClickedCallBack(this, (SCENE_MEMFUNC)&ToolScene::SaveTileData);
-	// dynamic_cast<ButtonUI*>(clonePanel->GetChild()[0])->SetClickedCallBack(this, (TOOL_SCENE_MEMFUNC)&ToolScene::SaveTileData);
+#pragma region "ButtonUI Clone 부분"
+	//// =======================================
+	//// 복사생성자 구현후 CLONE 테스트
+	//UI* clonePanel = panelUI->Clone();
 
-	// Object 추가
-	AddObject(clonePanel, GROUP_TYPE::UI);
+	//// 위치가 완전히 똑같아지는 것을 피하기 위해 위치조정
+	//clonePanel->SetPos(panelUI->GetPos() + Vector2(-300.f, 0.f));
+
+	//// CloneUI에게만 콜백함수를 연결해주고 싶을 경우
+	//// dynamic_cast<ButtonUI*>(clonePanel->GetChild()[0])->SetClickedCallBack(ChangeSceneByBtn, 0, 0);
+	//// Scene의 멤버함수 포인터를 연결해주는 부분
+	//dynamic_cast<ButtonUI*>(clonePanel->GetChild()[0])->SetClickedCallBack(this, (SCENE_MEMFUNC)&ToolScene::SaveTileData);
+	//// dynamic_cast<ButtonUI*>(clonePanel->GetChild()[0])->SetClickedCallBack(this, (TOOL_SCENE_MEMFUNC)&ToolScene::SaveTileData);
+
+	//// Object 추가
+	//AddObject(clonePanel, GROUP_TYPE::UI);
+#pragma endregion
+
+	
 	// ========================================
 
 	// p 클릭시 포커싱 테스트를 위해 멤버 변수로 가지고있음.
-	p_ui = clonePanel;
+	/*p_ui = clonePanel;*/
 	
 	// ToolScene시작할 때의 위치 설정
 	CameraManager::GetInstance()->SetLookAtPos(resolution / 2.f);

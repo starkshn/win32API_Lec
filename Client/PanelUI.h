@@ -10,8 +10,6 @@ public:
 
 private:
 	Vector2		_lbtnDownMousePos;
-	
-	Texture*	p_texture;
 
 public:
 	PanelUI();

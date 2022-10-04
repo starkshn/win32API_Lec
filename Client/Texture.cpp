@@ -28,7 +28,7 @@ void Texture::Load(const wstring& path)
 	// ∫Ò∆Æ∏  ¡§∫∏
 	GetObject(_bitMap, sizeof(BITMAP), &_objectInfo);
 
-	if (_bitMap == nullptr)
+	if (_bitMap == nullptr)		
 		assert(_bitMap);
 
 }

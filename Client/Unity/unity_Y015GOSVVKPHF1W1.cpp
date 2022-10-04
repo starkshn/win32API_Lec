@@ -5,6 +5,9 @@
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\Animator.cpp"
 
 
+#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\ButtonInfo.cpp"
+
+
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\ButtonUI.cpp"
 
 
@@ -24,7 +27,4 @@
 
 
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\Collider.cpp"
-
-
-#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\ColliderManager.cpp"
 

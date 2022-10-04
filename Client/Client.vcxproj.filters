@@ -239,6 +239,9 @@
     <ClInclude Include="ButtonUI.h">
       <Filter>Engine\04 .Objects\UI\ButtonUI</Filter>
     </ClInclude>
+    <ClInclude Include="ButtonInfo.h">
+      <Filter>Engine\04 .Objects\UI\ButtonUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
@@ -336,6 +339,9 @@
       <Filter>Engine\04 .Objects\UI\PanelUI</Filter>
     </ClCompile>
     <ClCompile Include="ButtonUI.cpp">
+      <Filter>Engine\04 .Objects\UI\ButtonUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonInfo.cpp">
       <Filter>Engine\04 .Objects\UI\ButtonUI</Filter>
     </ClCompile>
   </ItemGroup>

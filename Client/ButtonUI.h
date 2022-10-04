@@ -9,6 +9,8 @@
 // #include "ToolScene.h"
 #include "CObject.h"
 
+#include "ButtonInfo.h"
+
 class Texture;
 
 typedef void(*BTN_TYPE) (DWORD_PTR, DWORD_PTR);
@@ -43,6 +45,9 @@ private:
 	Texture*		p_buttonTexture;
 	int				_buttonImageIdx;
 	int				_buttonTypeIdx;
+
+	// idx Info
+	ButtonInfo _info;
 
 public:
 	ButtonUI(int buttonType);
