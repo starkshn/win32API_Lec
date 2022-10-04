@@ -12,6 +12,8 @@
 #include "ButtonInfo.h"
 
 class Texture;
+class Tile;
+class ToolScene;
 
 typedef void(*BTN_TYPE) (DWORD_PTR, DWORD_PTR);
 
@@ -47,7 +49,13 @@ private:
 	int				_buttonTypeIdx;
 
 	// idx Info
-	ButtonInfo _info;
+	ButtonInfo			_tileIdxInfo;
+	ToolScene*			p_toolScene;
+	vector<ButtonUI*>	v_toolSceneTileButtons;
+
+	// tile 이미지의 인덱스를 얻기위한 정보
+	static UINT		sg_tileImageIndex;
+	UINT			_tileImageIndex = 0;
 
 public:
 	ButtonUI(int buttonType);
@@ -84,6 +92,14 @@ public:
 	// void SetClickedCallBack(ToolScene* toolSceneInstance, TOOL_SCENE_MEMFUNC func);
 
 	void SetClickedCallBack(CObject* objectInstance, OBJECT_MEMFUNC func);
+
+public:
+	void ClickedTileButton()
+	{
+		// ButtonTile 클릭시 TODO
+	}
+
+	UINT GetTileImageIdx() { return _tileImageIndex; }
 
 };
 

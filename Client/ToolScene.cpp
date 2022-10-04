@@ -132,19 +132,39 @@ void ToolScene::Enter()
 
 	// ========================================
 	// Tile 이미지 출력할 버튼 UI 추가부분
-	unsigned int tileXdiff = panelUI->GetScale()._x / 6;
-	unsigned int tileYdiff = panelUI->GetScale()._y / 4;
+	unsigned int tileXdiff = panelUI->GetScale()._x / TILE_SIZE;
+	unsigned int tileYdiff = panelUI->GetScale()._y / (TILE_SIZE - 2);
 
-	for (int i = 1; i < 5; ++i)
+	UINT tileXCount = GetTileX();
+	UINT tileYCount = GetTileY();
+
+	// 한페이지만 정상적으로 타일 버튼 배치
+	//for (int i = 1; i < 5; ++i)
+	//{
+	//	for (int j = 0; j < 6; ++j)
+	//	{
+	//		// TODO 
+	//		// 타일이 이제 더이상 없다라는 조건
+	//		ButtonUI* tileButton = new ButtonUI(TILE_BUTTON);
+	//		tileButton->SetObjectName(L"TileButtonUI");
+	//		tileButton->SetScale(Vector2(72.f, 72.f));
+	//		tileButton->SetPos(Vector2(static_cast<float>(j * tileXdiff), static_cast<float>(i * 80.f)));
+
+	//		panelUI->AddChild(tileButton);
+	//	}
+	//}
+
+	ButtonUI* tileButton = nullptr;
+
+	for (UINT y = 0; y < tileYCount; ++y)
 	{
-		for (int j = 0; j < 6; ++j)
+		for (UINT x = 0; x < tileXCount; ++x)
 		{
-			// TODO 
-			// 타일이 이제 더이상 없다라는 조건
-			ButtonUI* tileButton = new ButtonUI(RIGHT_BUTTON);
+			tileButton = new ButtonUI(TILE_BUTTON);
 			tileButton->SetObjectName(L"TileButtonUI");
 			tileButton->SetScale(Vector2(72.f, 72.f));
-			tileButton->SetPos(Vector2(static_cast<float>(j * tileXdiff), static_cast<float>(i * 80.f)));
+
+			v_tileButtons.push_back(tileButton);
 
 			panelUI->AddChild(tileButton);
 		}
@@ -257,7 +277,6 @@ void ToolScene::SetTileIdx()
 		dynamic_cast<Tile*>(vecTile[tileIdx])->AddImageIdx();
 	}
 }
-
 
 void ChangeSceneByBtn(DWORD_PTR, DWORD_PTR)
 {

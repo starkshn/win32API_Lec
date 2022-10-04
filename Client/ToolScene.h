@@ -2,11 +2,13 @@
 #include "CScene.h"
 
 class UI;
+class ButtonUI;
 
 class ToolScene : public CScene
 {
-private :
-	UI*			p_ui;
+private:
+	UI*					p_ui;
+	vector<CObject*>	v_tileButtons;
 
 public :
 	ToolScene();
@@ -23,11 +25,11 @@ public:
 	void SaveTile(const wstring& _filePath);
 	void SetTileIdx();
 
+public:
 	void LoadTileData();
 
 public:
-
-	
+	CObject* GetTileButtonVec(int idx) { return v_tileButtons[idx]; }
 };
 
 

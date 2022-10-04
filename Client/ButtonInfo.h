@@ -2,13 +2,17 @@
 class ButtonInfo
 {
 private:
-	int _buttonTildIdx;
+	int _buttonTileIdx;
 
 public:
-	void operator () (int tileIdx)
+	ButtonInfo();
+	ButtonInfo(int tileIdx);
+
+public:
+	void operator () ()
 	{
 		// TODO
-		_buttonTildIdx = tileIdx;
+		
 	}
 };
 
