@@ -49,7 +49,7 @@ public:
 		_vecChildUI.push_back(ui);
 		ui->p_parentUI = this;
 	}
-	
+
 public:
 	UI*					GetParentUI() { return p_parentUI; }
 	Vector2				GetFinalPos() { return _finalPos; }
@@ -57,6 +57,20 @@ public:
 
 	bool				GetLbtnDown() { return _lbtnDown; }
 	bool				GetIsMouseOn() { return _onMouseCheck; }
+
+	UI* GetFindChild(UI* parentUI, const wstring& childUI)
+	{
+		for (UINT i = 0; i < parentUI->GetChild().size(); ++i)
+		{
+			if (parentUI->GetChild()[i]->GetObjectName() == childUI)
+			{
+				if (parentUI->GetChild()[i] == nullptr)
+					assert(nullptr);
+
+				return parentUI->GetChild()[i];
+			}
+		}
+	}
 
 	friend class UIManager;
 };

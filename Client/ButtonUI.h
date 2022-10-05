@@ -57,7 +57,6 @@ private:
 	static UINT		sg_tileImageIndex;
 	UINT			_tileImageIndex = 0;
 	Tile*			_tile;
-	
 
 public:
 	ButtonUI(int buttonType);
@@ -94,6 +93,8 @@ public:
 	// void SetClickedCallBack(ToolScene* toolSceneInstance, TOOL_SCENE_MEMFUNC func);
 
 	void SetClickedCallBack(CObject* objectInstance, OBJECT_MEMFUNC func);
+
+
 
 public:
 	void ClickedTileButton()

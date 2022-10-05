@@ -61,6 +61,8 @@ void ButtonUI::update()
 
 void ButtonUI::render(HDC dc)
 {
+	UINT curPageIdx = p_toolScene->GetCurPageIndex();
+
 	if (nullptr == p_buttonTexture || -1 == _buttonImageIdx)
 		return;
 
@@ -76,6 +78,9 @@ void ButtonUI::render(HDC dc)
 	// 버튼 갯수가 나온다. 72 x 72
 	if (_buttonTypeIdx == 1)
 	{
+		if (_tileImageIndex > curPageIdx || _tileImageIndex < curPageIdx - PAGE_INDEX)
+			return;
+
 		maxCol = (width / TILE_SIZE); // 22
 		maxRow = (height / TILE_SIZE); // 12
 	}
@@ -102,31 +107,18 @@ void ButtonUI::render(HDC dc)
 	if (maxRow <= curRow)
 		assert(nullptr);
 
-	//UI* parentUI = GetParentUI();
-	//Vector2 parentUIScale = parentUI->GetScale();
-	//unsigned int tileButtonDiff = parentUIScale._x / TILE_SIZE;
-
 	if (_buttonTypeIdx == 1)
 	{
-		UINT row = _tileImageIndex / 6;
-		UINT col = _tileImageIndex % 7;
+		UINT curRow = _tileImageIndex / (5 + curPageIdx - PAGE_INDEX);
+		UINT curCol = _tileImageIndex % 7;
 
-		if (row >= 6)
-			return;
+		Vector2 startSetPos = { 30.f, 100.f };
 
-		if (row == 0)
-		{
-			(p_toolScene->GetTileButtonVec(_tileImageIndex))->SetPos(Vector2(static_cast<float>(col * TILE_SIZE + 3), static_cast<float>(row * TILE_SIZE + 100)));
-		}
-		else
-		{
-			(p_toolScene->GetTileButtonVec(_tileImageIndex))->SetPos(Vector2(static_cast<float>(col * TILE_SIZE + 3), static_cast<float>(row * TILE_SIZE + 2)));
-		}
+		(p_toolScene->GetTileButtonVec(_tileImageIndex))->SetPos(Vector2(static_cast<float>(startSetPos._x + (curCol * TILE_SIZE)), static_cast<float>(startSetPos._y + (curRow * TILE_SIZE))));
 	}
 
 	Vector2 finalPos = GetFinalPos();
 
-	
 	// checkButton 화면에 띄우는 부분
 	if (GetIsMouseOn())
 	{
@@ -258,4 +250,5 @@ void ButtonUI::SetClickedCallBack(CObject* objectInstance, OBJECT_MEMFUNC func)
 	p_objectInstance = objectInstance;
 	pf_objectFunc = func;
 }
+
 

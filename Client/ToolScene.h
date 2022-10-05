@@ -10,6 +10,10 @@ private:
 	UI*					p_ui;
 	vector<CObject*>	v_tileButtons;
 
+	// Right/Left 클릭시 변경되는 PanelUI의 페이지수 표시
+	UINT _prevPanelTileMaxIndex;
+	UINT _curPanelTileMaxIndex;
+
 public :
 	ToolScene();
 	virtual ~ToolScene() override;
@@ -30,6 +34,12 @@ public:
 
 public:
 	CObject* GetTileButtonVec(int idx) { return v_tileButtons[idx]; }
+	UINT GetPrevPageIndex() { return _prevPanelTileMaxIndex;  };
+	UINT GetCurPageIndex() { return _curPanelTileMaxIndex; };
+
+public:
+	void ClickRightButton();
+	void ClickLeftButton();
 };
 
 

@@ -30,6 +30,9 @@
 #define CANCLE_BUTTON 15
 #define CHECK_BUTTON 16
 
+// PaenlUI Page
+#define PAGE_INDEX 35
+
 
 enum class GROUP_TYPE
 {

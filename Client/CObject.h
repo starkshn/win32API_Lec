@@ -62,8 +62,6 @@ public :
 	void SetDir(Vector2 dir) { _dir = dir; _dir.Normalize(); }
 	void SetObjectName(const wstring& name) { _objectName = name; }
 
-
-
 public:
 	Vector2 GetPos() { return _pos; }
 	Vector2 GetScale() { return _scale; }

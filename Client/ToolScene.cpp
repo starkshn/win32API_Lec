@@ -19,7 +19,10 @@
 
 void ChangeSceneByBtn(DWORD_PTR, DWORD_PTR);
 
-ToolScene::ToolScene()
+ToolScene::ToolScene() 
+	: 
+	_prevPanelTileMaxIndex(PAGE_INDEX),
+	_curPanelTileMaxIndex(PAGE_INDEX)
 {
 
 }
@@ -177,7 +180,16 @@ void ToolScene::Enter()
 
 	// ========================================
 
+
+	// 함수 포인터로 연결하는 부분
 	dynamic_cast<ButtonUI*>(panelUI->GetChild()[0])->SetClickedCallBack(this, (SCENE_MEMFUNC)&ToolScene::SaveTileData);
+
+	// panelUI의 원하는 자식을 찾는 부분
+	ButtonUI* _rightButtonUI = dynamic_cast<ButtonUI*>(panelUI->GetFindChild(panelUI, L"RightButtonUI"));
+	_rightButtonUI->SetClickedCallBack(this, (SCENE_MEMFUNC)&ToolScene::ClickRightButton);
+
+	ButtonUI* _leftButtonUI = dynamic_cast<ButtonUI*>(panelUI->GetFindChild(panelUI, L"LeftButtonUI"));
+	_leftButtonUI->SetClickedCallBack(this, (SCENE_MEMFUNC)&ToolScene::ClickLeftButton);
 
 #pragma region "ButtonUI Clone 부분"
 	//// =======================================
@@ -384,6 +396,23 @@ void ToolScene::SaveTile(const wstring& _filePath)
 	fclose(file);
 }
 
+void ToolScene::ClickRightButton()
+{
+	if (_curPanelTileMaxIndex >= v_tileButtons.size())
+		return;
+
+	_prevPanelTileMaxIndex = _curPanelTileMaxIndex;
+	_curPanelTileMaxIndex += PAGE_INDEX;
+}
+
+void ToolScene::ClickLeftButton()
+{
+	if (_curPanelTileMaxIndex == PAGE_INDEX)
+		return;
+
+	_prevPanelTileMaxIndex = _curPanelTileMaxIndex;
+	_curPanelTileMaxIndex -= PAGE_INDEX;
+}
 
 
 // =======================
