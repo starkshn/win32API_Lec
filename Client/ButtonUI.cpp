@@ -133,26 +133,6 @@ void ButtonUI::render(HDC dc)
 			curCol = tempTileImageIdx % 7;
 		}
 
-		/*if (_tileImageIndex > PAGE_INDEX)
-		{
-			if (curPageIdx > prevPageIdx)
-			{
-				tempTileImageIdx = _tileImageIndex - prevPageIdx;
-			}
-			else if (curPageIdx <= prevPageIdx)
-			{
-				tempTileImageIdx = _tileImageIndex - curPageIdx;
-			}
-		
-			curRow = tempTileImageIdx / 7;
-			curCol = _tileImageIndex % 7;
-		}
-		else
-		{
-			curRow = _tileImageIndex / 7;
-			curCol = _tileImageIndex % 7;
-		}*/
-
 		if (curRow > 4)
 			return;
 
