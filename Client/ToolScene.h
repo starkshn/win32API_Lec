@@ -11,8 +11,8 @@ private:
 	vector<CObject*>	v_tileButtons;
 
 	// Right/Left 클릭시 변경되는 PanelUI의 페이지수 표시
-	UINT _prevPanelTileMaxIndex;
-	UINT _curPanelTileMaxIndex;
+	UINT _prevPanelTileMaxIndex = 0;
+	UINT _curPanelTileMaxIndex = PAGE_INDEX;
 
 public :
 	ToolScene();

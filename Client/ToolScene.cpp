@@ -21,7 +21,7 @@ void ChangeSceneByBtn(DWORD_PTR, DWORD_PTR);
 
 ToolScene::ToolScene() 
 	: 
-	_prevPanelTileMaxIndex(PAGE_INDEX),
+	_prevPanelTileMaxIndex(0),
 	_curPanelTileMaxIndex(PAGE_INDEX)
 {
 
@@ -407,7 +407,7 @@ void ToolScene::ClickRightButton()
 
 void ToolScene::ClickLeftButton()
 {
-	if (_curPanelTileMaxIndex == PAGE_INDEX)
+	if (_curPanelTileMaxIndex <= PAGE_INDEX)
 		return;
 
 	_prevPanelTileMaxIndex = _curPanelTileMaxIndex;

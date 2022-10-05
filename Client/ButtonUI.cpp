@@ -62,6 +62,7 @@ void ButtonUI::update()
 void ButtonUI::render(HDC dc)
 {
 	UINT curPageIdx = p_toolScene->GetCurPageIndex();
+	UINT prevPageIdx = p_toolScene->GetPrevPageIndex();
 
 	if (nullptr == p_buttonTexture || -1 == _buttonImageIdx)
 		return;
@@ -109,8 +110,51 @@ void ButtonUI::render(HDC dc)
 
 	if (_buttonTypeIdx == 1)
 	{
-		UINT curRow = _tileImageIndex / (5 + curPageIdx - PAGE_INDEX);
-		UINT curCol = _tileImageIndex % 7;
+		UINT tempTileImageIdx = 0;
+		UINT curRow = 0;
+		UINT curCol = 0;
+
+		if (curPageIdx > prevPageIdx)
+		{
+			tempTileImageIdx = _tileImageIndex - prevPageIdx;
+
+			curRow = tempTileImageIdx / 7;
+			curCol = tempTileImageIdx % 7;
+		}
+
+		if (curPageIdx < prevPageIdx)
+		{
+			tempTileImageIdx = _tileImageIndex;
+
+			if (curPageIdx != PAGE_INDEX)
+				tempTileImageIdx = curPageIdx - _tileImageIndex;
+			
+			curRow = tempTileImageIdx / 7;
+			curCol = tempTileImageIdx % 7;
+		}
+
+		/*if (_tileImageIndex > PAGE_INDEX)
+		{
+			if (curPageIdx > prevPageIdx)
+			{
+				tempTileImageIdx = _tileImageIndex - prevPageIdx;
+			}
+			else if (curPageIdx <= prevPageIdx)
+			{
+				tempTileImageIdx = _tileImageIndex - curPageIdx;
+			}
+		
+			curRow = tempTileImageIdx / 7;
+			curCol = _tileImageIndex % 7;
+		}
+		else
+		{
+			curRow = _tileImageIndex / 7;
+			curCol = _tileImageIndex % 7;
+		}*/
+
+		if (curRow > 4)
+			return;
 
 		Vector2 startSetPos = { 30.f, 100.f };
 
