@@ -10,6 +10,13 @@ enum class CAMERA_EFFECT
 	FADE_OUT,
 };
 
+struct CameraEffect
+{
+	CAMERA_EFFECT	_effectType;	// 카메라 효과
+	float			_duration;		// 효과 지속 시간
+	float			_curTime;		// 카메라 효과 현재 진행된 시간
+};
+
 class CameraManager
 {
 	SINGLE(CameraManager);
@@ -28,9 +35,12 @@ private:
 	
 	// Cam Effect
 	Texture*		p_veilTexture;		// 카메라 가림막 텍스쳐 
-	CAMERA_EFFECT	_effect;			// 카메라 효과
-	float			_effectDuration;	// 효과 지속 시간
-	float			_curTime;			// 카메라 효과 현재 진행된 시간
+	//CAMERA_EFFECT	_effect;			// 카메라 효과
+	//float			_effectDuration;	// 효과 지속 시간
+	//float			_curTime;			// 카메라 효과 현재 진행된 시간
+	
+	// 순차적으로 효과를 처리하기 위한 vector x -> list
+	list<CameraEffect> _listCameraEffect;
 	
 public:
 	void init();
@@ -60,15 +70,27 @@ public:
 public:
 	void FadeIn(float duration)
 	{
+		CameraEffect cf = {};
+		cf._effectType = CAMERA_EFFECT::FADE_IN;
+		cf._duration = duration;
+		cf._curTime = 0.f;
 
+		_listCameraEffect.push_back(cf);
+
+		if (0.f == duration)
+			assert(nullptr);
 	}
 
 	void FadeOut(float duration) 
 	{ 
-		_effect = CAMERA_EFFECT::FADE_OUT;
-		_effectDuration = duration;
+		CameraEffect cf = {};
+		cf._effectType = CAMERA_EFFECT::FADE_OUT;
+		cf._duration = duration;
+		cf._curTime = 0.f;
 
-		if (0.f == _effectDuration)
+		_listCameraEffect.push_back(cf);
+
+		if (0.f == duration)
 			assert(nullptr);
 	}
 	

@@ -90,9 +90,17 @@ void StartScene::Enter()
 	// Camera Look 지정
 	CameraManager::GetInstance()->SetLookAtPos(resolution / 2.f);
 	
-
 	// Camera Effect 지정
-	CameraManager::GetInstance()->FadeOut(3.f);
+	CameraManager::GetInstance()->FadeOut(1.5f);
+	CameraManager::GetInstance()->FadeIn(1.5f);
+	CameraManager::GetInstance()->FadeOut(1.5f);
+	CameraManager::GetInstance()->FadeIn(1.5f);
+	CameraManager::GetInstance()->FadeOut(1.5f);
+	CameraManager::GetInstance()->FadeIn(1.5f);
+	CameraManager::GetInstance()->FadeOut(1.5f);
+	CameraManager::GetInstance()->FadeIn(1.5f);
+	CameraManager::GetInstance()->FadeOut(1.5f);
+	CameraManager::GetInstance()->FadeIn(1.5f);
 }
 
 void StartScene::render(HDC dc)

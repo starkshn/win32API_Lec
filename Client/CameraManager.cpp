@@ -17,9 +17,7 @@ CameraManager::CameraManager()
 	_getTargetTime(1.f),
 	_accTime(0.5f),
 	p_veilTexture(nullptr),
-	_effect(CAMERA_EFFECT::NONE),
-	_effectDuration(0.f),
-	_curTime(0.f)
+	_listCameraEffect{}
 {
 	//_lookAtPos = (Vector2)CCore::GetInstance()->GetResolution() / 2;
 	// 처음에 Normalize하는 부분때문에 추가했던 부분임.
@@ -72,30 +70,30 @@ void CameraManager::update()
 
 void CameraManager::render(HDC dc)
 {
-	if (CAMERA_EFFECT::NONE == _effect)
+	if (_listCameraEffect.empty())
 		return;
 
-	float ratio = 0.f; // 이펙트 진행 비율
+	CameraEffect& cf = _listCameraEffect.front();
+	cf._curTime += DeltaTime_F;
 
-	if (CAMERA_EFFECT::FADE_OUT == _effect)
+	float ratio = 0.f;
+	ratio = cf._curTime / cf._duration;
+
+	if (ratio < 0.f)
+		ratio = 0.f;
+	if (ratio > 1.f)
+		ratio = 1.f;
+
+	int alphaValue = 0;
+
+	if (CAMERA_EFFECT::FADE_OUT == cf._effectType)
 	{
-		_curTime += DeltaTime_F;
-
-		if (_curTime > _effectDuration)
-		{
-			_effect = CAMERA_EFFECT::NONE;
-			return;
-		}
-
-		// 1바이트의 값을 시간으로 나누어 준다.
-		// => 1초당 어두워져야 하는 값이 나온다.
-
-		// 비율은 이렇게 구한다.
-		ratio = _curTime / _effectDuration;
+		alphaValue = static_cast<int>(255.f * ratio);
 	}
-
-	int alphaValue = static_cast<int>(255.f * ratio);
-
+	else if (CAMERA_EFFECT::FADE_IN == cf._effectType)
+	{
+		alphaValue = static_cast<int>(255.f * (1.f - ratio));
+	}
 
 	BLENDFUNCTION bf = {};
 
@@ -116,6 +114,13 @@ void CameraManager::render(HDC dc)
 		(int)p_veilTexture->GetHeight(),
 		bf
 	);
+
+	// 진행 시간이 이펙트 최대 지정 시간을 넘어선 경우
+	if (cf._curTime > cf._duration)
+	{
+		// 효과 종료
+		_listCameraEffect.pop_front();
+	}
 }
 
 void CameraManager::CalDiff()
