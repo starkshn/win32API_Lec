@@ -31,7 +31,7 @@ void CSceneManager::init()
 	//_scenes[static_cast<unsigned int>(SCENE_TYPE::STAGE_02)] = new Stage02Scene;
 
 	// 현재 씬 지정
-	p_curScene = p_scenes[static_cast<unsigned int>(SCENE_TYPE::TOOL)];
+	p_curScene = p_scenes[static_cast<unsigned int>(SCENE_TYPE::START)];
 	p_curScene->Enter();
 }
 

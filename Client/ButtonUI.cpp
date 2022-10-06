@@ -148,9 +148,9 @@ void ButtonUI::render(HDC dc)
 	{
 		if (_buttonTypeIdx == 1)
 		{
-			Rectangle(dc, finalPos._x, finalPos._y, GetScale()._x, GetScale()._y);
+			// Rectangle(dc, finalPos._x, finalPos._y, GetScale()._x, GetScale()._y);
 
-			/*TransparentBlt
+			TransparentBlt
 			(
 				dc,
 				int(finalPos._x),
@@ -162,7 +162,7 @@ void ButtonUI::render(HDC dc)
 				curRow * TILE_SIZE,
 				TILE_SIZE, TILE_SIZE,
 				RGB(1, 1, 1)
-			);*/
+			);
 		}
 		else
 		{

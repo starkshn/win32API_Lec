@@ -135,8 +135,6 @@ void ToolScene::Enter()
 
 	// ========================================
 	// Tile 이미지 출력할 버튼 UI 추가부분
-	unsigned int tileXdiff = panelUI->GetScale()._x / TILE_SIZE;
-	unsigned int tileYdiff = panelUI->GetScale()._y / (TILE_SIZE - 2);
 
 	UINT tileXCount = GetTileX();
 	UINT tileYCount = GetTileY();

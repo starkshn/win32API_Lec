@@ -12,8 +12,11 @@ private:
 
 public:
 	Texture* LoadTexture(const wstring& key, const wstring& path);
+	Texture* CreateTexture(const wstring& key, UINT width, UINT height);
+
 	Texture* FindTexture(const wstring& key);
-	
+
+	/*
 	struct DeleteTexture
 	{
 		void operator () (std::pair<wstring, Texture*> pair)
@@ -21,7 +24,7 @@ public:
 			if (pair.second != nullptr)
 				delete  pair.second;
 		}
-	};
+	};*/
 }; 
 
 

@@ -48,6 +48,25 @@ Texture* ResourceManager::LoadTexture(const wstring& key, const wstring& path)
 	return loadObject;
 }
 
+Texture* ResourceManager::CreateTexture(const wstring& key, UINT width, UINT height)
+{
+	Texture* tex = FindTexture(key);
+
+	if (nullptr != tex)
+		return tex;
+
+	tex = new Texture;
+	tex->SetKey(key);
+	tex->Create(width, height);
+
+	_mapTexture.insert(make_pair(key, tex));
+
+	return tex;
+}
+
+
+
+
 Texture* ResourceManager::FindTexture(const wstring& key)
 {
 	map<wstring, Resources*>::iterator iter = _mapTexture.find(key);

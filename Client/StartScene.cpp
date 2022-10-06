@@ -13,7 +13,7 @@
 #include "CSceneManager.h"
 #include "CameraManager.h"
 
-StartScene::StartScene()
+StartScene::StartScene() : _monsterCount(0)
 {
 	p_backGroundTexture = ResourceManager::GetInstance()->LoadTexture(L"BackGroundTexture", L"Textures\\gb_gameSceneBackGround_1.bmp");
 }
@@ -90,6 +90,9 @@ void StartScene::Enter()
 	// Camera Look 지정
 	CameraManager::GetInstance()->SetLookAtPos(resolution / 2.f);
 	
+
+	// Camera Effect 지정
+	CameraManager::GetInstance()->FadeOut(3.f);
 }
 
 void StartScene::render(HDC dc)
@@ -101,8 +104,8 @@ void StartScene::render(HDC dc)
 	(
 		dc,
 		0, 0,
-		resolution._x,
-		resolution._y,
+		(int)resolution._x,
+		(int)resolution._y,
 		p_backGroundTexture->GetDC(),
 		0, 0, SRCCOPY
 	);

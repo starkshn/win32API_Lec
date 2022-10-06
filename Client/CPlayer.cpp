@@ -116,31 +116,30 @@ void CPlayer::render(HDC dc)
 #pragma region "Alpha Blend"
 
 	// 현재 아래코드는 텍스체어 알파 채널 있을 경우 사용이 가능하다.
+	//Texture* texture = ResourceManager::GetInstance()->LoadTexture(L"PlayerTexture", L"Textures\\gb_player_1.bmp");
 
-	Texture* texture = ResourceManager::GetInstance()->LoadTexture(L"PlayerTexture", L"texture\\gb_player_1.bmp");
+	//Vector2 pos = GetPos();
+	//pos = CameraManager::GetInstance()->GetRenderPos(pos);
 
-	Vector2 pos = GetPos();
-	pos = CameraManager::GetInstance()->GetRenderPos(pos);
+	//float width = static_cast<float>(texture->GetWidth());
+	//float height = static_cast<float>(texture->GetHeight());
 
-	float width = static_cast<float>(texture->GetWidth());
-	float height = static_cast<float>(texture->GetHeight());
+	//BLENDFUNCTION bf = {};
 
-	BLENDFUNCTION bf = {};
-
-	bf.BlendOp = AC_SRC_OVER;
-	bf.BlendFlags = 0;
-	bf.AlphaFormat = AC_SRC_ALPHA;
-	bf.SourceConstantAlpha = 255; // 고정 알파값. (일단 최대치 줌)
-	
-	AlphaBlend
-	(
-		dc,
-		width / 2.f, height / 2.f,
-		width, height,
-		texture->GetDC(),
-		0, 0, width, height,
-		bf
-	);
+	//bf.BlendOp = AC_SRC_OVER;
+	//bf.BlendFlags = 0;
+	//bf.AlphaFormat = AC_SRC_ALPHA;
+	//bf.SourceConstantAlpha = 255; // 고정 알파값. (일단 최대치 줌)
+	//
+	//AlphaBlend
+	//(
+	//	dc,
+	//	(int)(width / 2.f), (int)(height / 2.f),
+	//	(int)width, (int)height,
+	//	texture->GetDC(),
+	//	0, 0, (int)width, (int)height,
+	//	bf
+	//);
 
 
 #pragma endregion

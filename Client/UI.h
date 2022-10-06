@@ -70,6 +70,8 @@ public:
 				return parentUI->GetChild()[i];
 			}
 		}
+
+		return nullptr;
 	}
 
 	friend class UIManager;

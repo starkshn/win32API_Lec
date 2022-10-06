@@ -1,5 +1,7 @@
 #pragma once
 
+class Texture;
+
 class CCore
 {
 	SINGLE(CCore);
@@ -9,8 +11,11 @@ private:
 	POINT		_resolution; // 메인 윈도우  해상도
 	HDC			h_dc; // 메인 윈도우에 Draw할 DC
 
-	HBITMAP		h_bitmap;
-	HDC			h_memDC;
+	// HBITMAP		h_bitmap;
+	// HDC			h_memDC;
+	// 이렇게 가지는게 아니라 텍스쳐로 가지고 있자.
+	Texture*	_bufferTexture; // 백버퍼 텍스쳐
+
 
 	// 자주 사용하는 GDI Object (커널오브젝트)
 	HBRUSH	h_brushes[static_cast<UINT>(HBRUSH_TYPE::END)];

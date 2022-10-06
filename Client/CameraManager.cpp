@@ -1,23 +1,43 @@
 #include "pch.h"
 #include "CameraManager.h"
-#include "CObject.h"
-#include "CCore.h"
+
 #include "CKeyManager.h"
 #include "CTimeManager.h"
+
+#include "CCore.h"
+#include "CObject.h"
+
+#include "ResourceManager.h"
+#include "Texture.h"
 
 CameraManager::CameraManager()
 	:
 	_lookAtPos{},
-	_targetObject(),
+	_targetObject(),  
 	_getTargetTime(1.f),
-	_accTime(0.5f)
+	_accTime(0.5f),
+	p_veilTexture(nullptr),
+	_effect(CAMERA_EFFECT::NONE),
+	_effectDuration(0.f),
+	_curTime(0.f)
 {
 	//_lookAtPos = (Vector2)CCore::GetInstance()->GetResolution() / 2;
 	// 처음에 Normalize하는 부분때문에 추가했던 부분임.
+
+	
 }
 
 CameraManager::~CameraManager()
 {
+
+}
+
+void CameraManager::init()
+{
+	Vector2 resolution = CCore::GetInstance()->GetResolution();
+	
+	p_veilTexture = ResourceManager::GetInstance()->CreateTexture(L"CameraVeil", static_cast<UINT>(resolution._x), static_cast<UINT>(resolution._y));
+	// 직접만든 경우 픽셀 메모리 버퍼의 초기값이 다 0으로 밀려있다. (건들필요없다)
 
 }
 
@@ -26,7 +46,9 @@ void CameraManager::update()
 	if (_targetObject)
 	{
 		if (_targetObject->IsDead())
+		{
 			_targetObject = nullptr;
+		}
 		else
 		{
 			_lookAtPos = _targetObject->GetPos();
@@ -46,6 +68,54 @@ void CameraManager::update()
 	
 	// 화면 중앙좌표와 LookAt 좌표간의 차이값계산
 	CalDiff();
+}
+
+void CameraManager::render(HDC dc)
+{
+	if (CAMERA_EFFECT::NONE == _effect)
+		return;
+
+	float ratio = 0.f; // 이펙트 진행 비율
+
+	if (CAMERA_EFFECT::FADE_OUT == _effect)
+	{
+		_curTime += DeltaTime_F;
+
+		if (_curTime > _effectDuration)
+		{
+			_effect = CAMERA_EFFECT::NONE;
+			return;
+		}
+
+		// 1바이트의 값을 시간으로 나누어 준다.
+		// => 1초당 어두워져야 하는 값이 나온다.
+
+		// 비율은 이렇게 구한다.
+		ratio = _curTime / _effectDuration;
+	}
+
+	int alphaValue = static_cast<int>(255.f * ratio);
+
+
+	BLENDFUNCTION bf = {};
+
+	bf.BlendOp = AC_SRC_OVER;
+	bf.BlendFlags = 0;
+	bf.AlphaFormat = 0;
+	bf.SourceConstantAlpha = alphaValue; // 고정 알파값. (일단 최대치 줌)
+	
+	AlphaBlend
+	(
+		dc,
+		0, 0, 
+		(int)p_veilTexture->GetWidth(), 
+		(int)p_veilTexture->GetHeight(),
+		p_veilTexture->GetDC(),
+		0, 0,
+		(int)p_veilTexture->GetWidth(),
+		(int)p_veilTexture->GetHeight(),
+		bf
+	);
 }
 
 void CameraManager::CalDiff()
@@ -76,4 +146,3 @@ void CameraManager::CalDiff()
 	_diff = _corLookPos - centerPos;
 	_prevLookPos = _corLookPos;
 }
-

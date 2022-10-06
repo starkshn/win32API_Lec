@@ -9,14 +9,14 @@
 #include "EventManager.h"
 #include "CameraManager.h"
 #include "UIManager.h"
+#include "Texture.h"
+#include "ResourceManager.h"
 
 CCore::CCore()
 	:
 	h_wnd(0),
 	_resolution{},
 	h_dc(0),
-	h_bitmap(0),
-	h_memDC(0),
 	h_brushes{},
 	h_pens{}
 {
@@ -28,8 +28,8 @@ CCore::~CCore()
 {
 	ReleaseDC(h_wnd, h_dc);
 
-	DeleteDC(h_memDC);
-	DeleteObject(h_bitmap);
+	//DeleteDC(h_memDC);
+	//DeleteObject(h_bitmap);
 
 	for (UINT i = 0; i < static_cast<UINT>(HPEN_TYPE::END); ++i)
 	{
@@ -49,17 +49,29 @@ int CCore::init(HWND hWnd, POINT resolution)
 
 	h_dc = GetDC(h_wnd);
 
-	// 이중 버퍼링 용도의 비트맵과 DC를 만든다.
-	h_bitmap = CreateCompatibleBitmap(h_dc, _resolution.x, _resolution.y);
-	h_memDC = CreateCompatibleDC(h_dc);
+	// =========================================================
+	//  
+	// 이중 버퍼링 만드는 방법 1, 2
 
-	HBITMAP hPrevBit = static_cast<HBITMAP>(SelectObject(h_memDC, h_bitmap));
-	DeleteObject(hPrevBit);
+	// 1. 이중 버퍼링 용도의 비트맵과 DC를 만든다.
+	// h_bitmap = CreateCompatibleBitmap(h_dc, _resolution.x, _resolution.y);
+	// h_memDC = CreateCompatibleDC(h_dc);
+	   
+	// HBITMAP hPrevBit = static_cast<HBITMAP>(SelectObject(h_memDC, h_bitmap));
+	// DeleteObject(hPrevBit);
+
+
+	// 2. 이중 버퍼링 용도의 텍스쳐 한장을 만든다.
+	_bufferTexture = ResourceManager::GetInstance()->CreateTexture(L"BackBuffer", (UINT)_resolution.x, (UINT)_resolution.y);
+
+	// =========================================================
+
 
 	// Manager 초기화
 	PathManager::GetInstance()->init();
 	CTimeManager::GetInstance()->init();
 	CKeyManager::GetInstance()->init();
+	CameraManager::GetInstance()->init();
 	CSceneManager::GetInstance()->init();
 
 	return S_OK;
@@ -89,13 +101,15 @@ void CCore::progress()
 	// ================
 	UIManager::GetInstance()->update();
 
-
 	// =============
 	// Randering...
 	// =============
-	Rectangle(h_memDC, -1, -1, _resolution.x + 1, _resolution.y + 1); // 화면 clear
-	CSceneManager::GetInstance()->render(h_memDC); // 씬에서 update한 부분 그리기 
-	BitBlt(h_dc, 0, 0, _resolution.x, _resolution.y, h_memDC, 0, 0, SRCCOPY);
+	Rectangle(_bufferTexture->GetDC(), -1, -1, _resolution.x + 1, _resolution.y + 1); // 화면 clear
+	CSceneManager::GetInstance()->render(_bufferTexture->GetDC()); // 씬에서 update한 부분 그리기
+
+	CameraManager::GetInstance()->render(_bufferTexture->GetDC());
+
+	BitBlt(h_dc, 0, 0, _resolution.x, _resolution.y, _bufferTexture->GetDC(), 0, 0, SRCCOPY);
 
 	// ===============
 	// 이벤트 지연 처리

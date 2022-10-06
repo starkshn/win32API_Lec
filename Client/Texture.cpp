@@ -33,3 +33,18 @@ void Texture::Load(const wstring& path)
 
 }
 
+void Texture::Create(UINT width, UINT height)
+{
+	HDC mainDC = CCore::GetInstance()->GetMainDC();
+	
+	// Texture를 만든다.
+	_bitMap = CreateCompatibleBitmap(mainDC, width, height);
+	_dc = CreateCompatibleDC(mainDC);
+
+	HBITMAP oldBitMap = (HBITMAP)SelectObject(_dc, _bitMap);
+	DeleteObject(oldBitMap);
+
+	// 비트맵 정보
+	GetObject(_bitMap, sizeof(BITMAP), &_objectInfo);
+}
+
