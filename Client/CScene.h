@@ -19,6 +19,7 @@ public:
 	virtual void update();
 	void finalUpdate();
 	virtual void render(HDC dc);
+	void render_tile(HDC dc);
 
 	virtual void Enter() abstract; // 해당 Scene 에 진입시 호출
 	virtual void Exit() abstract; // 해당 Scene 을 탈출 시 사용

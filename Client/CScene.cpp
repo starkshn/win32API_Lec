@@ -9,6 +9,9 @@
 #include "PathManager.h"
 #include "CSceneManager.h"
 
+// 렌더링 최적화
+#include "CameraManager.h"
+
 CScene::CScene()
 	:
 	_tileXCount(),
@@ -58,6 +61,12 @@ void CScene::render(HDC dc)
 {	
 	for (UINT i = 0; i < (UINT)GROUP_TYPE::END; ++i)
 	{
+		if (i == (UINT)GROUP_TYPE::TILE)
+		{
+			render_tile(dc);
+			continue;
+		}
+
 		vector<CObject*>::iterator iter = _objects[i].begin();
 		// auto iter = _objects[i].begin();
 
@@ -72,6 +81,39 @@ void CScene::render(HDC dc)
 			{
  				iter = _objects[i].erase(iter);
 			}
+		}
+	}
+}
+
+void CScene::render_tile(HDC dc)
+{
+	const vector<CObject*>& vecTile = GetGroupObjects(GROUP_TYPE::TILE);
+
+	Vector2 cameraLookPos = CameraManager::GetInstance()->GetLookPos();
+	Vector2 resolution = CCore::GetInstance()->GetResolution();
+	
+	Vector2 leftTopPos = cameraLookPos - (resolution / 2.f);
+	
+	int tileSize = TILE_SIZE;
+
+	int leftTopCol = static_cast<int>(leftTopPos._x / tileSize);
+	int leftTopRow = static_cast<int>(leftTopPos._y / tileSize);
+	
+	int winTileXCount = static_cast<int>(resolution._x / tileSize) + 1;
+	int winTileYCount = static_cast<int>(resolution._y / tileSize) + 1;
+
+	for (int curRow = leftTopRow; curRow < (leftTopRow + winTileYCount); ++curRow)
+	{
+		for (int curCol = leftTopCol; curCol < (leftTopCol + winTileXCount); ++curCol)
+		{
+			if (curCol < 0 || _tileXCount <= curCol || curRow < 0 || _tileYCount <= curRow)
+			{
+				continue;
+			}
+
+			int curTileIdx = (_tileXCount * curRow) + curCol;
+
+			vecTile[curTileIdx]->render(dc);
 		}
 	}
 }
@@ -119,7 +161,6 @@ void CScene::CreateTile(UINT xCount, UINT yCount)
 			tile->SetTileTexture(tileTexture);
 
 			AddObject(tile, GROUP_TYPE::TILE);
-
 		}
 	}
 }

@@ -22,7 +22,6 @@ CameraManager::CameraManager()
 	//_lookAtPos = (Vector2)CCore::GetInstance()->GetResolution() / 2;
 	// 처음에 Normalize하는 부분때문에 추가했던 부분임.
 
-	
 }
 
 CameraManager::~CameraManager()

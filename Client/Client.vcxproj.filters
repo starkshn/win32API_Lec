@@ -122,6 +122,9 @@
     <Filter Include="Engine\04 .Objects\UI\ButtonUI">
       <UniqueIdentifier>{f59eede3-a7e5-4b4d-b5e5-b68b6c8c4387}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\08. Util\AI">
+      <UniqueIdentifier>{8b1454d9-abda-4048-bbaa-c3a211288be2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCore.h">
@@ -242,6 +245,9 @@
     <ClInclude Include="ButtonInfo.h">
       <Filter>Engine\04 .Objects\UI\ButtonUI</Filter>
     </ClInclude>
+    <ClInclude Include="AI.h">
+      <Filter>Engine\08. Util\AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
@@ -343,6 +349,9 @@
     </ClCompile>
     <ClCompile Include="ButtonInfo.cpp">
       <Filter>Engine\04 .Objects\UI\ButtonUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AI.cpp">
+      <Filter>Engine\08. Util\AI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
