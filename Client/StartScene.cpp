@@ -62,32 +62,42 @@ void StartScene::Enter()
 	// Player 쫒아다니는거 잠시 중단
 	// CameraManager::GetInstance()->SetTarget(obj);
 
-	// 몬스터 배치
-	SetMonsterCount(8);
-	float moveDistance = 25.f;
-	float monsterScale = 50.f;
-
 	Vector2 resolution = CCore::GetInstance()->GetResolution();
-	float term = ( resolution._x - (moveDistance + monsterScale / 2.f) * 2) / static_cast<float>(GetMonsterCount() - 1);
 
-	CMonster* monster = nullptr;
+	// 몬스터 배치
+#pragma region "AI 이전 버전 몬스터 생성"
+	//SetMonsterCount(8);
+	//float moveDistance = 25.f;
+	//float monsterScale = 50.f;
+	//float term = ( resolution._x - (moveDistance + monsterScale / 2.f) * 2) / static_cast<float>(GetMonsterCount() - 1);
 
-	AI* ai = new AI();
-	ai->AddState(new Idle);
-	ai->AddState(new Trace);
+	//CMonster* monster = nullptr;
 
-	for (int i = 0; i < GetMonsterCount(); ++i)
-	{
-		monster = new CMonster();
-		monster->SetObjectName(L"Monster");
-		monster->SetScale(Vector2(50.f, 50.f));
-		monster->SetPos(Vector2(resolution / 2.f) - Vector2(0.f, 300.f));
-		monster->SetMonsterId(_monsterId++);
+	//AI* ai = new AI();
+	//ai->AddState(new Idle);
+	//ai->AddState(new Trace);
 
-		monster->SetAI(ai);
+	//for (int i = 0; i < GetMonsterCount(); ++i)
+	//{
+	//	monster = new CMonster();
+	//	monster->SetObjectName(L"Monster");
+	//	monster->SetScale(Vector2(50.f, 50.f));
+	//	monster->SetPos(Vector2(resolution / 2.f) - Vector2(0.f, 300.f));
+	//	monster->SetMonsterId(_monsterId++);
 
-		AddObject(monster, GROUP_TYPE::MONSTER);
-	}
+	//	monster->SetAI(ai);
+
+	//	AddObject(monster, GROUP_TYPE::MONSTER);
+	//}
+#pragma endregion
+
+#pragma region "AI 버젼 몬스터 생성"
+
+	// 몬스터 배치
+	CMonster* monster = MonsterFactory::CreateMonster(MONSTER_TYPE::NORMAL, Vector2(resolution / 2.f) - Vector2(0.f, 300.f));
+	AddObject(monster, GROUP_TYPE::MONSTER);
+
+#pragma endregion
 
 	// 타일 로딩
 	// LoadTile(L"Tile\\start.tile");
@@ -103,14 +113,14 @@ void StartScene::Enter()
 	// Camera Effect 지정
 	CameraManager::GetInstance()->FadeOut(1.5f);
 	CameraManager::GetInstance()->FadeIn(1.5f);
-	CameraManager::GetInstance()->FadeOut(1.5f);
-	CameraManager::GetInstance()->FadeIn(1.5f);
-	CameraManager::GetInstance()->FadeOut(1.5f);
-	CameraManager::GetInstance()->FadeIn(1.5f);
-	CameraManager::GetInstance()->FadeOut(1.5f);
-	CameraManager::GetInstance()->FadeIn(1.5f);
-	CameraManager::GetInstance()->FadeOut(1.5f);
-	CameraManager::GetInstance()->FadeIn(1.5f);
+	//CameraManager::GetInstance()->FadeOut(1.5f);
+	//CameraManager::GetInstance()->FadeIn(1.5f);
+	//CameraManager::GetInstance()->FadeOut(1.5f);
+	//CameraManager::GetInstance()->FadeIn(1.5f);
+	//CameraManager::GetInstance()->FadeOut(1.5f);
+	//CameraManager::GetInstance()->FadeIn(1.5f);
+	//CameraManager::GetInstance()->FadeOut(1.5f);
+	//CameraManager::GetInstance()->FadeIn(1.5f);
 }
 
 void StartScene::render(HDC dc)

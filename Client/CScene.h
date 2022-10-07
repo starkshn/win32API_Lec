@@ -1,5 +1,7 @@
 #pragma once
 
+#include "MonsterFactory.h"
+
 class CObject;
 class Texture;
 

@@ -21,9 +21,13 @@ private:
 	HBRUSH	h_brushes[static_cast<UINT>(HBRUSH_TYPE::END)];
 	HPEN	h_pens[static_cast<UINT>(HPEN_TYPE::END)];
 
+	// 메뉴바 관련
+	HMENU	h_menu; // ToolScene 에서만 사용
+
 public:
 	int		init(HWND hWnd, POINT resolution);
 	void	progress();
+	void	Clear();
 
 private:
 	void CreateHBRUSH();
@@ -33,7 +37,9 @@ public :
 	HWND	GetMainHwnd() { return h_wnd; }
 	POINT	GetResolution() { return _resolution; }
 	HDC		GetMainDC() { return h_dc; }
+	HMENU GetMenuBar() { return h_menu; }
 
 	HBRUSH	GetHBRUSH(HBRUSH_TYPE type) { return h_brushes[static_cast<UINT>(type)]; }
 	HPEN	GetHPEN(HPEN_TYPE type) { return h_pens[static_cast<UINT>(type)]; }
+
 };

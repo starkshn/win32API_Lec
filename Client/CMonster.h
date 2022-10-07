@@ -8,6 +8,16 @@ class Collider;
 
 class AI;
 
+struct MonsterInfo
+{
+	int		_id;
+	float	_speed;
+	float	_hp;
+	float	_searchRange;
+	float	_attackRange;
+	float	_attackDamage;
+};
+
 class CMonster : public CObject
 {
 	CLONE(CMonster);
@@ -22,13 +32,7 @@ private:
 
 	// AI
 	AI*				p_ai;
-
-	// AI 생성후 필요없는 것들
-	//float			_loopDistance;
-	//float			_acc;
-	//int				_dir; // 1, -1
-	//bool			_missileFire = true;
-	//Vector2			_centerAnchor;
+	MonsterInfo		_monInfo;
 
 public :
 	CMonster();
@@ -46,41 +50,20 @@ public:
 public:
 	void CreateMonsterMissile();
 
-	//void MissileCoroutine(float deltaTime_f)
-	//{
-	//	SetAcc(deltaTime_f);
-	//	
-	//	if (GetAcc() > 1.f)
-	//	{
-	//		SetMissileFire(true);
-	//		SetAcc(0.f);
-	//	}
-	//	else
-	//	{
-	//		SetMissileFire(false);
-	//	}
-	//}
+private:
+	void SetMonInfo(const MonsterInfo& info)
+	{
+		_monInfo = info;
+	}
 
 public:
-	void SetSpeed(float speed) { _speed = speed; }
-	void SetMonsterId(int id) { _id = id; }
+	void SetSpeed(float speed) { _monInfo._speed = speed; }
+	void SetMonsterId(int id) { _monInfo._id = id; }
 	void SetAI(AI* ai);
 	
-	// AI 생성후 필요없는 것들
-	//void SetCenterAnchor(Vector2 anchor) { _centerAnchor = anchor; }
-	//void SetLoopDistance(float loopDis) { _loopDistance = loopDis; }
-	//void SetMoveDistance(float dis) { _loopDistance = dis; }
-	//void SetMissileFire(bool fire) { _missileFire = fire; }
-	//void SetAcc(float deltaTime) { _acc += deltaTime; }
-	
 public:
-	float GetSpeed() { return _speed; }
+	float GetSpeed() { return _monInfo._speed; }
 
-	// AI 생성후 필요없는 것들
-	//Vector2 GetCenterAnchor() { return _centerAnchor; }
-	//float GetLoopDistance() { return _loopDistance; }
-	//int GetMonsterId() { return _id; }
-	//bool GetMissileFire() { return _missileFire; }
-	//float GetAcc() { return _acc; }
+	friend class MonsterFactory;
 };
 

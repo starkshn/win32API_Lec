@@ -16,7 +16,7 @@
 
 CMonster::CMonster() 
 	: 
-	_speed(100.f)
+	_monInfo{}
 {
 	CreateCollider();
 	GetCollider()->SetOffsetPos(Vector2{0.f, 0.f});

@@ -1,7 +1,4 @@
 
-#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\ResourceManager.cpp"
-
-
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\Resources.cpp"
 
 
@@ -33,4 +30,7 @@
 
 
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\UI.cpp"
+
+
+#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\UIManager.cpp"
 

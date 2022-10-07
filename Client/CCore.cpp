@@ -11,6 +11,8 @@
 #include "UIManager.h"
 #include "Texture.h"
 #include "ResourceManager.h"
+#include "SelectGDI.h"
+#include "resource.h"
 
 CCore::CCore()
 	:
@@ -35,6 +37,8 @@ CCore::~CCore()
 	{
 		DeleteObject(h_pens[i]);
 	}
+
+	DestroyMenu(h_menu);
 }
 
 int CCore::init(HWND hWnd, POINT resolution)
@@ -46,6 +50,10 @@ int CCore::init(HWND hWnd, POINT resolution)
 	RECT rt = { 0, 0, _resolution.x, _resolution.y };
 	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, true);
 	SetWindowPos(h_wnd, nullptr, 100, 100, rt.right - rt.left, rt.bottom - rt.top, 0); // window의 윈도우 위치와 크기를 변경해주는 함수
+
+	// 메뉴바 생성
+	h_menu = LoadMenu(nullptr, MAKEINTRESOURCEW(IDC_CLIENT));
+	
 
 	h_dc = GetDC(h_wnd);
 
@@ -104,7 +112,10 @@ void CCore::progress()
 	// =============
 	// Randering...
 	// =============
-	Rectangle(_bufferTexture->GetDC(), -1, -1, _resolution.x + 1, _resolution.y + 1); // 화면 clear
+	
+	// 화면 Clear
+	Clear();
+
 	CSceneManager::GetInstance()->render(_bufferTexture->GetDC()); // 씬에서 update한 부분 그리기
 
 	CameraManager::GetInstance()->render(_bufferTexture->GetDC());
@@ -117,10 +128,19 @@ void CCore::progress()
 	EventManager::GetInstance()->update();
 }
 
+void CCore::Clear()
+{
+	SelectGDI gdi(_bufferTexture->GetDC(), HBRUSH_TYPE::BLACK);
+	Rectangle(_bufferTexture->GetDC(), -1, -1, _resolution.x + 1, _resolution.y + 1); // 화면 clear
+}
+
 void CCore::CreateHBRUSH()
 {
 	// hollow brush
 	h_brushes[static_cast<UINT>(HBRUSH_TYPE::HOLLOW)] = static_cast<HBRUSH>(GetStockObject(HOLLOW_BRUSH));
+
+	h_brushes[static_cast<UINT>(HBRUSH_TYPE::BLACK)] = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
+
 }
 
 void CCore::CreateHPEN()

@@ -34,6 +34,9 @@ ToolScene::~ToolScene()
 
 void ToolScene::Enter()
 {
+	// 메뉴바 부착
+	SetMenu(CCore::GetInstance()->GetMainHwnd(), CCore::GetInstance()->GetMenuBar());
+
 	// 타일 생성
 	CreateTile(5, 5);
 
@@ -263,6 +266,8 @@ void ToolScene::render(HDC dc)
 
 void ToolScene::Exit()
 {
+	SetMenu(CCore::GetInstance()->GetMainHwnd(), nullptr);
+	
 	DeleteAllGroups();
 }
 

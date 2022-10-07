@@ -140,6 +140,12 @@
     <Filter Include="Engine\08. Util\GDI">
       <UniqueIdentifier>{18569a59-7abd-4324-b401-756aec239a95}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\09. Factory">
+      <UniqueIdentifier>{c1226c13-82b5-4c9b-adf8-99b50bffe360}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\09. Factory\MonsterFac">
+      <UniqueIdentifier>{4d8bb6a2-d4b7-4e6b-ba62-dfec2039816a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCore.h">
@@ -278,6 +284,9 @@
     <ClInclude Include="Trace.h">
       <Filter>Engine\08. Util\AI\State\Trace</Filter>
     </ClInclude>
+    <ClInclude Include="MonsterFactory.h">
+      <Filter>Engine\09. Factory\MonsterFac</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
@@ -397,6 +406,9 @@
     </ClCompile>
     <ClCompile Include="Trace.cpp">
       <Filter>Engine\08. Util\AI\State\Trace</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterFactory.cpp">
+      <Filter>Engine\09. Factory\MonsterFac</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

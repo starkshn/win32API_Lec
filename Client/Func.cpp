@@ -11,7 +11,6 @@ void CreateObjectEvent(CObject* objectPtr, GROUP_TYPE groupType)
 	// DWORD_PTR이지만 안에 데이터의 정체를 알고있다.
 
 	EventManager::GetInstance()->AddEvent(evt);
-
 }
 
 void DeleteObjectEvent(CObject* objectPtr)

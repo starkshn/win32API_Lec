@@ -34,3 +34,6 @@
 
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\Collider.cpp"
 
+
+#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\ColliderManager.cpp"
+

@@ -77,7 +77,7 @@ enum class MISSILE_TYPE
 enum class HBRUSH_TYPE
 {
 	HOLLOW,
-
+	BLACK,
 	END,
 };
 

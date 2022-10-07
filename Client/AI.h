@@ -21,6 +21,9 @@ public:
 	void AddState(State* state);
 
 public:
+	void SetCurState(MONSTER_STATE state);
+
+public:
 	State* GetState(MONSTER_STATE state);
 
 	friend class CMonster;

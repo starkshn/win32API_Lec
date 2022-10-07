@@ -43,3 +43,13 @@ State* AI::GetState(MONSTER_STATE state)
 
 	return iter->second;
 }
+
+void AI::SetCurState(MONSTER_STATE state)
+{
+	State* pState = GetState(state);
+
+	if (pState == nullptr)
+		assert(nullptr);
+
+	p_curState = pState;
+}
