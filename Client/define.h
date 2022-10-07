@@ -96,7 +96,7 @@ enum class EVENT_TYPE
 	CREATE_OBJECT,
 	DELETE_OBJECT,
 	SCENE_CHANGE,
-
+	CHANGE_AI_STATE,
 
 	END,
 };
@@ -104,8 +104,6 @@ enum class EVENT_TYPE
 enum class TOOL_SCENE_SERVICE
 {
 	CHANGE_IMAGE_IDX,
-
-
 
 	END,
 };

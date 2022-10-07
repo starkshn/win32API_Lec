@@ -15,7 +15,8 @@
 CScene::CScene()
 	:
 	_tileXCount(),
-	_tileYCount()
+	_tileYCount(),
+	p_player(nullptr)
 {
 	
 }

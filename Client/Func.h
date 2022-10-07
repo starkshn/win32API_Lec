@@ -1,12 +1,15 @@
 #pragma once
 
 class CObject;
+class AI;
 
 void CreateObjectEvent(CObject* obj, GROUP_TYPE groupType);
 
 void DeleteObjectEvent(CObject* objectPtr);
 
 void ChangeScene(SCENE_TYPE changeSceneType);
+
+void ChangeAIState(AI* ai, MONSTER_STATE nextState);
 
 
 template <typename T>

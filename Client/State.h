@@ -1,6 +1,9 @@
 #pragma once
 
 class AI;
+class Cmonster;
+
+#include "AI.h"
 
 class State
 {
@@ -20,6 +23,7 @@ public:
 public:
 	AI* GetAI() { return p_ai; }
 	MONSTER_STATE GetStateType() { return _state; }
+	CMonster* GetOwnerMonter() { return p_ai->GetOwner(); }
 
 	friend class AI;
 };

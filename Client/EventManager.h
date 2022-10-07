@@ -3,8 +3,8 @@
 struct Event
 {
 	EVENT_TYPE	_eventType;
-	DWORD_PTR	_objectPtr;
-	DWORD_PTR	_groupType;
+	DWORD_PTR	_lParam;
+	DWORD_PTR	_rParam;
 };
 
 class EventManager

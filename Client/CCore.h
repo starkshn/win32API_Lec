@@ -33,11 +33,15 @@ private:
 	void CreateHBRUSH();
 	void CreateHPEN();
 
-public :
+public:
+	void DockMenu();
+	void ReleaseMenu();
+	void ChangeWindowSize(Vector2 resolution, bool menu);
+
+public:
 	HWND	GetMainHwnd() { return h_wnd; }
 	POINT	GetResolution() { return _resolution; }
 	HDC		GetMainDC() { return h_dc; }
-	HMENU GetMenuBar() { return h_menu; }
 
 	HBRUSH	GetHBRUSH(HBRUSH_TYPE type) { return h_brushes[static_cast<UINT>(type)]; }
 	HPEN	GetHPEN(HPEN_TYPE type) { return h_pens[static_cast<UINT>(type)]; }

@@ -21,6 +21,7 @@ void ChangeSceneByBtn(DWORD_PTR, DWORD_PTR);
 
 ToolScene::ToolScene() 
 	: 
+	p_ui(nullptr),
 	_prevPanelTileMaxIndex(0),
 	_curPanelTileMaxIndex(PAGE_INDEX)
 {
@@ -34,8 +35,7 @@ ToolScene::~ToolScene()
 
 void ToolScene::Enter()
 {
-	// 메뉴바 부착
-	SetMenu(CCore::GetInstance()->GetMainHwnd(), CCore::GetInstance()->GetMenuBar());
+	CCore::GetInstance()->DockMenu();
 
 	// 타일 생성
 	CreateTile(5, 5);
@@ -266,7 +266,7 @@ void ToolScene::render(HDC dc)
 
 void ToolScene::Exit()
 {
-	SetMenu(CCore::GetInstance()->GetMainHwnd(), nullptr);
+	CCore::GetInstance()->ReleaseMenu();
 	
 	DeleteAllGroups();
 }

@@ -48,11 +48,13 @@ void StartScene::update()
 void StartScene::Enter()
 {
 	// Object 추가
-	CObject* obj = new CPlayer();
-	obj->SetPos(Vector2(640.f, 384.f));
-	obj->SetScale(Vector2(100.f, 100.f));
+	CObject* player = new CPlayer();
+	player->SetPos(Vector2(640.f, 384.f));
+	player->SetScale(Vector2(100.f, 100.f));
 
-	AddObject(obj, GROUP_TYPE::PLAYER);
+	AddObject(player, GROUP_TYPE::PLAYER);
+
+	RegisterPlayer(player);
 
 	// 복사생성자 테스트
 	//CObject* otherPlayer = obj->Clone();

@@ -19,12 +19,14 @@ public:
 
 public:
 	void AddState(State* state);
+	void ChangeState(MONSTER_STATE nextSTate);
 
 public:
 	void SetCurState(MONSTER_STATE state);
 
 public:
 	State* GetState(MONSTER_STATE state);
+	CMonster* GetOwner() { return p_owner; }
 
 	friend class CMonster;
 };

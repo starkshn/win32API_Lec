@@ -53,3 +53,14 @@ void AI::SetCurState(MONSTER_STATE state)
 
 	p_curState = pState;
 }
+
+void AI::ChangeState(MONSTER_STATE nextState)
+{
+	State* _nextState = GetState(nextState);
+
+	assert(_nextState != p_curState);
+
+	p_curState->ExitState();
+	p_curState = _nextState;
+	p_curState->EnterState();
+}

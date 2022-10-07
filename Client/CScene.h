@@ -4,6 +4,7 @@
 
 class CObject;
 class Texture;
+class CPlayer;
 
 class CScene
 {
@@ -12,6 +13,9 @@ private :
 	wstring		_sceneName;
 	UINT		_tileXCount;
 	UINT		_tileYCount;
+
+	// 컨텐츠 상 그냥 플레이어를 기억하도록 하자.
+	CObject*	p_player;
 
 public:
 	CScene();
@@ -31,6 +35,9 @@ public:
 	{
 		_objects[static_cast<unsigned int>(type)].push_back(obj);
 	}
+	void RegisterPlayer(CObject* player) { p_player = player;  }
+
+
 	void DeleteGroupObjects(GROUP_TYPE groupType);
 	void DeleteAllGroups();
 	void CreateTile(UINT xCount, UINT yCount);
@@ -52,6 +59,8 @@ public:
 
 	UINT GetTileX() { return _tileXCount;  };
 	UINT GetTileY() { return _tileYCount;  };
+
+	CObject* GetCurPlayer() { return p_player; }
 	
 public:
 	void LoadTile(const wstring& relativePath);

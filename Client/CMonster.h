@@ -63,6 +63,8 @@ public:
 	
 public:
 	float GetSpeed() { return _monInfo._speed; }
+	const MonsterInfo& GetMonsterInfo() { return _monInfo; }
+	
 
 	friend class MonsterFactory;
 };

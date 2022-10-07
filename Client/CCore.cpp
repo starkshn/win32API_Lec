@@ -47,14 +47,10 @@ int CCore::init(HWND hWnd, POINT resolution)
 	_resolution = resolution;
 
 	// 해상도에 맞게 윈도우 크기 조정
-	RECT rt = { 0, 0, _resolution.x, _resolution.y };
-	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, true);
-	SetWindowPos(h_wnd, nullptr, 100, 100, rt.right - rt.left, rt.bottom - rt.top, 0); // window의 윈도우 위치와 크기를 변경해주는 함수
+	ChangeWindowSize(Vector2(static_cast<float>(_resolution.x), static_cast<float>(_resolution.y)), false);
 
 	// 메뉴바 생성
 	h_menu = LoadMenu(nullptr, MAKEINTRESOURCEW(IDC_CLIENT));
-	
-
 	h_dc = GetDC(h_wnd);
 
 	// =========================================================
@@ -149,4 +145,25 @@ void CCore::CreateHPEN()
 	h_pens[static_cast<UINT>(HPEN_TYPE::RED)] = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
 	h_pens[static_cast<UINT>(HPEN_TYPE::GREEN)] = CreatePen(PS_SOLID, 1, RGB(0, 255, 0));
 	h_pens[static_cast<UINT>(HPEN_TYPE::BLUE)] = CreatePen(PS_SOLID, 1, RGB(0, 0, 255));
+}
+
+void CCore::DockMenu()
+{
+	// 메뉴바 부착
+	SetMenu(h_wnd, h_menu);
+	ChangeWindowSize(GetResolution(), true);
+}
+
+void CCore::ReleaseMenu()
+{
+	// 메뉴바 해제
+	SetMenu(h_wnd, nullptr);
+	ChangeWindowSize(GetResolution(), false);
+}
+
+void CCore::ChangeWindowSize(Vector2 resolution, bool menu)
+{
+	RECT rt = { 0, 0, resolution._x, resolution._y };
+	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, menu);
+	SetWindowPos(h_wnd, nullptr, 100, 100, rt.right - rt.left, rt.bottom - rt.top, 0); // window의 윈도우 위치와 크기를 변경해주는 함수
 }

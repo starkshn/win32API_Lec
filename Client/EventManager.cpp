@@ -6,6 +6,9 @@
 
 #include "UIManager.h"
 
+#include "AI.h"
+#include "State.h"
+
 EventManager::EventManager()
 {
 
@@ -48,8 +51,8 @@ void EventManager::ExcuteEvent(const Event& event)
 			// lParam : Object Ptr
 			// wParam : Object Type
 
-			CObject* newObjPtr = (CObject*)event._objectPtr;
-			GROUP_TYPE newObjGroupType = (GROUP_TYPE)event._groupType;
+			CObject* newObjPtr = (CObject*)event._lParam;
+			GROUP_TYPE newObjGroupType = (GROUP_TYPE)event._rParam;
 
 			CSceneManager::GetInstance()->GetCurScene()->AddObject(newObjPtr, newObjGroupType);
 
@@ -59,7 +62,7 @@ void EventManager::ExcuteEvent(const Event& event)
 		{
 			// Object를 Dead상태로 변경
 			// 삭제 예정 오브젝트들을 모아둔다.
-			CObject* deadObjPtr = (CObject*)event._objectPtr;
+			CObject* deadObjPtr = (CObject*)event._lParam;
 
 			if (!deadObjPtr->IsDead())
 			{
@@ -71,11 +74,23 @@ void EventManager::ExcuteEvent(const Event& event)
 		case EVENT_TYPE::SCENE_CHANGE:
 		{
 			// _objectPtr : nextScene
-			CSceneManager::GetInstance()->ChangeRealScene((SCENE_TYPE)event._objectPtr);
+			CSceneManager::GetInstance()->ChangeRealScene((SCENE_TYPE)event._lParam);
 
 			// 포커스  UI 해제 (이전 Scene의 FocusUI를 들고 있기 때문에)
 			UIManager::GetInstance()->SetFocusUI(nullptr);
 		}
 			break;
+		case EVENT_TYPE::CHANGE_AI_STATE:
+		{
+			// lParam : AI Ptr
+			// rParam : Next State Type
+			AI* ai = (AI*)(event._lParam);
+			MONSTER_STATE nextState = (MONSTER_STATE)(event._rParam);
+
+			ai->ChangeState(nextState);
+		}
+			break;
+
+		
 	}
 }
