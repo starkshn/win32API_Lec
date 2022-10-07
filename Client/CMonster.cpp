@@ -12,13 +12,11 @@
 #include "Animator.h"
 #include "Animation.h"
 
+#include "AI.h"
+
 CMonster::CMonster() 
 	: 
-	_speed(100.f), 
-	_loopDistance(50.f),
-	_centerAnchor{0.f, 0.f},
-	_dir(1),
-	_acc(0.f)
+	_speed(100.f)
 {
 	CreateCollider();
 	GetCollider()->SetOffsetPos(Vector2{0.f, 0.f});
@@ -43,48 +41,58 @@ CMonster::CMonster()
 
 CMonster::~CMonster()
 {
-
+	if (p_ai != nullptr)
+		delete p_ai;
 }
 
 void CMonster::update()
 {
-	Vector2 curPos = GetPos();
+#pragma region "AI 구현전 로직"
 
-	// 진행 방향으로 초당 _speed 만큼 이동
-	curPos._x += _speed * _dir * DeltaTime_F;
+	// Animator 포함 로직임 22/10/07
 
-	// 배회 거리 기준량을 넘어섰는지 확인
-	float difDis = abs(_centerAnchor._x - curPos._x) - _loopDistance;
+	//Vector2 curPos = GetPos();
 
-	if (0.f < difDis)
-	{
-		_dir *= -1;
-		curPos._x += difDis * _dir;
-	}
+	//// 진행 방향으로 초당 _speed 만큼 이동
+	//curPos._x += _speed * _dir * DeltaTime_F;
 
-	// MissileCoroutine(DeltaTime_F);
+	//// 배회 거리 기준량을 넘어섰는지 확인
+	//float difDis = abs(_centerAnchor._x - curPos._x) - _loopDistance;
 
-	if (GetMonsterId() % 2 == 0)
-	{
-		if (GetMissileFire())
-		{
-			CreateMonsterMissile();
-		}
-	}
-	
-	_acc += DeltaTime_F;
+	//if (0.f < difDis)
+	//{
+	//	_dir *= -1;
+	//	curPos._x += difDis * _dir;
+	//}
 
-	if (_acc >= 0.99f)
-	{
-		SetMissileFire(true);
-		_acc = 0.f;
-	}
-	else
-		SetMissileFire(false);
+	//// MissileCoroutine(DeltaTime_F);
 
-	SetPos(curPos);
+	//if (GetMonsterId() % 2 == 0)
+	//{
+	//	if (GetMissileFire())
+	//	{
+	//		CreateMonsterMissile();
+	//	}
+	//}
 
-	GetAnimator()->update();
+	//_acc += DeltaTime_F;
+
+	//if (_acc >= 0.99f)
+	//{
+	//	SetMissileFire(true);
+	//	_acc = 0.f;
+	//}
+	//else
+	//	SetMissileFire(false);
+
+	//SetPos(curPos);
+
+	//GetAnimator()->update();
+#pragma endregion
+
+#pragma region "AI 구현후 로직"
+	p_ai->update(); 
+#pragma endregion
 }
 
 void CMonster::render(HDC dc)
@@ -156,6 +164,12 @@ void CMonster::OnCollisionStay(Collider* other)
 void CMonster::OnCollisionExit(Collider* other)
 {
 	
+}
+
+void CMonster::SetAI(AI* ai)
+{
+	p_ai = ai;
+	p_ai->p_owner = this;
 }
 
 

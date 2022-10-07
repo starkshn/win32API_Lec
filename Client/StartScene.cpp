@@ -13,6 +13,11 @@
 #include "CSceneManager.h"
 #include "CameraManager.h"
 
+// AI
+#include "AI.h"
+#include "Idle.h"
+#include "Trace.h"
+
 StartScene::StartScene() : _monsterCount(0)
 {
 	p_backGroundTexture = ResourceManager::GetInstance()->LoadTexture(L"BackGroundTexture", L"Textures\\gb_gameSceneBackGround_1.bmp");
@@ -67,14 +72,20 @@ void StartScene::Enter()
 
 	CMonster* monster = nullptr;
 
+	AI* ai = new AI();
+	ai->AddState(new Idle);
+	ai->AddState(new Trace);
+
 	for (int i = 0; i < GetMonsterCount(); ++i)
 	{
 		monster = new CMonster();
-		monster->SetPos(Vector2( (moveDistance + monsterScale / 2.f ) + static_cast<float>(i) * term, 50.f));
+		monster->SetObjectName(L"Monster");
 		monster->SetScale(Vector2(50.f, 50.f));
-		monster->SetMoveDistance(moveDistance);
-		monster->SetCenterAnchor(monster->GetPos());
+		monster->SetPos(Vector2(resolution / 2.f) - Vector2(0.f, 300.f));
 		monster->SetMonsterId(_monsterId++);
+
+		monster->SetAI(ai);
+
 		AddObject(monster, GROUP_TYPE::MONSTER);
 	}
 

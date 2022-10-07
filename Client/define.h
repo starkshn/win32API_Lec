@@ -33,6 +33,8 @@
 // PaenlUI Page
 #define PAGE_INDEX 35
 
+// AI
+
 
 enum class GROUP_TYPE
 {
@@ -106,4 +108,17 @@ enum class TOOL_SCENE_SERVICE
 
 
 	END,
+};
+
+enum class MONSTER_STATE
+{
+	IDLE,
+	PATROL,
+	TRACE,
+	ATTACK,
+	MOVE,
+	ESCAPE,
+	DEAD,
+
+	END = 12
 };

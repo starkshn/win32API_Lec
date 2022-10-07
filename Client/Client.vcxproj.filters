@@ -89,9 +89,6 @@
     <Filter Include="Engine\03. Managers\EventManager">
       <UniqueIdentifier>{01e77e51-aa61-403f-83c7-906457b76fea}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\08. Util\GDI">
-      <UniqueIdentifier>{18569a59-7abd-4324-b401-756aec239a95}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\08. Util\Func">
       <UniqueIdentifier>{4dd122d0-510a-47ec-9341-176295e65136}</UniqueIdentifier>
     </Filter>
@@ -124,6 +121,24 @@
     </Filter>
     <Filter Include="Engine\08. Util\AI">
       <UniqueIdentifier>{8b1454d9-abda-4048-bbaa-c3a211288be2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Util\AI\State">
+      <UniqueIdentifier>{31ba7237-bf9f-4161-804f-25ee9e60a16b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Util\AI\State\Idle">
+      <UniqueIdentifier>{3b9def9e-c543-4ce5-97ef-cc82f1dceb21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Util\AI\State\Attack">
+      <UniqueIdentifier>{298465e7-c3f6-4177-8199-4fc26ea0c5e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Util\AI\State\Dead">
+      <UniqueIdentifier>{2107caf8-532b-449e-913b-897362fda422}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Util\AI\State\Trace">
+      <UniqueIdentifier>{0ac182db-7ffc-4997-aff3-f642dc20fa27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Util\GDI">
+      <UniqueIdentifier>{18569a59-7abd-4324-b401-756aec239a95}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -248,6 +263,21 @@
     <ClInclude Include="AI.h">
       <Filter>Engine\08. Util\AI</Filter>
     </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Engine\08. Util\AI\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Idle.h">
+      <Filter>Engine\08. Util\AI\State\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="Attack.h">
+      <Filter>Engine\08. Util\AI\State\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Dead.h">
+      <Filter>Engine\08. Util\AI\State\Dead</Filter>
+    </ClInclude>
+    <ClInclude Include="Trace.h">
+      <Filter>Engine\08. Util\AI\State\Trace</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
@@ -352,6 +382,21 @@
     </ClCompile>
     <ClCompile Include="AI.cpp">
       <Filter>Engine\08. Util\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Engine\08. Util\AI\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Idle.cpp">
+      <Filter>Engine\08. Util\AI\State\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="Attack.cpp">
+      <Filter>Engine\08. Util\AI\State\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Dead.cpp">
+      <Filter>Engine\08. Util\AI\State\Dead</Filter>
+    </ClCompile>
+    <ClCompile Include="Trace.cpp">
+      <Filter>Engine\08. Util\AI\State\Trace</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
