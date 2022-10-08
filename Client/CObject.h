@@ -2,6 +2,7 @@
 
 class Collider;
 class Animator;
+class RigidBody;
 
 #include "CameraManager.h"
 
@@ -19,6 +20,7 @@ private :
 	// Component
 	Collider*	p_collider;
 	Animator*	p_animator;
+	RigidBody*	p_rigidBody;
 
 	bool		_alive;
 
@@ -43,6 +45,7 @@ public:
 public:
 	void CreateCollider();
 	void CreateAnimator();
+	void CreateRigidBody();
 
 public:
 	Collider* GetCollider() { return p_collider; }
@@ -61,6 +64,11 @@ public :
 	void SetTheta(float theta) { _theta = theta; }
 	void SetDir(Vector2 dir) { _dir = dir; _dir.Normalize(); }
 	void SetObjectName(const wstring& name) { _objectName = name; }
+
+public:
+	Collider* GetColldier() { return p_collider; }
+	Animator* GetAnimator() { return p_animator;  }
+	RigidBody* GetRigidBody() { return p_rigidBody; }
 
 public:
 	Vector2 GetPos() { return _pos; }

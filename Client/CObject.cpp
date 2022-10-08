@@ -2,8 +2,11 @@
 #include "CObject.h"
 #include "CKeyManager.h"
 #include "CTimeManager.h"
+
+// component
 #include "Collider.h"
 #include "Animator.h"
+#include "RigidBody.h"
 
 CObject::CObject() 
 	: 
@@ -11,6 +14,7 @@ CObject::CObject()
 	_scale{},
 	p_collider(nullptr),
 	p_animator(nullptr),
+	p_rigidBody(nullptr),
 	_alive(true)
 {
 
@@ -38,6 +42,12 @@ CObject::CObject(const CObject& origin)
 		p_animator = new Animator(*origin.p_animator);
 		p_animator->p_owner = this;
 	}
+
+	if (origin.p_rigidBody)
+	{
+		p_rigidBody = new RigidBody(*origin.p_rigidBody);
+		p_rigidBody->p_owner = this;
+	}
 }
 
 CObject::~CObject()
@@ -57,6 +67,11 @@ void CObject::finalUpdate()
 	
 	if (p_animator != nullptr)
 		p_animator->finalUpdate();
+
+	if (p_rigidBody != nullptr)
+		p_rigidBody->finalUpdate();
+
+
 }
 
 void CObject::render(HDC dc)
@@ -95,4 +110,10 @@ void CObject::CreateAnimator()
 {
 	p_animator = new Animator();
 	p_animator->p_owner = this;
+}
+
+void CObject::CreateRigidBody()
+{
+	p_rigidBody = new RigidBody();
+	p_rigidBody->p_owner = this;
 }

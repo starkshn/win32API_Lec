@@ -146,6 +146,9 @@
     <Filter Include="Engine\09. Factory\MonsterFac">
       <UniqueIdentifier>{4d8bb6a2-d4b7-4e6b-ba62-dfec2039816a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\07. Component\RigidBody">
+      <UniqueIdentifier>{b2295871-01b3-48e4-a445-b71c3b477ed3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCore.h">
@@ -287,6 +290,9 @@
     <ClInclude Include="MonsterFactory.h">
       <Filter>Engine\09. Factory\MonsterFac</Filter>
     </ClInclude>
+    <ClInclude Include="RigidBody.h">
+      <Filter>Engine\07. Component\RigidBody</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
@@ -409,6 +415,9 @@
     </ClCompile>
     <ClCompile Include="MonsterFactory.cpp">
       <Filter>Engine\09. Factory\MonsterFac</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBody.cpp">
+      <Filter>Engine\07. Component\RigidBody</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
