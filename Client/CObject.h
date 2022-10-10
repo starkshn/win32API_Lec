@@ -50,6 +50,7 @@ public:
 public:
 	Collider* GetCollider() { return p_collider; }
 	Animator* GetAnimator() { return p_animator; }
+	RigidBody* GetRigidBody() { return p_rigidBody; }
 
 public:
 	void ComponentRender(HDC dc);
@@ -66,15 +67,10 @@ public :
 	void SetObjectName(const wstring& name) { _objectName = name; }
 
 public:
-	Collider* GetColldier() { return p_collider; }
-	Animator* GetAnimator() { return p_animator;  }
-	RigidBody* GetRigidBody() { return p_rigidBody; }
-
-public:
 	Vector2 GetPos() { return _pos; }
 	Vector2 GetScale() { return _scale; }
 	Vector2 GetVector2Dir() { return _dir; }
-	float GetTheta() { return _theta; }
+	float	GetTheta() { return _theta; }
 	const wstring& GetObjectName() { return _objectName; }
 
 	friend class EventManager;

@@ -1,4 +1,13 @@
 
+#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\CObject.cpp"
+
+
+#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\Collider.cpp"
+
+
+#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\ColliderManager.cpp"
+
+
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\CScene.cpp"
 
 
@@ -18,22 +27,4 @@
 
 
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\Idle.cpp"
-
-
-#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\CPlayer.cpp"
-
-
-#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\MonsterFactory.cpp"
-
-
-#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\MonsterMissile.cpp"
-
-
-#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\PanelUI.cpp"
-
-
-#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\PathManager.cpp"
-
-
-#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\ResourceManager.cpp"
 

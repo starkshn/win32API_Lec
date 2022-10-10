@@ -16,8 +16,6 @@ private:
 	// 가속도가 누적되서 '속도'가 나옴.
 	// V += A * DT; => 현재속도
 	
-
-
 public:
 	RigidBody();
 	~RigidBody();
@@ -26,7 +24,21 @@ public:
 	void update();
 	void finalUpdate();
 
+private:
+	void Move();
+
 public:
+	void AddForce(Vector2 force)
+	{
+		_force += force;
+	}
+
+public:
+	void SetMass(float mass) { _mass = mass; }
+
+public:
+	float GetMass() { return _mass; }
+
 	friend class CObject;
 };
 

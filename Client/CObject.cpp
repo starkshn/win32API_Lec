@@ -57,6 +57,9 @@ CObject::~CObject()
 
 	if (nullptr != p_animator)
 		delete p_animator;
+
+	if (nullptr != p_rigidBody)
+		delete p_rigidBody;
 	
 }
 

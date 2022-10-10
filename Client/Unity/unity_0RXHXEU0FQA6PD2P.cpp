@@ -28,12 +28,3 @@
 
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\CMissile.cpp"
 
-
-#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\CObject.cpp"
-
-
-#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\Collider.cpp"
-
-
-#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\ColliderManager.cpp"
-

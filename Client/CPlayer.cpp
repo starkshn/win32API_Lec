@@ -9,9 +9,11 @@
 #include "Texture.h"
 #include "PathManager.h"
 #include "ResourceManager.h"
+
 #include "Collider.h"
 #include "Animator.h"
 #include "Animation.h"
+#include "RigidBody.h"
 
 CPlayer::CPlayer()
 {
@@ -36,6 +38,8 @@ CPlayer::CPlayer()
 		anim->GetAnimFrame(i)._offset = Vector2(0.f, -50.f);
 	}
 
+	CreateRigidBody();
+
 }
 CPlayer::~CPlayer()
 {
@@ -44,23 +48,60 @@ CPlayer::~CPlayer()
 
 void CPlayer::update()
 {
-	Vector2 pos = GetPos();
+	// Vector2 pos = GetPos();
+	RigidBody* rd = GetRigidBody();
 
-	if ( KEY_HOLD(KEY::W) )
+#pragma region "입력으로 움직이기"
+
+	//if (KEY_HOLD(KEY::W))
+	//{
+	//	pos._y -= 200.f * DeltaTime_F;
+	//}
+	//if (KEY_HOLD(KEY::S))
+	//{
+	//	pos._y += 200.f * DeltaTime_F;
+	//}
+	//if (KEY_HOLD(KEY::A))
+	//{
+	//	pos._x -= 200.f * DeltaTime_F;
+	//}
+	//if (KEY_HOLD(KEY::D))
+	//{
+	//	pos._x += 200.f * DeltaTime_F;
+	//}
+
+	//// Missile
+	//if (KEY_TAP(KEY::Z))
+	//{
+	//	CreateMissile();
+	//}
+	//if (KEY_TAP(KEY::SPACE))
+	//{
+	//	CreateThreeMissile();
+	//}
+
+	//SetPos(pos);
+
+	//GetAnimator()->update();
+
+#pragma endregion
+
+
+	if (KEY_HOLD(KEY::W))
 	{
-		pos._y -= 200.f * DeltaTime_F;
+		rd->AddForce(Vector2(0.f, -200.f));
 	}
 	if (KEY_HOLD(KEY::S))
 	{
-		pos._y += 200.f * DeltaTime_F;
+		rd->AddForce(Vector2(0.f, 200.f));
 	}
 	if (KEY_HOLD(KEY::A))
 	{
-		pos._x -= 200.f * DeltaTime_F;
+		rd->AddForce(Vector2(-200.f, 0.f));
 	}
 	if (KEY_HOLD(KEY::D))
 	{
-		pos._x += 200.f * DeltaTime_F;
+		rd->AddForce(Vector2(200.f, 0.f));
 	}
 
 	// Missile
@@ -73,9 +114,9 @@ void CPlayer::update()
 		CreateThreeMissile();
 	}
 
-	SetPos(pos);
+	/*SetPos(pos);
 
-	GetAnimator()->update();
+	GetAnimator()->update();*/
 }
 
 void CPlayer::render(HDC dc)
