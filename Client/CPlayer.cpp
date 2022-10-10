@@ -86,7 +86,6 @@ void CPlayer::update()
 
 #pragma endregion
 
-
 	if (KEY_HOLD(KEY::W))
 	{
 		rd->AddForce(Vector2(0.f, -200.f));
@@ -102,6 +101,24 @@ void CPlayer::update()
 	if (KEY_HOLD(KEY::D))
 	{
 		rd->AddForce(Vector2(200.f, 0.f));
+	}
+
+
+	if (KEY_TAP(KEY::W))
+	{
+		rd->AddVelocity(Vector2(0.f, -200.f));
+	}
+	if (KEY_TAP(KEY::S))
+	{
+		rd->AddVelocity(Vector2(0.f, 200.f));
+	}
+	if (KEY_TAP(KEY::A))
+	{
+		rd->AddVelocity(Vector2(-200.f, 0.f));
+	}
+	if (KEY_TAP(KEY::D))
+	{
+		rd->AddVelocity(Vector2(200.f, 0.f));
 	}
 
 	// Missile
@@ -184,9 +201,6 @@ void CPlayer::render(HDC dc)
 
 
 #pragma endregion
-
-	
-
 
 }
 

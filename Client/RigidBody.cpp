@@ -8,7 +8,9 @@
 RigidBody::RigidBody()
 	:
 	p_owner(nullptr),
-	_mass(1.f)
+	_mass(1.f),
+	_maxVelocity(200.f),
+	_frictCoeff(100.f)
 {
 	
 }
@@ -25,8 +27,6 @@ void RigidBody::update()
 
 void RigidBody::finalUpdate()
 {
-	_force;
-
 	// 순수 힘의 크기
 	float force = _force.Length();
 
@@ -45,6 +45,35 @@ void RigidBody::finalUpdate()
 
 		 // 속도 (방향 + 속력) 한번 붙은 속도는 초기화 할 필요가 없다.
 		_velocity += _accel * DeltaTime_F;
+	}
+
+	// =================
+	// 마찰력 적용
+	// =================
+	
+	// 마찰력에 의한 반대방향으로의 가속도
+	if (!_velocity.IsZero())
+	{
+		Vector2 vel = _velocity;
+		vel.Normalize();
+		Vector2 friction = (-vel) * _frictCoeff * DeltaTime_F;
+
+		if (_velocity.Length() <= friction.Length())
+		{
+			// 마찰 가속도가 본래 속도보다 더 큰 경우
+			_velocity = Vector2(0.f, 0.f);
+		}
+		else
+		{
+			_velocity += friction;
+		}
+	}
+	
+	// 최대속도 제한
+	if (_velocity.Length() > _maxVelocity)
+	{
+		_velocity.Normalize();
+		_velocity *= _maxVelocity;
 	}
 
 	// 속도에 따른 이동
