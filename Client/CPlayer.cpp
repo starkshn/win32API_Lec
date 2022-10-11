@@ -16,6 +16,9 @@
 #include "RigidBody.h"
 
 CPlayer::CPlayer()
+	:
+	_state(OBJECT_STATE::IDLE),
+	_dir(1)
 {
 	CreateCollider();
 	GetCollider()->SetOffsetPos(Vector2{0.f, 5.f});
@@ -23,24 +26,30 @@ CPlayer::CPlayer()
 
 	SetObjectName(L"player");
 
-	// Animator 추가
-	// 애니매이션 가로 74pixel, 세로 80pixel
-	Texture* texture = ResourceManager::GetInstance()->LoadTexture(L"PlayerAnimationTexture", L"Textures\\Animations2.bmp");
+	// IDLE 가로 : 32, 세로 39.2: 
+	Texture* p_textureRight = GetAnim(L"Zero_R.bmp");
+	Texture* p_textureLeft = GetAnim(L"Zero_L.bmp");
 
 	CreateAnimator();
-	GetAnimator()->CreateAnimation(L"WALK_DOWN", texture, Vector2(0, 320), Vector2(74, 80), Vector2(74, 0), 0.08f, 10);
-	GetAnimator()->PlayAnimation(L"WALK_DOWN", true);
 
-	Animation* anim = GetAnimator()->FindAnimation(L"WALK_DOWN");
+	// 가로 32 세로 40
+	GetAnimator()->CreateAnimation(L"IDLE_RIGHT", p_textureRight, Vector2(0, 37), Vector2(32, 37), Vector2(32, 0), 0.09f, 6);
+	GetAnimator()->CreateAnimation(L"IDLE_LEFT", p_textureLeft, Vector2(352, 37), Vector2(32, 37), Vector2(-32, 0), 0.09f, 6);
 
-	for (UINT i = 0; i < anim->GetMaxFrame(); ++i)
-	{
-		anim->GetAnimFrame(i)._offset = Vector2(0.f, -50.f);
-	}
+	GetAnimator()->CreateAnimation(L"MOVE_RIGHT", p_textureRight, Vector2(0, 148), Vector2(32, 37), Vector2(32, 0), 0.09f, 9);
+	GetAnimator()->CreateAnimation(L"MOVE_LEFT", p_textureLeft, Vector2(352, 148), Vector2(32, 37), Vector2(-32, 0), 0.09f, 9);
+
+	GetAnimator()->CreateAnimation(L"JUMP_RIGHT", p_textureRight, Vector2(0, 185), Vector2(32, 37), Vector2(32, 0), 0.09f, 11);
+	GetAnimator()->CreateAnimation(L"JUMP_LEFT", p_textureLeft, Vector2(352, 185), Vector2(32, 37), Vector2(-32, 0), 0.09f, 11);
+
+	GetAnimator()->CreateAnimation(L"TURN_RIGHT", p_textureRight, Vector2(0, 518), Vector2(32, 37), Vector2(32, 0), 0.09f, 7);
+	GetAnimator()->CreateAnimation(L"TURN_LEFT", p_textureLeft, Vector2(352, 518), Vector2(32, 37), Vector2(-32, 0), 0.09f, 7);
+
+	GetAnimator()->PlayAnimation(L"IDLE_RIGHT", true);
 
 	CreateRigidBody();
-
 }
+
 CPlayer::~CPlayer()
 {
 	
@@ -48,43 +57,49 @@ CPlayer::~CPlayer()
 
 void CPlayer::update()
 {
-	// Vector2 pos = GetPos();
+	_prevState = _curState;
+
+	UpdateState();
+	UpdateMove();
+
+	UpdateAnimation();
+
+	// Missile
+	if (KEY_TAP(KEY::Z))
+	{
+		// CreateMissile();
+		
+	}
+
+	if (KEY_TAP(KEY::SPACE))
+	{
+		// CreateThreeMissile();
+		GetAnimator()->PlayAnimation(L"JUMP_RIGHT", true);
+	}
+
+	// IDLE
+
+	/*SetPos(pos);
+
+	GetAnimator()->update();*/
+}
+
+void CPlayer::UpdateState()
+{
+	if (KEY_TAP(KEY::A))
+	{
+		_dir = -1;
+		_state = OBJECT_STATE::WALK;
+	}
+	if (KEY_TAP(KEY::D))
+	{
+		_dir = 1;
+	}
+}
+
+void CPlayer::UpdateMove()
+{
 	RigidBody* rd = GetRigidBody();
-
-#pragma region "입력으로 움직이기"
-
-	//if (KEY_HOLD(KEY::W))
-	//{
-	//	pos._y -= 200.f * DeltaTime_F;
-	//}
-	//if (KEY_HOLD(KEY::S))
-	//{
-	//	pos._y += 200.f * DeltaTime_F;
-	//}
-	//if (KEY_HOLD(KEY::A))
-	//{
-	//	pos._x -= 200.f * DeltaTime_F;
-	//}
-	//if (KEY_HOLD(KEY::D))
-	//{
-	//	pos._x += 200.f * DeltaTime_F;
-	//}
-
-	//// Missile
-	//if (KEY_TAP(KEY::Z))
-	//{
-	//	CreateMissile();
-	//}
-	//if (KEY_TAP(KEY::SPACE))
-	//{
-	//	CreateThreeMissile();
-	//}
-
-	//SetPos(pos);
-
-	//GetAnimator()->update();
-
-#pragma endregion
 
 	if (KEY_HOLD(KEY::W))
 	{
@@ -93,6 +108,7 @@ void CPlayer::update()
 	if (KEY_HOLD(KEY::S))
 	{
 		rd->AddForce(Vector2(0.f, 200.f));
+
 	}
 	if (KEY_HOLD(KEY::A))
 	{
@@ -102,7 +118,6 @@ void CPlayer::update()
 	{
 		rd->AddForce(Vector2(200.f, 0.f));
 	}
-
 
 	if (KEY_TAP(KEY::W))
 	{
@@ -115,25 +130,37 @@ void CPlayer::update()
 	if (KEY_TAP(KEY::A))
 	{
 		rd->AddVelocity(Vector2(-200.f, 0.f));
+
 	}
 	if (KEY_TAP(KEY::D))
 	{
 		rd->AddVelocity(Vector2(200.f, 0.f));
 	}
+}
 
-	// Missile
-	if (KEY_TAP(KEY::Z))
+void CPlayer::UpdateAnimation()
+{
+	if (_prevState == _curState)
+		return;
+
+	switch (_curState)
 	{
-		CreateMissile();
+	case OBJECT_STATE::IDLE:
+		{}
+		break;
+	case OBJECT_STATE::WALK:
+		break;
+	case OBJECT_STATE::ATTACK:
+		break;
+	case OBJECT_STATE::GETHIT:
+		break;
+	case OBJECT_STATE::DIE:
+		break;
+	case OBJECT_STATE::END:
+		break;
+	default:
+		break;
 	}
-	if (KEY_TAP(KEY::SPACE))
-	{
-		CreateThreeMissile();
-	}
-
-	/*SetPos(pos);
-
-	GetAnimator()->update();*/
 }
 
 void CPlayer::render(HDC dc)
@@ -198,7 +225,6 @@ void CPlayer::render(HDC dc)
 	//	0, 0, (int)width, (int)height,
 	//	bf
 	//);
-
 
 #pragma endregion
 

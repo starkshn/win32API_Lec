@@ -6,6 +6,8 @@
 #include "Idle.h"
 #include "Trace.h"
 
+#include "RigidBody.h"
+
 CMonster* MonsterFactory::CreateMonster(MONSTER_TYPE type, Vector2 pos)
 {
 	CMonster* monster = nullptr;
@@ -37,7 +39,13 @@ CMonster* MonsterFactory::CreateMonster(MONSTER_TYPE type, Vector2 pos)
 			ai->AddState(new Trace);
 			ai->SetCurState(MONSTER_STATE::IDLE);
 
+			// AI
 			monster->SetAI(ai);
+
+			// RigidBody
+			monster->CreateRigidBody();
+			monster->GetRigidBody()->SetMess(1.f);
+
 		}
 		break;
 	case MONSTER_TYPE::SLIME:

@@ -6,6 +6,7 @@
 // component
 #include "Collider.h"
 #include "Animator.h"
+#include "Animation.h"
 #include "RigidBody.h"
 
 CObject::CObject() 
@@ -115,8 +116,23 @@ void CObject::CreateAnimator()
 	p_animator->p_owner = this;
 }
 
+
 void CObject::CreateRigidBody()
 {
 	p_rigidBody = new RigidBody();
 	p_rigidBody->p_owner = this;
+}
+
+void CObject::CreateAnimation(const wstring& animName, Texture* texture, Vector2 startPos, Vector2 sliceSize, Vector2 step, float duration, UINT frameCount, bool repeat, Vector2 animOffset)
+{
+	CreateAnimator();
+	GetAnimator()->CreateAnimation(animName, texture, startPos, sliceSize, step, duration, frameCount);
+	GetAnimator()->PlayAnimation(animName, repeat);
+
+	Animation* anim = GetAnimator()->FindAnimation(animName);
+
+	for (UINT i = 0; i < anim->GetMaxFrame(); ++i)
+	{
+		anim->GetAnimFrame(i)._offset = animOffset + Vector2(3.f, 0.f);
+	}
 }

@@ -11,6 +11,10 @@ private:
 	CLONE(CPlayer);
 	// Texture*	p_myObject;
 
+	OBJECT_STATE	_curState;
+	OBJECT_STATE	_prevState;
+	int				_dir;
+
 public :
 	CPlayer();
 	virtual ~CPlayer() override;
@@ -18,6 +22,11 @@ public :
 public:
 	virtual void update() final;
 	virtual void render(HDC dc) final;
+
+public:
+	void UpdateState();
+	void UpdateMove();
+	void UpdateAnimation();
 
 public :
 	void CreateMissile();

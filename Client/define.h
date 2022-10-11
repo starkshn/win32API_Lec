@@ -18,6 +18,8 @@
 #define KEY_NONE(key) KEY_CHECK(key, KEY_STATE::NONE)
 #define MOUSE_POS CKeyManager::GetInstance()->GetCurrentMousePos()
 
+
+
 #define PI 3.1415926535f
 
 #define TILE_SIZE 63
@@ -119,4 +121,25 @@ enum class MONSTER_STATE
 	DEAD,
 
 	END = 12
+};
+
+// STATE
+enum class OBJECT_STATE
+{
+	IDLE,
+	WALK,
+	ATTACK,
+	GETHIT,
+	DIE,
+
+	END
+};
+
+enum class OBJECT_STATE
+{
+	NORMAL_ATTACK_1,
+	NORMAL_ATTACK_2,
+	NORMAL_ATTACK_3,
+
+	END
 };

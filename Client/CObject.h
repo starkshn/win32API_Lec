@@ -1,10 +1,13 @@
 #pragma once
 
+
 class Collider;
 class Animator;
 class RigidBody;
+class Texture;
 
 #include "CameraManager.h"
+#include "ResourceManager.h"
 
 class CObject
 {
@@ -24,8 +27,6 @@ private :
 
 	bool		_alive;
 
-
-	
 public:
 	CObject();
 	CObject(const CObject& origin);
@@ -47,10 +48,19 @@ public:
 	void CreateAnimator();
 	void CreateRigidBody();
 
+	Texture* GetAnim(const wstring& name)
+	{
+		Texture* texture = ResourceManager::GetInstance()->LoadTexture(name, L"Textures\\Sprite\\" + name);
+		return texture;
+	}
+
 public:
 	Collider* GetCollider() { return p_collider; }
 	Animator* GetAnimator() { return p_animator; }
 	RigidBody* GetRigidBody() { return p_rigidBody; }
+
+public:
+	void CreateAnimation(const wstring& animName, Texture* texture, Vector2 startPos, Vector2 sliceSize, Vector2 step, float duration, UINT frameCount, bool repeat, Vector2 animOffset);
 
 public:
 	void ComponentRender(HDC dc);

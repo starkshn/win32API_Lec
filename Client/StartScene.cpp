@@ -18,7 +18,17 @@
 #include "Idle.h"
 #include "Trace.h"
 
-StartScene::StartScene() : _monsterCount(0)
+// 물리
+#include "RigidBody.h"
+#include "SelectGDI.h"
+
+StartScene::StartScene() 
+	: 
+	_monsterCount(0),
+	_useForce(false),
+	_forceRadius(500.f),
+	_forceCurRadius(0.f),
+	_force(500.f)
 {
 	p_backGroundTexture = ResourceManager::GetInstance()->LoadTexture(L"BackGroundTexture", L"Textures\\gb_gameSceneBackGround_1.bmp");
 }
@@ -31,6 +41,43 @@ StartScene::~StartScene()
 
 void StartScene::update()
 {
+	if (KEY_HOLD(KEY::LBTN))
+	{
+		_useForce = true;
+
+		CreateForce();
+	}
+	else
+	{
+		_useForce = false;
+	}
+
+	for (unsigned int i = 0; i < static_cast<unsigned int>(GROUP_TYPE::END); ++i)
+	{
+		const vector<CObject*>& vecObj = GetGroupObjects((GROUP_TYPE)i);
+
+		for (size_t j = 0; j < vecObj.size(); ++j)
+		{
+			if (_useForce && nullptr != vecObj[j]->GetRigidBody())
+			{
+				Vector2 diff = vecObj[j]->GetPos() - _mouseForcePos;
+				float len = diff.Length();
+				Vector2 tempDiff = diff;
+			
+				if (len < _forceRadius)
+				{
+					float ratio = 1.f - (len / _forceRadius);
+					float force = _force * ratio;
+					
+					vecObj[j]->GetRigidBody()->AddForce(tempDiff.Normalize() * force);
+				}
+			}
+
+			vecObj[j]->update();
+
+		}
+	}
+	
 	CScene::update();
 
 	if (KEY_TAP(KEY::ENTER))
@@ -38,11 +85,11 @@ void StartScene::update()
 		ChangeScene(SCENE_TYPE::TOOL);
 	}
 
-	if (KEY_TAP(KEY::LBTN))
+	/*if (KEY_TAP(KEY::LBTN))
 	{
 		Vector2 lookAtPos = CameraManager::GetInstance()->GetRealPos(MOUSE_POS);
 		CameraManager::GetInstance()->SetLookAtPos(lookAtPos);
-	}
+	}*/
 }
 
 void StartScene::Enter()
@@ -127,9 +174,8 @@ void StartScene::Enter()
 
 void StartScene::render(HDC dc)
 {
+	//  Background rendering
 	Vector2 resolution = CCore::GetInstance()->GetResolution();
-
-	// background rendering
 	BitBlt
 	(
 		dc,
@@ -140,6 +186,32 @@ void StartScene::render(HDC dc)
 		0, 0, SRCCOPY
 	);
 
+	// 힘이 생기는 지점 원 그리기
+	if (_useForce)
+	{
+		SelectGDI gdi(dc, HBRUSH_TYPE::HOLLOW);
+		SelectGDI gdi2(dc, HPEN_TYPE::GREEN);
+
+		_forceCurRadius += _forceRadius * 5.f * DeltaTime_F;
+		if (_forceCurRadius > _forceRadius)
+		{
+			_forceCurRadius = 0.f;
+		}
+
+		Vector2 _renderPos = CameraManager::GetInstance()->GetRenderPos(_mouseForcePos);
+
+		Ellipse
+		(
+			dc,
+			static_cast<int>(_renderPos._x - _forceCurRadius),
+			static_cast<int>(_renderPos._y - _forceCurRadius),
+			static_cast<int>(_renderPos._x + _forceCurRadius),
+			static_cast<int>(_renderPos._y + _forceCurRadius)
+		);
+	}
+
+	
+
 	CScene::render(dc);
 }
 
@@ -149,4 +221,12 @@ void StartScene::Exit()
 
 	// 기존의 그룹의 충돌 그룹 해제(씬이 변경될 것이니까)
 	ColliderManager::GetInstance()->ResetGroup();
+}
+
+void StartScene::CreateForce()
+{
+	_mouseForcePos = CameraManager::GetInstance()->GetRealPos(MOUSE_POS);
+
+
+
 }

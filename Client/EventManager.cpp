@@ -90,7 +90,5 @@ void EventManager::ExcuteEvent(const Event& event)
 			ai->ChangeState(nextState);
 		}
 			break;
-
-		
 	}
 }

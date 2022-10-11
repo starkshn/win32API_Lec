@@ -10,7 +10,6 @@
 #include "CameraManager.h"
 #include "UIManager.h"
 #include "Texture.h"
-#include "ResourceManager.h"
 #include "SelectGDI.h"
 #include "resource.h"
 

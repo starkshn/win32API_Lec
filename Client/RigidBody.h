@@ -40,7 +40,7 @@ public:
 	void AddVelocity(Vector2 velocity) { _velocity += velocity; }
 
 public:
-	void SetMass(float mass) { _mass = mass; }
+	void SetMess(float mass) { _mass = mass; }
 	void SetVelocity(Vector2 velocity) { _velocity = velocity; }
 	void SetMaxVelocity(float maxVelocity) { _maxVelocity = maxVelocity; }
 
