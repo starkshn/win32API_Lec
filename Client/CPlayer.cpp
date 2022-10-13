@@ -10,15 +10,19 @@
 #include "PathManager.h"
 #include "ResourceManager.h"
 
+// Component
 #include "Collider.h"
 #include "Animator.h"
 #include "Animation.h"
 #include "RigidBody.h"
+#include "Gravity.h"
 
 CPlayer::CPlayer()
 	:
-	_state(OBJECT_STATE::IDLE),
-	_dir(1)
+	_curState(OBJECT_STATE::IDLE),
+	_prevState(OBJECT_STATE::IDLE),
+	_dir(1),
+	_prevDir(1)
 {
 	CreateCollider();
 	GetCollider()->SetOffsetPos(Vector2{0.f, 5.f});
@@ -27,27 +31,30 @@ CPlayer::CPlayer()
 	SetObjectName(L"player");
 
 	// IDLE 가로 : 32, 세로 39.2: 
-	Texture* p_textureRight = GetAnim(L"Zero_R.bmp");
-	Texture* p_textureLeft = GetAnim(L"Zero_L.bmp");
+	Texture* p_textureRight = GetAnim(L"md_R.bmp");
+	Texture* p_textureLeft = GetAnim(L"md_L.bmp");
 
 	CreateAnimator();
 
-	// 가로 32 세로 40
-	GetAnimator()->CreateAnimation(L"IDLE_RIGHT", p_textureRight, Vector2(0, 37), Vector2(32, 37), Vector2(32, 0), 0.09f, 6);
-	GetAnimator()->CreateAnimation(L"IDLE_LEFT", p_textureLeft, Vector2(352, 37), Vector2(32, 37), Vector2(-32, 0), 0.09f, 6);
+	GetAnimator()->CreateAnimation(L"IDLE_RIGHT", p_textureRight, Vector2(307, 35), Vector2(30, 35), Vector2(30, 0), 0.09f, 7);
+	GetAnimator()->CreateAnimation(L"IDLE_LEFT", p_textureLeft, Vector2(10, 35), Vector2(30, 35), Vector2(30, 0), 0.1f, 7);
 
-	GetAnimator()->CreateAnimation(L"MOVE_RIGHT", p_textureRight, Vector2(0, 148), Vector2(32, 37), Vector2(32, 0), 0.09f, 9);
-	GetAnimator()->CreateAnimation(L"MOVE_LEFT", p_textureLeft, Vector2(352, 148), Vector2(32, 37), Vector2(-32, 0), 0.09f, 9);
+	// MOVE 가로 23, 세로 35
+	GetAnimator()->CreateAnimation(L"MOVE_RIGHT", p_textureRight, Vector2(356, 0), Vector2(23, 35), Vector2(23, 0), 0.09f, 7);
+	GetAnimator()->CreateAnimation(L"MOVE_LEFT", p_textureLeft, Vector2(17, 0), Vector2(23, 35), Vector2(23, 0), 0.1f, 7);
 
-	GetAnimator()->CreateAnimation(L"JUMP_RIGHT", p_textureRight, Vector2(0, 185), Vector2(32, 37), Vector2(32, 0), 0.09f, 11);
-	GetAnimator()->CreateAnimation(L"JUMP_LEFT", p_textureLeft, Vector2(352, 185), Vector2(32, 37), Vector2(-32, 0), 0.09f, 11);
+	// MOVE 가로 23, 세로 35
+	GetAnimator()->CreateAnimation(L"JUMP_RIGHT", p_textureRight, Vector2(116, 0), Vector2(25, 35), Vector2(26, 0), 0.1f, 4);
+	GetAnimator()->CreateAnimation(L"JUMP_LEFT", p_textureLeft, Vector2(337, 0), Vector2(25, 35), Vector2(26, 0), 0.1f, 4);
 
-	GetAnimator()->CreateAnimation(L"TURN_RIGHT", p_textureRight, Vector2(0, 518), Vector2(32, 37), Vector2(32, 0), 0.09f, 7);
-	GetAnimator()->CreateAnimation(L"TURN_LEFT", p_textureLeft, Vector2(352, 518), Vector2(32, 37), Vector2(-32, 0), 0.09f, 7);
+	GetAnimator()->CreateAnimation(L"ATTACK_RIGHT", p_textureRight, Vector2(25, 248), Vector2(75, 75), Vector2(75, 0), 0.09f, 7);
+	GetAnimator()->CreateAnimation(L"TURN_LEFT", p_textureLeft, Vector2(353, 518), Vector2(32, 37), Vector2(-32, 0), 0.1f, 7);
 
 	GetAnimator()->PlayAnimation(L"IDLE_RIGHT", true);
 
 	CreateRigidBody();
+
+	CreateGravity();
 }
 
 CPlayer::~CPlayer()
@@ -57,31 +64,13 @@ CPlayer::~CPlayer()
 
 void CPlayer::update()
 {
-	_prevState = _curState;
-
 	UpdateState();
 	UpdateMove();
-
 	UpdateAnimation();
 
-	// Missile
-	if (KEY_TAP(KEY::Z))
-	{
-		// CreateMissile();
-		
-	}
 
-	if (KEY_TAP(KEY::SPACE))
-	{
-		// CreateThreeMissile();
-		GetAnimator()->PlayAnimation(L"JUMP_RIGHT", true);
-	}
-
-	// IDLE
-
-	/*SetPos(pos);
-
-	GetAnimator()->update();*/
+	_prevState = _curState;
+	_prevDir = _dir;
 }
 
 void CPlayer::UpdateState()
@@ -89,27 +78,50 @@ void CPlayer::UpdateState()
 	if (KEY_TAP(KEY::A))
 	{
 		_dir = -1;
-		_state = OBJECT_STATE::WALK;
+		_curState = OBJECT_STATE::MOVE;
 	}
 	if (KEY_TAP(KEY::D))
 	{
 		_dir = 1;
+		_curState = OBJECT_STATE::MOVE;
 	}
+
+	// Missile
+	if (KEY_TAP(KEY::Z))
+	{
+		// CreateMissile();
+		_curState = OBJECT_STATE::ATTACK;
+	}
+
+	if (KEY_TAP(KEY::SPACE))
+	{
+		// CreateThreeMissile();
+		_curState = OBJECT_STATE::JUMP;
+	}
+
+	
+	if (0.f == GetRigidBody()->GetSpeed())
+	{
+		if (KEY_NONE(KEY::A) && KEY_NONE(KEY::D) && KEY_NONE(KEY::SPACE))
+		{
+			_curState = OBJECT_STATE::IDLE;
+		}
+	}
+	
 }
 
 void CPlayer::UpdateMove()
 {
 	RigidBody* rd = GetRigidBody();
 
-	if (KEY_HOLD(KEY::W))
+	/*if (KEY_HOLD(KEY::W))
 	{
 		rd->AddForce(Vector2(0.f, -200.f));
 	}
 	if (KEY_HOLD(KEY::S))
 	{
 		rd->AddForce(Vector2(0.f, 200.f));
-
-	}
+	}*/
 	if (KEY_HOLD(KEY::A))
 	{
 		rd->AddForce(Vector2(-200.f, 0.f));
@@ -119,14 +131,15 @@ void CPlayer::UpdateMove()
 		rd->AddForce(Vector2(200.f, 0.f));
 	}
 
-	if (KEY_TAP(KEY::W))
-	{
-		rd->AddVelocity(Vector2(0.f, -200.f));
-	}
-	if (KEY_TAP(KEY::S))
-	{
-		rd->AddVelocity(Vector2(0.f, 200.f));
-	}
+	//if (KEY_TAP(KEY::W))
+	//{
+	//	rd->AddVelocity(Vector2(0.f, -200.f));
+	//}
+	//if (KEY_TAP(KEY::S))
+	//{
+	//	rd->AddVelocity(Vector2(0.f, 200.f));
+	//}
+
 	if (KEY_TAP(KEY::A))
 	{
 		rd->AddVelocity(Vector2(-200.f, 0.f));
@@ -140,27 +153,73 @@ void CPlayer::UpdateMove()
 
 void CPlayer::UpdateAnimation()
 {
-	if (_prevState == _curState)
+	if (_prevState == _curState && _prevDir == _dir)
 		return;
 
 	switch (_curState)
 	{
 	case OBJECT_STATE::IDLE:
-		{}
+	{
+		if (_dir == 1)
+			GetAnimator()->PlayAnimation(L"IDLE_RIGHT", true);
+		else
+			GetAnimator()->PlayAnimation(L"IDLE_LEFT", true);
+	}
 		break;
-	case OBJECT_STATE::WALK:
+	case OBJECT_STATE::MOVE:
+	{
+		if (_dir == 1)
+			GetAnimator()->PlayAnimation(L"MOVE_RIGHT", true);
+		else
+			GetAnimator()->PlayAnimation(L"MOVE_LEFT", true);
+	}
+		break;
+	case OBJECT_STATE::JUMP:
+	{
+		if (_dir == 1)
+			GetAnimator()->PlayAnimation(L"JUMP_RIGHT", false);
+		else
+			GetAnimator()->PlayAnimation(L"JUMP_LEFT", false);
+	}
 		break;
 	case OBJECT_STATE::ATTACK:
+	{
+		if (_dir == 1)
+			GetAnimator()->PlayAnimation(L"ATTACK_RIGHT", true);
+		else
+			GetAnimator()->PlayAnimation(L"ATTACK_LEFT", true);
+	}
 		break;
 	case OBJECT_STATE::GETHIT:
+	{
+		if (_dir == 1)
+			GetAnimator()->PlayAnimation(L"GETHIT_RIGHT", true);
+		else
+			GetAnimator()->PlayAnimation(L"GETHIT_LEFT", true);
+	}
 		break;
 	case OBJECT_STATE::DIE:
+	{
+		if (_dir == 1)
+			GetAnimator()->PlayAnimation(L"DIE_RIGHT", true);
+		else
+			GetAnimator()->PlayAnimation(L"DIE_LEFT", true);
+	}
 		break;
 	case OBJECT_STATE::END:
+	{
+
+	}
 		break;
 	default:
 		break;
 	}
+}
+
+void CPlayer::UpdateGravity()
+{
+	GetRigidBody()->AddForce(Vector2(0.f, 500.f));
+
 }
 
 void CPlayer::render(HDC dc)

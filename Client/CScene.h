@@ -22,6 +22,7 @@ public:
 	virtual ~CScene();
 
 public:
+	virtual void Init();
 	virtual void update();
 	void finalUpdate();
 	virtual void render(HDC dc);

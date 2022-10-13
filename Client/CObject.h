@@ -5,6 +5,7 @@ class Collider;
 class Animator;
 class RigidBody;
 class Texture;
+class Gravity;
 
 #include "CameraManager.h"
 #include "ResourceManager.h"
@@ -24,6 +25,7 @@ private :
 	Collider*	p_collider;
 	Animator*	p_animator;
 	RigidBody*	p_rigidBody;
+	Gravity*	p_gravity;
 
 	bool		_alive;
 
@@ -33,6 +35,7 @@ public:
 	virtual ~CObject();
 
 public:
+	virtual void Init() {}; // Scene이 시작되기 직전에 호출되는 함수
 	virtual void update() abstract;
 	virtual void finalUpdate();
 	virtual void render(HDC dc);
@@ -47,6 +50,7 @@ public:
 	void CreateCollider();
 	void CreateAnimator();
 	void CreateRigidBody();
+	void CreateGravity();
 
 	Texture* GetAnim(const wstring& name)
 	{
@@ -55,9 +59,10 @@ public:
 	}
 
 public:
-	Collider* GetCollider() { return p_collider; }
-	Animator* GetAnimator() { return p_animator; }
-	RigidBody* GetRigidBody() { return p_rigidBody; }
+	Collider*	GetCollider() { return p_collider; }
+	Animator*	GetAnimator() { return p_animator; }
+	RigidBody*	GetRigidBody() { return p_rigidBody; }
+	Gravity*	GetGravity() { return p_gravity; }
 
 public:
 	void CreateAnimation(const wstring& animName, Texture* texture, Vector2 startPos, Vector2 sliceSize, Vector2 step, float duration, UINT frameCount, bool repeat, Vector2 animOffset);

@@ -8,6 +8,7 @@
 #include "Animator.h"
 #include "Animation.h"
 #include "RigidBody.h"
+#include "Gravity.h"
 
 CObject::CObject() 
 	: 
@@ -16,6 +17,7 @@ CObject::CObject()
 	p_collider(nullptr),
 	p_animator(nullptr),
 	p_rigidBody(nullptr),
+	p_gravity(nullptr),
 	_alive(true)
 {
 
@@ -28,6 +30,7 @@ CObject::CObject(const CObject& origin)
 	_scale(origin._scale),
 	p_collider(nullptr),
 	p_animator(nullptr),
+	p_gravity(nullptr),
 	_alive(true)
 {
 	// Collider있는 경우만 복사를 받는다.
@@ -42,6 +45,12 @@ CObject::CObject(const CObject& origin)
 	{
 		p_animator = new Animator(*origin.p_animator);
 		p_animator->p_owner = this;
+	}
+
+	if (origin.p_gravity)
+	{
+		p_gravity = new Gravity(*origin.p_gravity);
+		p_gravity->p_owner = this;
 	}
 
 	if (origin.p_rigidBody)
@@ -61,7 +70,9 @@ CObject::~CObject()
 
 	if (nullptr != p_rigidBody)
 		delete p_rigidBody;
-	
+
+	if (nullptr != p_gravity)
+		delete p_gravity;
 }
 
 void CObject::finalUpdate()
@@ -71,6 +82,9 @@ void CObject::finalUpdate()
 	
 	if (p_animator != nullptr)
 		p_animator->finalUpdate();
+
+	if (p_gravity != nullptr)
+		p_gravity->finalUpdate();
 
 	if (p_rigidBody != nullptr)
 		p_rigidBody->finalUpdate();
@@ -97,11 +111,11 @@ void CObject::render(HDC dc)
 // Collider || Animation을 가지고 있을 경우만
 void CObject::ComponentRender(HDC dc)
 {
-	if (nullptr != p_collider)
-		p_collider->render(dc);
-
 	if (nullptr != p_animator)
 		p_animator->render(dc);
+
+	if (nullptr != p_collider)
+		p_collider->render(dc);
 }
 
 void CObject::CreateCollider()
@@ -121,6 +135,12 @@ void CObject::CreateRigidBody()
 {
 	p_rigidBody = new RigidBody();
 	p_rigidBody->p_owner = this;
+}
+
+void CObject::CreateGravity()
+{
+	p_gravity = new Gravity();
+	p_gravity->p_owner = this;
 }
 
 void CObject::CreateAnimation(const wstring& animName, Texture* texture, Vector2 startPos, Vector2 sliceSize, Vector2 step, float duration, UINT frameCount, bool repeat, Vector2 animOffset)

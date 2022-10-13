@@ -33,6 +33,20 @@ CScene::~CScene()
 	}
 }
 
+void CScene::Init()
+{
+	for (unsigned int i = 0; i < static_cast<unsigned int>(GROUP_TYPE::END); ++i)
+	{
+		for (size_t j = 0; j < _objects[i].size(); ++j)
+		{
+			if (!_objects[i][j]->IsDead())
+			{
+				_objects[i][j]->Init();
+			}
+		}
+	}
+}
+
 void CScene::update()
 {
 	for (unsigned int i = 0; i < static_cast<unsigned int>(GROUP_TYPE::END); ++i)

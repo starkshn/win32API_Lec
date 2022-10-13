@@ -50,9 +50,10 @@ enum class GROUP_TYPE
 	CHARGEMISSILE,
 	THREEMISSILE,
 	MONSTERMISSILE,
+	GROUND,
+
 
 	UI = 31,
-
 	END = 32,
 };
 
@@ -127,7 +128,8 @@ enum class MONSTER_STATE
 enum class OBJECT_STATE
 {
 	IDLE,
-	WALK,
+	MOVE,
+	JUMP,
 	ATTACK,
 	GETHIT,
 	DIE,
@@ -135,7 +137,7 @@ enum class OBJECT_STATE
 	END
 };
 
-enum class OBJECT_STATE
+enum class ATTACK_STATE
 {
 	NORMAL_ATTACK_1,
 	NORMAL_ATTACK_2,

@@ -21,9 +21,9 @@ public:
 	virtual void update() abstract;
 
 public:
-	AI* GetAI() { return p_ai; }
-	MONSTER_STATE GetStateType() { return _state; }
-	CMonster* GetOwnerMonter() { return p_ai->GetOwner(); }
+	AI*				GetAI() { return p_ai; }
+	MONSTER_STATE	GetStateType() { return _state; }
+	CMonster*		GetOwnerMonter() { return p_ai->GetOwner(); }
 
 	friend class AI;
 };

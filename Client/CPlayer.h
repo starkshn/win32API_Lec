@@ -14,6 +14,7 @@ private:
 	OBJECT_STATE	_curState;
 	OBJECT_STATE	_prevState;
 	int				_dir;
+	int				_prevDir;
 
 public :
 	CPlayer();
@@ -27,6 +28,7 @@ public:
 	void UpdateState();
 	void UpdateMove();
 	void UpdateAnimation();
+	void UpdateGravity();
 
 public :
 	void CreateMissile();

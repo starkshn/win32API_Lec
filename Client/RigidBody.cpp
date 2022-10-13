@@ -42,6 +42,7 @@ void RigidBody::finalUpdate()
 		// (현재 방향벡터로 바뀐 _force * 가속도)
 		// 가속도
 		_accel = _force * accel; // == _accel = _force / _mass;
+		_accel += _accelAlpha; // 추가 가속도를 더한다.
 
 		 // 속도 (방향 + 속력) 한번 붙은 속도는 초기화 할 필요가 없다.
 		_velocity += _accel * DeltaTime_F;
@@ -81,6 +82,9 @@ void RigidBody::finalUpdate()
 
 	// 힘 초기화
 	_force = Vector2(0.f, 0.f);
+
+	// 추가 가속도 누적량 초기화
+	_accelAlpha = Vector2(0.f, 0.f);
 }
 
 void RigidBody::Move()

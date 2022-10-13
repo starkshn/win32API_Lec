@@ -7,7 +7,12 @@
 
 UINT Collider::g_ID = 0;
 
-Collider::Collider() : _ID(g_ID++), p_owner(nullptr), _colCount(0)
+Collider::Collider() 
+	: 
+	_ID(g_ID++),
+	p_owner(nullptr),
+	_colCount(0),
+	_active(true)
 {
 
 }
@@ -17,7 +22,8 @@ Collider::Collider(const Collider& origin)
 	_ID(g_ID++),
 	p_owner(nullptr),
 	_offsetPos(origin._offsetPos),
-	_colliderScale(origin._colliderScale)
+	_colliderScale(origin._colliderScale),
+	_active(origin._active)
 {
 
 }

@@ -185,6 +185,8 @@
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Func.h" />
+    <ClInclude Include="Gravity.h" />
+    <ClInclude Include="Ground.h" />
     <ClInclude Include="Idle.h" />
     <ClInclude Include="MonsterFactory.h" />
     <ClInclude Include="MonsterMissile.h" />
@@ -239,6 +241,8 @@
     <ClCompile Include="Dead.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="Func.cpp" />
+    <ClCompile Include="Gravity.cpp" />
+    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Idle.cpp" />
     <ClCompile Include="main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -22,6 +22,11 @@
 #include "RigidBody.h"
 #include "SelectGDI.h"
 
+// 땅
+#include "Ground.h"
+
+// 중력
+
 StartScene::StartScene() 
 	: 
 	_monsterCount(0),
@@ -96,6 +101,7 @@ void StartScene::Enter()
 {
 	// Object 추가
 	CObject* player = new CPlayer();
+	player->SetObjectName(L"Player");
 	player->SetPos(Vector2(640.f, 384.f));
 	player->SetScale(Vector2(100.f, 100.f));
 
@@ -146,19 +152,36 @@ void StartScene::Enter()
 	CMonster* monster = MonsterFactory::CreateMonster(MONSTER_TYPE::NORMAL, Vector2(resolution / 2.f) - Vector2(0.f, 300.f));
 	AddObject(monster, GROUP_TYPE::MONSTER);
 
+	// Ground배치
+	CObject* ground = new Ground();
+	ground->SetScale(Vector2(400.f, 100.f));
+	ground->SetPos(Vector2(640.f, 484.f));
+	AddObject(ground, GROUP_TYPE::GROUND);
+
 #pragma endregion
 
 	// 타일 로딩
 	// LoadTile(L"Tile\\start.tile");
 
+	// ================================
 	// 충돌 지정
+	
 	// Player 그룹과 Monster그룹 간의 충돌체크 ( Plyaer그룹과 Monster그룹이 충돌할 것이라고 알린다)
 	ColliderManager::GetInstance()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::MONSTER);
 	ColliderManager::GetInstance()->CheckGroup(GROUP_TYPE::PROJ_PLAYER, GROUP_TYPE::MONSTER);
 
+	// 땅과 플레이어 충돌 지정
+	ColliderManager::GetInstance()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::GROUND);
+
+	// =================================
+
+
+	// =================================
 	// Camera Look 지정
 	CameraManager::GetInstance()->SetLookAtPos(resolution / 2.f);
-	
+	// =================================
+
+	// =================================
 	// Camera Effect 지정
 	CameraManager::GetInstance()->FadeOut(1.5f);
 	CameraManager::GetInstance()->FadeIn(1.5f);
@@ -170,6 +193,13 @@ void StartScene::Enter()
 	//CameraManager::GetInstance()->FadeIn(1.5f);
 	//CameraManager::GetInstance()->FadeOut(1.5f);
 	//CameraManager::GetInstance()->FadeIn(1.5f);
+	// =================================
+
+	// =======================================
+	// Init 함수 호출
+	Init();
+	// =======================================
+
 }
 
 void StartScene::render(HDC dc)
@@ -209,8 +239,6 @@ void StartScene::render(HDC dc)
 			static_cast<int>(_renderPos._y + _forceCurRadius)
 		);
 	}
-
-	
 
 	CScene::render(dc);
 }
