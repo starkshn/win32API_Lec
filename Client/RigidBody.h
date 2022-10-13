@@ -50,7 +50,7 @@ public:
 	float	GetMass() { return _mass; }
 	Vector2 GetVelocity() { return _velocity; }
 	float	GetMaxVelocity() { return _maxVelocity; }
-	float	GetSpeed() { return _velocity.Length(); };
+	float	GetSpeed() { return _velocity.Length(); }
 
 	friend class CObject;
 };

@@ -16,7 +16,7 @@ public:
 	void finalUpdate();
 
 public:
-	void SetOnGround(bool ground) { _ground = ground; }
+	void SetOnGround(bool ground);
 
 public:
 	friend class CObject;
