@@ -29,7 +29,8 @@ void Ground::OnCollisionEnter(Collider* other)
 	CObject* otherObj = other->GetColliderOwner();
 	if (otherObj->GetObjectName() == L"Player")
 	{
-		otherObj->GetGravity()->SetOnGround(true);
+		 otherObj->GetGravity()->SetOnGround(true);
+		// otherObj->GetGravity()->_onLand = true;
 
 		Vector2 objPos = other->GetFinalPos();
 		Vector2 objScale = other->GetColliderScale();
@@ -40,6 +41,7 @@ void Ground::OnCollisionEnter(Collider* other)
 		float len = abs(objPos._y - pos._y);
 		float value = (objScale._y / 2.f + scale._y / 2.f) - len;
 		
+		// 충돌을 접한 상태를 유지하기 위해 의도적으로 1픽셀을 덜 올려줌.
 		objPos = otherObj->GetPos();
 		objPos._y -= (value - 1.f);
 
@@ -54,6 +56,7 @@ void Ground::OnCollisionStay(Collider* other)
 	if (otherObj->GetObjectName() == L"Player")
 	{
 		otherObj->GetGravity()->SetOnGround(true);
+		// otherObj->GetGravity()->_onLand = false;
 
 		Vector2 objPos = other->GetFinalPos();
 		Vector2 objScale = other->GetColliderScale();
@@ -64,6 +67,7 @@ void Ground::OnCollisionStay(Collider* other)
 		float len = abs(objPos._y - pos._y);
 		float value = (objScale._y / 2.f + scale._y / 2.f) - len;
 
+		// 충돌을 접한 상태를 유지하기 위해 의도적으로 1픽셀을 덜 올려줌.
 		objPos = otherObj->GetPos();
 		objPos._y -= (value - 1.f);
 
@@ -78,5 +82,14 @@ void Ground::OnCollisionExit(Collider* other)
 	if (otherObj->GetObjectName() == L"Player")
 	{
 		otherObj->GetGravity()->SetOnGround(false);
+		// otherObj->GetGravity()->_onLand = false;
+
+		Vector2 pos = otherObj->GetPos();
+		if (GetPos()._y > pos._y)
+		{
+			// 충돌중일 때 1픽셀 곂치게 만들었기 때문에 
+			// 1픽셀을 다시 올려줌. -> 이렇게해서 충돌을 벗어나게함.
+			otherObj->SetPos(Vector2(pos._x, pos._y - 1.f));
+		}
 	}
 }

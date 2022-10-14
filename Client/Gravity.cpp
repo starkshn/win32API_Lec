@@ -4,6 +4,8 @@
 #include "CObject.h"
 #include "RigidBody.h"
 
+bool Gravity::_onLand = false;
+
 Gravity::Gravity() 
 	: 
 	p_owner(nullptr),
@@ -25,7 +27,12 @@ void Gravity::finalUpdate()
 void Gravity::SetOnGround(bool ground)
 {
 	_ground = ground;
-	
+
+	/*if (_onLand)
+	{
+		Vector2 v = p_owner->GetRigidBody()->GetVelocity();
+		p_owner->GetRigidBody()->SetVelocity(Vector2(0.f, 0.f));
+	}*/
 	if (_ground)
 	{
 		Vector2 v = p_owner->GetRigidBody()->GetVelocity();

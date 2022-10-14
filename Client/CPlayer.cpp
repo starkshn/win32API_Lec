@@ -44,8 +44,8 @@ CPlayer::CPlayer()
 	GetAnimator()->CreateAnimation(L"MOVE_LEFT", p_textureLeft, Vector2(17, 0), Vector2(23, 35), Vector2(23, 0), 0.1f, 7);
 
 	// MOVE 가로 23, 세로 35
-	GetAnimator()->CreateAnimation(L"JUMP_RIGHT", p_textureRight, Vector2(116, 0), Vector2(25, 35), Vector2(26, 0), 0.1f, 4);
-	GetAnimator()->CreateAnimation(L"JUMP_LEFT", p_textureLeft, Vector2(337, 0), Vector2(25, 35), Vector2(26, 0), 0.1f, 4);
+	GetAnimator()->CreateAnimation(L"JUMP_RIGHT", p_textureRight, Vector2(116, 0), Vector2(25, 35), Vector2(25, 0), 0.1f, 3);
+	GetAnimator()->CreateAnimation(L"JUMP_LEFT", p_textureLeft, Vector2(337, 0), Vector2(25, 35), Vector2(25, 0), 0.1f, 3);
 
 	GetAnimator()->CreateAnimation(L"ATTACK_RIGHT", p_textureRight, Vector2(25, 248), Vector2(75, 75), Vector2(75, 0), 0.09f, 7);
 	GetAnimator()->CreateAnimation(L"TURN_LEFT", p_textureLeft, Vector2(353, 518), Vector2(32, 37), Vector2(-32, 0), 0.1f, 7);
@@ -68,9 +68,14 @@ void CPlayer::update()
 	UpdateMove();
 	UpdateAnimation();
 
-
 	_prevState = _curState;
 	_prevDir = _dir;
+
+	// 중력 최대 가속도 테스트를 위한 재배치
+	if (KEY_TAP(KEY::R))
+	{
+		SetPos(Vector2(640.f, 500.f));
+	}
 }
 
 void CPlayer::UpdateState()
@@ -97,9 +102,13 @@ void CPlayer::UpdateState()
 	{
 		// CreateThreeMissile();
 		_curState = OBJECT_STATE::JUMP;
+
+		if (GetRigidBody())
+		{
+   			GetRigidBody()->AddVelocity(Vector2(0.f, -200.f));
+		}
 	}
 
-	
 	if (0.f == GetRigidBody()->GetSpeed())
 	{
 		if (KEY_NONE(KEY::A) && KEY_NONE(KEY::D) && KEY_NONE(KEY::SPACE))
@@ -107,7 +116,71 @@ void CPlayer::UpdateState()
 			_curState = OBJECT_STATE::IDLE;
 		}
 	}
-	
+}
+
+void CPlayer::UpdateAnimation()
+{
+	if (_prevState == _curState && _prevDir == _dir)
+		return;
+
+	switch (_curState)
+	{
+	case OBJECT_STATE::IDLE:
+	{
+		if (_dir == 1)
+			GetAnimator()->PlayAnimation(L"IDLE_RIGHT", true);
+		else
+			GetAnimator()->PlayAnimation(L"IDLE_LEFT", true);
+	}
+	break;
+	case OBJECT_STATE::MOVE:
+	{
+		if (_dir == 1)
+			GetAnimator()->PlayAnimation(L"MOVE_RIGHT", true);
+		else
+			GetAnimator()->PlayAnimation(L"MOVE_LEFT", true);
+	}
+	break;
+	case OBJECT_STATE::JUMP:
+	{
+		if (_dir == 1)
+			GetAnimator()->PlayAnimation(L"JUMP_RIGHT", false);
+		else
+			GetAnimator()->PlayAnimation(L"JUMP_LEFT", false);
+	}
+	break;
+	case OBJECT_STATE::ATTACK:
+	{
+		if (_dir == 1)
+			GetAnimator()->PlayAnimation(L"ATTACK_RIGHT", true);
+		else
+			GetAnimator()->PlayAnimation(L"ATTACK_LEFT", true);
+	}
+	break;
+	case OBJECT_STATE::GETHIT:
+	{
+		if (_dir == 1)
+			GetAnimator()->PlayAnimation(L"GETHIT_RIGHT", true);
+		else
+			GetAnimator()->PlayAnimation(L"GETHIT_LEFT", true);
+	}
+	break;
+	case OBJECT_STATE::DIE:
+	{
+		if (_dir == 1)
+			GetAnimator()->PlayAnimation(L"DIE_RIGHT", true);
+		else
+			GetAnimator()->PlayAnimation(L"DIE_LEFT", true);
+	}
+	break;
+	case OBJECT_STATE::END:
+	{
+
+	}
+	break;
+	default:
+		break;
+	}
 }
 
 void CPlayer::UpdateMove()
@@ -151,70 +224,7 @@ void CPlayer::UpdateMove()
 	}
 }
 
-void CPlayer::UpdateAnimation()
-{
-	if (_prevState == _curState && _prevDir == _dir)
-		return;
 
-	switch (_curState)
-	{
-	case OBJECT_STATE::IDLE:
-	{
-		if (_dir == 1)
-			GetAnimator()->PlayAnimation(L"IDLE_RIGHT", true);
-		else
-			GetAnimator()->PlayAnimation(L"IDLE_LEFT", true);
-	}
-		break;
-	case OBJECT_STATE::MOVE:
-	{
-		if (_dir == 1)
-			GetAnimator()->PlayAnimation(L"MOVE_RIGHT", true);
-		else
-			GetAnimator()->PlayAnimation(L"MOVE_LEFT", true);
-	}
-		break;
-	case OBJECT_STATE::JUMP:
-	{
-		if (_dir == 1)
-			GetAnimator()->PlayAnimation(L"JUMP_RIGHT", false);
-		else
-			GetAnimator()->PlayAnimation(L"JUMP_LEFT", false);
-	}
-		break;
-	case OBJECT_STATE::ATTACK:
-	{
-		if (_dir == 1)
-			GetAnimator()->PlayAnimation(L"ATTACK_RIGHT", true);
-		else
-			GetAnimator()->PlayAnimation(L"ATTACK_LEFT", true);
-	}
-		break;
-	case OBJECT_STATE::GETHIT:
-	{
-		if (_dir == 1)
-			GetAnimator()->PlayAnimation(L"GETHIT_RIGHT", true);
-		else
-			GetAnimator()->PlayAnimation(L"GETHIT_LEFT", true);
-	}
-		break;
-	case OBJECT_STATE::DIE:
-	{
-		if (_dir == 1)
-			GetAnimator()->PlayAnimation(L"DIE_RIGHT", true);
-		else
-			GetAnimator()->PlayAnimation(L"DIE_LEFT", true);
-	}
-		break;
-	case OBJECT_STATE::END:
-	{
-
-	}
-		break;
-	default:
-		break;
-	}
-}
 
 void CPlayer::UpdateGravity()
 {

@@ -77,9 +77,6 @@ CObject::~CObject()
 
 void CObject::finalUpdate()
 {
-	if (p_collider != nullptr)
-		p_collider->finalUpdate();
-	
 	if (p_animator != nullptr)
 		p_animator->finalUpdate();
 
@@ -89,7 +86,8 @@ void CObject::finalUpdate()
 	if (p_rigidBody != nullptr)
 		p_rigidBody->finalUpdate();
 
-
+	if (p_collider != nullptr)
+		p_collider->finalUpdate();
 }
 
 void CObject::render(HDC dc)

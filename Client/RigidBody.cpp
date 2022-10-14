@@ -9,8 +9,8 @@ RigidBody::RigidBody()
 	:
 	p_owner(nullptr),
 	_mass(1.f),
-	_maxVelocity(200.f),
-	_frictCoeff(100.f)
+	_frictCoeff(100.f),
+	_maxVelocity(Vector2(200.f, 600.f))
 {
 	
 }
@@ -76,11 +76,16 @@ void RigidBody::finalUpdate()
 		}
 	}
 	
-	// 최대속도 제한
-	if (_velocity.Length() > _maxVelocity)
+	// 최대속도 제한 (속도 제한 검사)
+	// (_velocity._x / abs(_velocity._x)) => Normalize랑 같다.
+	if (abs(_maxVelocity._x) < abs(_velocity._x))
 	{
-		_velocity.Normalize();
-		_velocity *= _maxVelocity;
+		_velocity._x = (_velocity._x / abs(_velocity._x)) * abs(_maxVelocity._x);
+	}
+
+	if (abs(_maxVelocity._y) < abs(_velocity._y))
+	{
+		_velocity._y = (_velocity._y / abs(_velocity._y)) * abs(_maxVelocity._y);
 	}
 
 	// 속도에 따른 이동

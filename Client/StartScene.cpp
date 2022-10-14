@@ -90,6 +90,7 @@ void StartScene::update()
 		ChangeScene(SCENE_TYPE::TOOL);
 	}
 
+	
 	/*if (KEY_TAP(KEY::LBTN))
 	{
 		Vector2 lookAtPos = CameraManager::GetInstance()->GetRealPos(MOUSE_POS);
@@ -155,7 +156,7 @@ void StartScene::Enter()
 	// Ground¹èÄ¡
 	CObject* ground = new Ground();
 	ground->SetScale(Vector2(400.f, 100.f));
-	ground->SetPos(Vector2(640.f, 484.f));
+	ground->SetPos(Vector2(640.f, 700.f));
 	AddObject(ground, GROUP_TYPE::GROUND);
 
 #pragma endregion
