@@ -32,17 +32,18 @@ CPlayer::CPlayer()
 	SetObjectName(L"player");
 
 	// IDLE 가로 : 32, 세로 39.2: 
-	Texture* p_textureRight = GetAnim(L"md_R.bmp");
-	Texture* p_textureLeft = GetAnim(L"md_L.bmp");
+	// 텍스쳐 로딩
+	 Texture* p_textureRight = GetAnim(L"md_R.bmp");
+	 Texture* p_textureLeft = GetAnim(L"md_L.bmp");
 
 	CreateAnimator();
 
-	//GetAnimator()->LoadAnimation(L"Animation\\Player_IDLE_RIGHT.anim");
-	//GetAnimator()->LoadAnimation(L"Animation\\Player_IDLE_LEFT.anim");
-	//GetAnimator()->LoadAnimation(L"Animation\\Player_MOVE_RIGHT.anim");
-	//GetAnimator()->LoadAnimation(L"Animation\\Player_MOVE_LEFT.anim");
-	//GetAnimator()->LoadAnimation(L"Animation\\Player_JUMP_RIGHT.anim");
-	//GetAnimator()->LoadAnimation(L"Animation\\Player_JUMP_LEFT.anim");
+	/*GetAnimator()->LoadAnimation(L"Animation\\Player_IDLE_RIGHT.anim");
+	GetAnimator()->LoadAnimation(L"Animation\\Player_IDLE_LEFT.anim");
+	GetAnimator()->LoadAnimation(L"Animation\\Player_MOVE_RIGHT.anim");
+	GetAnimator()->LoadAnimation(L"Animation\\Player_MOVE_LEFT.anim");
+	GetAnimator()->LoadAnimation(L"Animation\\Player_JUMP_RIGHT.anim");
+	GetAnimator()->LoadAnimation(L"Animation\\Player_JUMP_LEFT.anim");*/
 
 #pragma region "Animation 저장전"
 	GetAnimator()->CreateAnimation(L"IDLE_RIGHT", p_textureRight, Vector2(307, 35), Vector2(30, 35), Vector2(30, 0), 0.09f, 7);
@@ -60,7 +61,6 @@ CPlayer::CPlayer()
 	GetAnimator()->CreateAnimation(L"TURN_LEFT", p_textureLeft, Vector2(353, 518), Vector2(32, 37), Vector2(-32, 0), 0.1f, 7);
 #pragma endregion
 
-
 	GetAnimator()->FindAnimation(L"IDLE_RIGHT")->SaveAnim(L"Animation\\Player_IDLE_RIGHT.anim");
 	GetAnimator()->FindAnimation(L"IDLE_LEFT")->SaveAnim(L"Animation\\Player_IDLE_LEFT.anim");
 	GetAnimator()->FindAnimation(L"MOVE_RIGHT")->SaveAnim(L"Animation\\Player_MOVE_RIGHT.anim");
@@ -71,7 +71,6 @@ CPlayer::CPlayer()
 	GetAnimator()->PlayAnimation(L"IDLE_RIGHT", true);
 
 	CreateRigidBody();
-
 	CreateGravity();
 }
 

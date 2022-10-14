@@ -30,6 +30,7 @@ public:
 		Vector2 sliceSize, Vector2 step,
 		float duration, UINT frameCount
 	);
+	void LoadAnimation(const wstring& relativePath);
 	Animation* FindAnimation(const wstring& animName);
 	void PlayAnimation(const wstring& animationName, bool animRepeat);
 

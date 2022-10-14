@@ -9,6 +9,9 @@
 // 경로
 #include "PathManager.h"
 
+// 입/출력 관련
+#include "ResourceManager.h"
+
 Animation::Animation()
 	:
 	p_animator(nullptr),
@@ -111,30 +114,79 @@ void Animation::SaveAnim(const wstring& relativePath)
 	
 	// =========================
 	// 1. 문자열 저장
-	SaveWString(_animationName, file);
+
+	// 1-1 2바이트 단위로 그냥 저장
+	//fwprintf(file, L"[Animation Name]\n");
+	//SaveWString(_animationName, file);
+	//fwprintf(file, L"\n");
+
+	// 1-2 메모장으로 봤을 때 좀더 유의미하게
+	fprintf(file, "[Animation Name]\n");
+	string strAnimName = string(_animationName.begin(), _animationName.end());
+	fprintf(file, strAnimName.c_str());
+	fprintf(file, "\n\n");
 	// =========================
-
-	p_texture; // 애니매이션이 사용하는 텍스쳐 (보류)
-
 	
-	_vecAnimFrame; // 모든 프레임
 
 	// =========================
 	// 2. 프레임 정보 저장
-	
+	//
+	// 2-1 이전 방법
 	// 프레임 갯수
-	size_t frameCount = _vecAnimFrame.size();
-	fwrite(&frameCount, sizeof(size_t), 1, file);
+	//size_t frameCount = _vecAnimFrame.size();
+	//fwrite(&frameCount, sizeof(size_t), 1, file);
+	//// 프레임 정보
+	//fwrite(_vecAnimFrame.data(), sizeof(AnimFrame), frameCount, file);
 
-	// 프레임 정보
-	fwrite(_vecAnimFrame.data(), sizeof(AnimFrame), frameCount, file);
+	// 2-2 유의미 
+	// 2-2-1 프레임 갯수
+	fprintf(file, "[Texture Name]\n");
+	string strKey = string(p_texture->GetKey().begin(), p_texture->GetKey().end());
+	fprintf(file, strKey.c_str());
+	fprintf(file, "\n\n");
+
+	// 2-2-2 프레임 정보
+	fprintf(file, "[FrameCount Data]\n");
+	fprintf(file, "%d\n", _vecAnimFrame.size());
+
+	for (size_t i = 0; i < _vecAnimFrame.size(); ++i)
+	{
+		fprintf(file, "[Frame Index %d]\n", i); 
+		fprintf(file, "- Index %d LeftTopPos(Vector2) : ", i);
+		fprintf(file, "X : %d, Y : %d \n", static_cast<int>(_vecAnimFrame[i]._leftTop._x), static_cast<int>(_vecAnimFrame[i]._leftTop._y));
+
+		_vecAnimFrame[i]._offset;
+
+		fprintf(file, "- Index %d SliceSize(Vector2) : ", i);
+		fprintf(file, "X : %d, Y : %d \n", static_cast<int>(_vecAnimFrame[i]._sliceSize._x), static_cast<int>(_vecAnimFrame[i]._sliceSize._y));
+
+		fprintf(file, "- Index %d Offset(Vector2) : ", i);
+		fprintf(file, "X : %d, Y : %d \n", static_cast<int>(_vecAnimFrame[i]._offset._x), static_cast<int>(_vecAnimFrame[i]._offset._y));
+
+		fprintf(file, "- Index %d Duration(float) : ", i);
+		fprintf(file, "%d\n", static_cast<int>(_vecAnimFrame[i]._duration));
+	}
+	
+	fprintf(file, "\n\n");
+
 	// =========================
 
 
 	// =========================
 	// 3. Texture 저장
-	
+	// 
+	// 3-1 그냥 2바이트 단위로 저장
+	//SaveWString(p_texture->GetKey(), file);
 
+	//// ResourceManager에 Texture없을 경우 대비
+	//wstring textureRelativePath = p_texture->GetRelativePath();
+	//SaveWString(textureRelativePath, file);
+
+	// 3-2 유의미
+	fprintf(file, "[Texture Path]\n");
+	string strTexturePath = string(p_texture->GetRelativePath().begin(), p_texture->GetRelativePath().end());
+	fprintf(file, strTexturePath.c_str());
+	fprintf(file, "\n");
 
 	// =========================
 
@@ -165,7 +217,18 @@ void Animation::LoadAnim(const wstring& relativePath)
 	
 	_vecAnimFrame.resize(frameCount);
 	fread(_vecAnimFrame.data(), sizeof(AnimFrame), frameCount, file);
-	// ===========================================
+	// ==================================
+
+	// ==================================
+	// 3. 텍스쳐 가져오기
+	wstring textureKey;
+	wstring textureRelativePath;
+	LoadWString(textureKey, file);
+	LoadWString(textureRelativePath, file);
+
+	p_texture = ResourceManager::GetInstance()->LoadTexture(textureKey, textureRelativePath);
+
+	// ==================================
 
 	fclose(file);
 }

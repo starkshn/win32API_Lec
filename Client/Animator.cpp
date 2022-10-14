@@ -64,6 +64,16 @@ void Animator::CreateAnimation (
 	_mapAnimations.insert(make_pair(animName, anim));
 }
 
+void Animator::LoadAnimation(const wstring& relativePath)
+{
+	Animation* anim = new Animation();
+	anim->LoadAnim(relativePath);
+	anim->SetAnimator(this);
+
+	// 애니매이션 이름 읽기
+	_mapAnimations.insert(make_pair(anim->GetAnimName(), anim));
+}
+
 Animation* Animator::FindAnimation( const wstring& animName)
 {
 	// auto iter = _mapAnimations.find(animName);

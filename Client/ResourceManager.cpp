@@ -64,9 +64,6 @@ Texture* ResourceManager::CreateTexture(const wstring& key, UINT width, UINT hei
 	return tex;
 }
 
-
-
-
 Texture* ResourceManager::FindTexture(const wstring& key)
 {
 	map<wstring, Resources*>::iterator iter = _mapTexture.find(key);
