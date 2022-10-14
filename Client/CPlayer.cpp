@@ -37,27 +37,27 @@ CPlayer::CPlayer()
 
 	CreateAnimator();
 
-	/*GetAnimator()->LoadAnimation(L"Animation\\Player_IDLE_RIGHT.anim");
-	GetAnimator()->LoadAnimation(L"Animation\\Player_IDLE_LEFT.anim");
-	GetAnimator()->LoadAnimation(L"Animation\\Player_MOVE_RIGHT.anim");
-	GetAnimator()->LoadAnimation(L"Animation\\Player_MOVE_LEFT.anim");
-	GetAnimator()->LoadAnimation(L"Animation\\Player_JUMP_RIGHT.anim");
-	GetAnimator()->LoadAnimation(L"Animation\\Player_JUMP_LEFT.anim");*/
+	//GetAnimator()->LoadAnimation(L"Animation\\Player_IDLE_RIGHT.anim");
+	//GetAnimator()->LoadAnimation(L"Animation\\Player_IDLE_LEFT.anim");
+	//GetAnimator()->LoadAnimation(L"Animation\\Player_MOVE_RIGHT.anim");
+	//GetAnimator()->LoadAnimation(L"Animation\\Player_MOVE_LEFT.anim");
+	//GetAnimator()->LoadAnimation(L"Animation\\Player_JUMP_RIGHT.anim");
+	//GetAnimator()->LoadAnimation(L"Animation\\Player_JUMP_LEFT.anim");
 
 #pragma region "Animation 저장전"
-	//GetAnimator()->CreateAnimation(L"IDLE_RIGHT", p_textureRight, Vector2(307, 35), Vector2(30, 35), Vector2(30, 0), 0.09f, 7);
-	//GetAnimator()->CreateAnimation(L"IDLE_LEFT", p_textureLeft, Vector2(10, 35), Vector2(30, 35), Vector2(30, 0), 0.1f, 7);
+	GetAnimator()->CreateAnimation(L"IDLE_RIGHT", p_textureRight, Vector2(307, 35), Vector2(30, 35), Vector2(30, 0), 0.09f, 7);
+	GetAnimator()->CreateAnimation(L"IDLE_LEFT", p_textureLeft, Vector2(10, 35), Vector2(30, 35), Vector2(30, 0), 0.1f, 7);
 
-	//// MOVE 가로 23, 세로 35
-	//GetAnimator()->CreateAnimation(L"MOVE_RIGHT", p_textureRight, Vector2(356, 0), Vector2(23, 35), Vector2(23, 0), 0.09f, 7);
-	//GetAnimator()->CreateAnimation(L"MOVE_LEFT", p_textureLeft, Vector2(17, 0), Vector2(23, 35), Vector2(23, 0), 0.1f, 7);
+	// MOVE 가로 23, 세로 35
+	GetAnimator()->CreateAnimation(L"MOVE_RIGHT", p_textureRight, Vector2(356, 0), Vector2(23, 35), Vector2(23, 0), 0.09f, 7);
+	GetAnimator()->CreateAnimation(L"MOVE_LEFT", p_textureLeft, Vector2(17, 0), Vector2(23, 35), Vector2(23, 0), 0.1f, 7);
 
-	//// MOVE 가로 23, 세로 35
-	//GetAnimator()->CreateAnimation(L"JUMP_RIGHT", p_textureRight, Vector2(115, 0), Vector2(25, 35), Vector2(25, 0), 0.1f, 4);
-	//GetAnimator()->CreateAnimation(L"JUMP_LEFT", p_textureLeft, Vector2(332, 0), Vector2(25, 35), Vector2(25, 0), 0.1f, 4);
+	// MOVE 가로 23, 세로 35
+	GetAnimator()->CreateAnimation(L"JUMP_RIGHT", p_textureRight, Vector2(115, 0), Vector2(25, 35), Vector2(25, 0), 0.1f, 4);
+	GetAnimator()->CreateAnimation(L"JUMP_LEFT", p_textureLeft, Vector2(332, 0), Vector2(25, 35), Vector2(25, 0), 0.1f, 4);
 
-	//GetAnimator()->CreateAnimation(L"ATTACK_RIGHT", p_textureRight, Vector2(25, 248), Vector2(75, 75), Vector2(75, 0), 0.09f, 7);
-	//GetAnimator()->CreateAnimation(L"TURN_LEFT", p_textureLeft, Vector2(353, 518), Vector2(32, 37), Vector2(-32, 0), 0.1f, 7);
+	GetAnimator()->CreateAnimation(L"ATTACK_RIGHT", p_textureRight, Vector2(25, 248), Vector2(75, 75), Vector2(75, 0), 0.09f, 7);
+	GetAnimator()->CreateAnimation(L"TURN_LEFT", p_textureLeft, Vector2(353, 518), Vector2(32, 37), Vector2(-32, 0), 0.1f, 7);
 #pragma endregion
 
 

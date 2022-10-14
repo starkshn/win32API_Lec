@@ -6,6 +6,9 @@
 #include "CTimeManager.h"
 #include "CameraManager.h"
 
+// 경로
+#include "PathManager.h"
+
 Animation::Animation()
 	:
 	p_animator(nullptr),
@@ -96,11 +99,73 @@ void Animation::Create
 
 void Animation::SaveAnim(const wstring& relativePath)
 {
-	p_animator;
-	_animationName;
-	p_texture; 
-	_vecAnimFrame;
-	_curFrame; 
-	_accTime;
-	_animFinish;
+	wstring filePath = PathManager::GetInstance()->GetContentsPath();
+	filePath += relativePath; // contents 경로 + 상대경로 => 최종 경로
+
+	FILE* file = nullptr;
+	_wfopen_s(&file, filePath.c_str(), L"wb");
+	assert(file);
+
+	// =================================
+	// 데이터 직렬화
+	
+	// =========================
+	// 1. 문자열 저장
+	SaveWString(_animationName, file);
+	// =========================
+
+	p_texture; // 애니매이션이 사용하는 텍스쳐 (보류)
+
+	
+	_vecAnimFrame; // 모든 프레임
+
+	// =========================
+	// 2. 프레임 정보 저장
+	
+	// 프레임 갯수
+	size_t frameCount = _vecAnimFrame.size();
+	fwrite(&frameCount, sizeof(size_t), 1, file);
+
+	// 프레임 정보
+	fwrite(_vecAnimFrame.data(), sizeof(AnimFrame), frameCount, file);
+	// =========================
+
+
+	// =========================
+	// 3. Texture 저장
+	
+
+
+	// =========================
+
+	// =================================
+
+	fclose(file);
+}
+
+void Animation::LoadAnim(const wstring& relativePath)
+{
+	wstring filePath = PathManager::GetInstance()->GetContentsPath();
+	filePath += relativePath;
+
+	FILE* file = nullptr;
+	_wfopen_s(&file, filePath.c_str(), L"rb");
+	assert(file);
+
+	// ==================================
+	// 1. 직렬화된 문자열 데이터 가져오기
+	LoadWString(_animationName, file);
+	// ==================================
+
+
+	// ==================================
+	// 2. 프레임 데이터 가져오기
+	size_t frameCount = 0;
+	fread(&frameCount, sizeof(size_t), 1, file);
+	
+	_vecAnimFrame.resize(frameCount);
+	fread(_vecAnimFrame.data(), sizeof(AnimFrame), frameCount, file);
+	// ===========================================
+
+	fclose(file);
 }

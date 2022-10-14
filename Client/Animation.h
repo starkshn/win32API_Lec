@@ -35,7 +35,9 @@ public:
 	void Create(Texture* texture, Vector2 startPos, Vector2 sliceSize, Vector2 step, float duration, UINT frameCount);
 	bool IsFinish() { return _animFinish; }
 
+public:
 	void SaveAnim(const wstring& relativePath);
+	void LoadAnim(const wstring& relativePath);
 
 private:
 	// 같은 이름 중복 방지를 위해 private

@@ -41,3 +41,28 @@ void ChangeAIState(AI* ai, MONSTER_STATE nextState)
 
 	EventManager::GetInstance()->AddEvent(evt);
 }
+
+void SaveWString(const wstring& str, FILE* file)
+{
+	const wchar_t* filePtr = str.c_str();
+	size_t len = str.length();
+
+	// 문자 길이 저장
+	fwrite(&len, sizeof(size_t), 1, file);
+
+	// 문자열 저장
+	fwrite(filePtr, sizeof(wchar_t), len, file);
+}
+
+void LoadWString(wstring& str, FILE* file)
+{
+	// 길이
+	size_t len = 0;
+	fread(&len, sizeof(size_t), 1, file);
+
+	// 버퍼
+	wchar_t buffer[256] = {};
+	fread(buffer, sizeof(wchar_t), len, file);
+
+	str = buffer;
+}

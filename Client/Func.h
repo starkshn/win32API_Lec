@@ -37,3 +37,7 @@ void SafeDeleteMap(map<T1, T2>& _map)
 
 	_map.clear();
 }
+
+void SaveWString(const wstring& str, FILE* file);
+
+void LoadWString(wstring& str, FILE* file);
