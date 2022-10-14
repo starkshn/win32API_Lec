@@ -93,3 +93,14 @@ void Animation::Create
 		_vecAnimFrame.push_back(frm);
 	}
 }
+
+void Animation::SaveAnim(const wstring& relativePath)
+{
+	p_animator;
+	_animationName;
+	p_texture; 
+	_vecAnimFrame;
+	_curFrame; 
+	_accTime;
+	_animFinish;
+}

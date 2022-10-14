@@ -22,7 +22,8 @@ CPlayer::CPlayer()
 	_curState(OBJECT_STATE::IDLE),
 	_prevState(OBJECT_STATE::IDLE),
 	_dir(1),
-	_prevDir(1)
+	_prevDir(1),
+	_onJump(false)
 {
 	CreateCollider();
 	GetCollider()->SetOffsetPos(Vector2{0.f, 5.f});
@@ -36,19 +37,36 @@ CPlayer::CPlayer()
 
 	CreateAnimator();
 
-	GetAnimator()->CreateAnimation(L"IDLE_RIGHT", p_textureRight, Vector2(307, 35), Vector2(30, 35), Vector2(30, 0), 0.09f, 7);
-	GetAnimator()->CreateAnimation(L"IDLE_LEFT", p_textureLeft, Vector2(10, 35), Vector2(30, 35), Vector2(30, 0), 0.1f, 7);
+	/*GetAnimator()->LoadAnimation(L"Animation\\Player_IDLE_RIGHT.anim");
+	GetAnimator()->LoadAnimation(L"Animation\\Player_IDLE_LEFT.anim");
+	GetAnimator()->LoadAnimation(L"Animation\\Player_MOVE_RIGHT.anim");
+	GetAnimator()->LoadAnimation(L"Animation\\Player_MOVE_LEFT.anim");
+	GetAnimator()->LoadAnimation(L"Animation\\Player_JUMP_RIGHT.anim");
+	GetAnimator()->LoadAnimation(L"Animation\\Player_JUMP_LEFT.anim");*/
 
-	// MOVE 가로 23, 세로 35
-	GetAnimator()->CreateAnimation(L"MOVE_RIGHT", p_textureRight, Vector2(356, 0), Vector2(23, 35), Vector2(23, 0), 0.09f, 7);
-	GetAnimator()->CreateAnimation(L"MOVE_LEFT", p_textureLeft, Vector2(17, 0), Vector2(23, 35), Vector2(23, 0), 0.1f, 7);
+#pragma region "Animation 저장전"
+	//GetAnimator()->CreateAnimation(L"IDLE_RIGHT", p_textureRight, Vector2(307, 35), Vector2(30, 35), Vector2(30, 0), 0.09f, 7);
+	//GetAnimator()->CreateAnimation(L"IDLE_LEFT", p_textureLeft, Vector2(10, 35), Vector2(30, 35), Vector2(30, 0), 0.1f, 7);
 
-	// MOVE 가로 23, 세로 35
-	GetAnimator()->CreateAnimation(L"JUMP_RIGHT", p_textureRight, Vector2(116, 0), Vector2(25, 35), Vector2(25, 0), 0.1f, 3);
-	GetAnimator()->CreateAnimation(L"JUMP_LEFT", p_textureLeft, Vector2(337, 0), Vector2(25, 35), Vector2(25, 0), 0.1f, 3);
+	//// MOVE 가로 23, 세로 35
+	//GetAnimator()->CreateAnimation(L"MOVE_RIGHT", p_textureRight, Vector2(356, 0), Vector2(23, 35), Vector2(23, 0), 0.09f, 7);
+	//GetAnimator()->CreateAnimation(L"MOVE_LEFT", p_textureLeft, Vector2(17, 0), Vector2(23, 35), Vector2(23, 0), 0.1f, 7);
 
-	GetAnimator()->CreateAnimation(L"ATTACK_RIGHT", p_textureRight, Vector2(25, 248), Vector2(75, 75), Vector2(75, 0), 0.09f, 7);
-	GetAnimator()->CreateAnimation(L"TURN_LEFT", p_textureLeft, Vector2(353, 518), Vector2(32, 37), Vector2(-32, 0), 0.1f, 7);
+	//// MOVE 가로 23, 세로 35
+	//GetAnimator()->CreateAnimation(L"JUMP_RIGHT", p_textureRight, Vector2(115, 0), Vector2(25, 35), Vector2(25, 0), 0.1f, 4);
+	//GetAnimator()->CreateAnimation(L"JUMP_LEFT", p_textureLeft, Vector2(332, 0), Vector2(25, 35), Vector2(25, 0), 0.1f, 4);
+
+	//GetAnimator()->CreateAnimation(L"ATTACK_RIGHT", p_textureRight, Vector2(25, 248), Vector2(75, 75), Vector2(75, 0), 0.09f, 7);
+	//GetAnimator()->CreateAnimation(L"TURN_LEFT", p_textureLeft, Vector2(353, 518), Vector2(32, 37), Vector2(-32, 0), 0.1f, 7);
+#pragma endregion
+
+
+	GetAnimator()->FindAnimation(L"IDLE_RIGHT")->SaveAnim(L"Animation\\Player_IDLE_RIGHT.anim");
+	GetAnimator()->FindAnimation(L"IDLE_LEFT")->SaveAnim(L"Animation\\Player_IDLE_LEFT.anim");
+	GetAnimator()->FindAnimation(L"MOVE_RIGHT")->SaveAnim(L"Animation\\Player_MOVE_RIGHT.anim");
+	GetAnimator()->FindAnimation(L"MOVE_LEFT")->SaveAnim(L"Animation\\Player_MOVE_LEFT.anim");
+	GetAnimator()->FindAnimation(L"JUMP_RIGHT")->SaveAnim(L"Animation\\Player_JUMP_RIGHT.anim");
+	GetAnimator()->FindAnimation(L"JUMP_LEFT")->SaveAnim(L"Animation\\Player_JUMP_LEFT.anim");
 
 	GetAnimator()->PlayAnimation(L"IDLE_RIGHT", true);
 
@@ -80,15 +98,17 @@ void CPlayer::update()
 
 void CPlayer::UpdateState()
 {
-	if (KEY_TAP(KEY::A))
+	if (KEY_HOLD(KEY::A))
 	{
 		_dir = -1;
-		_curState = OBJECT_STATE::MOVE;
+		if (OBJECT_STATE::JUMP != _curState)
+			_curState = OBJECT_STATE::MOVE;
 	}
-	if (KEY_TAP(KEY::D))
+	if (KEY_HOLD(KEY::D))
 	{
 		_dir = 1;
-		_curState = OBJECT_STATE::MOVE;
+		if (OBJECT_STATE::JUMP != _curState)
+			_curState = OBJECT_STATE::MOVE;
 	}
 
 	// Missile
@@ -98,22 +118,31 @@ void CPlayer::UpdateState()
 		_curState = OBJECT_STATE::ATTACK;
 	}
 
-	if (KEY_TAP(KEY::SPACE))
-	{
-		// CreateThreeMissile();
-		_curState = OBJECT_STATE::JUMP;
-
-		if (GetRigidBody())
-		{
-   			GetRigidBody()->AddVelocity(Vector2(0.f, -200.f));
-		}
-	}
-
-	if (0.f == GetRigidBody()->GetSpeed())
+	if (0.f == GetRigidBody()->GetSpeed() && OBJECT_STATE::JUMP != _curState)
 	{
 		if (KEY_NONE(KEY::A) && KEY_NONE(KEY::D) && KEY_NONE(KEY::SPACE))
 		{
 			_curState = OBJECT_STATE::IDLE;
+		}
+	}
+
+	if (KEY_TAP(KEY::SPACE))
+	{
+		// CreateThreeMissile();
+		if (_onJump == false)
+		{
+			_curState = OBJECT_STATE::JUMP;
+
+			if (GetRigidBody())
+			{
+				// ===================
+				// 이단 점프 구현하고 싶을 경우
+				/*Vector2 curVel = GetRigidBody()->GetVelocity();
+				GetRigidBody()->SetVelocity(Vector2(curVel._x, -200.f));*/
+				// ===================
+
+				GetRigidBody()->AddVelocity(Vector2(0.f, -200.f));
+			}
 		}
 	}
 }
@@ -144,9 +173,9 @@ void CPlayer::UpdateAnimation()
 	case OBJECT_STATE::JUMP:
 	{
 		if (_dir == 1)
-			GetAnimator()->PlayAnimation(L"JUMP_RIGHT", false);
+			GetAnimator()->PlayAnimation(L"JUMP_RIGHT", true);
 		else
-			GetAnimator()->PlayAnimation(L"JUMP_LEFT", false);
+			GetAnimator()->PlayAnimation(L"JUMP_LEFT", true);
 	}
 	break;
 	case OBJECT_STATE::ATTACK:
@@ -187,14 +216,6 @@ void CPlayer::UpdateMove()
 {
 	RigidBody* rd = GetRigidBody();
 
-	/*if (KEY_HOLD(KEY::W))
-	{
-		rd->AddForce(Vector2(0.f, -200.f));
-	}
-	if (KEY_HOLD(KEY::S))
-	{
-		rd->AddForce(Vector2(0.f, 200.f));
-	}*/
 	if (KEY_HOLD(KEY::A))
 	{
 		rd->AddForce(Vector2(-200.f, 0.f));
@@ -204,23 +225,16 @@ void CPlayer::UpdateMove()
 		rd->AddForce(Vector2(200.f, 0.f));
 	}
 
-	//if (KEY_TAP(KEY::W))
-	//{
-	//	rd->AddVelocity(Vector2(0.f, -200.f));
-	//}
-	//if (KEY_TAP(KEY::S))
-	//{
-	//	rd->AddVelocity(Vector2(0.f, 200.f));
-	//}
-
 	if (KEY_TAP(KEY::A))
 	{
-		rd->AddVelocity(Vector2(-200.f, 0.f));
+		// rd->AddVelocity(Vector2(-200.f, 0.f));
+		rd->SetVelocity(Vector2(-100.f, rd->GetVelocity()._y));
 
 	}
 	if (KEY_TAP(KEY::D))
 	{
-		rd->AddVelocity(Vector2(200.f, 0.f));
+		// rd->AddVelocity(Vector2(200.f, 0.f));
+		rd->SetVelocity(Vector2(100.f, rd->GetVelocity()._y));
 	}
 }
 
@@ -297,6 +311,28 @@ void CPlayer::render(HDC dc)
 
 #pragma endregion
 
+}
+
+void CPlayer::OnCollisionEnter(Collider* other)
+{
+	CObject* otherObj = other->GetColliderOwner();
+	if (other->GetColliderOwner()->GetObjectName() == L"Ground")
+	{
+		_onJump = false;
+		Vector2 pos = GetPos();
+		if (pos._y < otherObj->GetPos()._y)
+		{
+			_curState = OBJECT_STATE::IDLE;
+		}
+	}
+}
+
+void CPlayer::OnCollisionExit(Collider* other)
+{
+	if (other->GetColliderOwner()->GetObjectName() == L"Ground")
+	{
+		_onJump = true;
+	}
 }
 
 void CPlayer::CreateMissile()

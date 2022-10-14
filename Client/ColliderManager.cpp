@@ -130,8 +130,8 @@ bool ColliderManager::IsCollision(Collider* leftCollider, Collider* rightCollide
 	Vector2 rightPos = rightCollider->GetFinalPos();
 	Vector2 rightScale = rightCollider->GetColliderScale();
 
-	if ( abs(rightPos._x - leftPos._x) < (rightScale._x + leftScale._x) / 2.f &&
-		abs(rightPos._y - leftPos._y) < (rightScale._y + leftScale._y) / 2.f )
+	if ( abs(rightPos._x - leftPos._x) <= (rightScale._x + leftScale._x) / 2.f &&
+		abs(rightPos._y - leftPos._y) <= (rightScale._y + leftScale._y) / 2.f )
 	{
 		return true;
 	}

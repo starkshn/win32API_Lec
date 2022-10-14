@@ -155,6 +155,7 @@ void StartScene::Enter()
 
 	// Ground¹èÄ¡
 	CObject* ground = new Ground();
+	ground->SetObjectName(L"Ground");
 	ground->SetScale(Vector2(400.f, 100.f));
 	ground->SetPos(Vector2(640.f, 700.f));
 	AddObject(ground, GROUP_TYPE::GROUND);

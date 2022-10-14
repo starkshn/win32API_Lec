@@ -15,6 +15,8 @@ private:
 	OBJECT_STATE	_prevState;
 	int				_dir;
 	int				_prevDir;
+	bool			_onJump;
+	
 
 public :
 	CPlayer();
@@ -23,6 +25,9 @@ public :
 public:
 	virtual void update() final;
 	virtual void render(HDC dc) final;
+
+	virtual void OnCollisionEnter(Collider* other);
+	virtual void OnCollisionExit(Collider* other);
 
 public:
 	void UpdateState();

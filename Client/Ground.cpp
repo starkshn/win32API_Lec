@@ -43,7 +43,7 @@ void Ground::OnCollisionEnter(Collider* other)
 		
 		// 충돌을 접한 상태를 유지하기 위해 의도적으로 1픽셀을 덜 올려줌.
 		objPos = otherObj->GetPos();
-		objPos._y -= (value - 1.f);
+		objPos._y -= value;
 
 		otherObj->SetPos(objPos);
 	}
@@ -69,7 +69,7 @@ void Ground::OnCollisionStay(Collider* other)
 
 		// 충돌을 접한 상태를 유지하기 위해 의도적으로 1픽셀을 덜 올려줌.
 		objPos = otherObj->GetPos();
-		objPos._y -= (value - 1.f);
+		objPos._y -= value;
 
 		otherObj->SetPos(objPos);
 	}
@@ -84,12 +84,5 @@ void Ground::OnCollisionExit(Collider* other)
 		otherObj->GetGravity()->SetOnGround(false);
 		// otherObj->GetGravity()->_onLand = false;
 
-		Vector2 pos = otherObj->GetPos();
-		if (GetPos()._y > pos._y)
-		{
-			// 충돌중일 때 1픽셀 곂치게 만들었기 때문에 
-			// 1픽셀을 다시 올려줌. -> 이렇게해서 충돌을 벗어나게함.
-			otherObj->SetPos(Vector2(pos._x, pos._y - 1.f));
-		}
 	}
 }
