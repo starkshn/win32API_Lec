@@ -165,6 +165,9 @@ void Animation::SaveAnim(const wstring& relativePath)
 
 		fprintf(file, "- Index %d Duration(float) : ", i);
 		fprintf(file, "%d\n", static_cast<int>(_vecAnimFrame[i]._duration));
+
+		fprintf(file, "\n");
+
 	}
 	
 	fprintf(file, "\n\n");
