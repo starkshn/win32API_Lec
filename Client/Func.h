@@ -41,3 +41,5 @@ void SafeDeleteMap(map<T1, T2>& _map)
 void SaveWString(const wstring& str, FILE* file);
 
 void LoadWString(wstring& str, FILE* file);
+
+void FScanf(char* buffer, FILE* file);

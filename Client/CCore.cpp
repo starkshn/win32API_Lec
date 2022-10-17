@@ -77,6 +77,11 @@ int CCore::init(HWND hWnd, POINT resolution)
 	CameraManager::GetInstance()->init();
 	CSceneManager::GetInstance()->init();
 
+	// Sound Load Å×½ºÆ®
+	ResourceManager::GetInstance()->LoadSound();
+	Sound* testSound = ResourceManager::GetInstance()->FindSond();
+	testSound->Play();
+
 	return S_OK;
 }
 

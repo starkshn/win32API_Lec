@@ -66,3 +66,18 @@ void LoadWString(wstring& str, FILE* file)
 
 	str = buffer;
 }
+
+void FScanf(char* buffer, FILE* file)
+{
+	int i = 0;
+	while (true)
+	{
+		char c = static_cast<char>(getc(file));
+		if (c == '\n')
+		{
+			buffer[i++] = '\0';
+			break;
+		}
+		buffer[i++] = c;
+	}
+}

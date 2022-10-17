@@ -3,6 +3,7 @@
 #include "Resources.h"
 #include "PathManager.h"
 #include "Texture.h"
+#include "Sound.h"
 #include <algorithm>
 
 ResourceManager::ResourceManager()
@@ -29,6 +30,22 @@ ResourceManager::~ResourceManager()
 	SafeDeleteMap(_mapTexture);
 }
 
+Texture* ResourceManager::CreateTexture(const wstring& key, UINT width, UINT height)
+{
+	Texture* tex = FindTexture(key);
+
+	if (nullptr != tex)
+		return tex;
+
+	tex = new Texture;
+	tex->SetKey(key);
+	tex->Create(width, height);
+
+	_mapTexture.insert(make_pair(key, tex));
+
+	return tex;
+}
+
 Texture* ResourceManager::LoadTexture(const wstring& key, const wstring& path)
 {
 	Texture* loadObject = FindTexture(key);
@@ -48,20 +65,27 @@ Texture* ResourceManager::LoadTexture(const wstring& key, const wstring& path)
 	return loadObject;
 }
 
-Texture* ResourceManager::CreateTexture(const wstring& key, UINT width, UINT height)
+Sound* ResourceManager::LoadSound(const wstring& key, const wstring& path)
 {
-	Texture* tex = FindTexture(key);
+	Sound* loadSound = FindSound(key);
+	if (nullptr != loadSound)
+		return loadSound;
 
-	if (nullptr != tex)
-		return tex;
+	wstring filePath = PathManager::GetInstance()->GetContentsPath();
+	filePath += path;
 
-	tex = new Texture;
-	tex->SetKey(key);
-	tex->Create(width, height);
+	loadSound = new Sound;
 
-	_mapTexture.insert(make_pair(key, tex));
+	// TODO
+	loadSound->Load(filePath);
 
-	return tex;
+
+	loadSound->SetKey(key);
+	loadSound->SetRelativePath(path);
+
+	_mapSound.insert(make_pair(key, loadSound));
+
+	return loadSound;
 }
 
 Texture* ResourceManager::FindTexture(const wstring& key)
@@ -72,4 +96,15 @@ Texture* ResourceManager::FindTexture(const wstring& key)
 		return nullptr;
 
 	return (Texture*)iter->second;
+}
+
+Sound* ResourceManager::FindSound(const wstring& key)
+{
+	map<wstring, Resources*>::iterator iter = _mapSound.find(key);
+
+	if (iter == _mapSound.end())
+		return nullptr;
+	return (Sound*)iter->second;
+
+	return nullptr;
 }
