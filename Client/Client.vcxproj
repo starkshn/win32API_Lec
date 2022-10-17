@@ -199,6 +199,7 @@
     <ClInclude Include="Resources.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Sound.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StartScene.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="struct.h" />
@@ -256,6 +257,7 @@
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="StartScene.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="Texture.cpp" />

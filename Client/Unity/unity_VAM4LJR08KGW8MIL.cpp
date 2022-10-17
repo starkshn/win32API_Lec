@@ -1,10 +1,4 @@
 
-#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\Ground.cpp"
-
-
-#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\Idle.cpp"
-
-
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\CPlayer.cpp"
 
 
@@ -27,4 +21,13 @@
 
 
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\RigidBody.cpp"
+
+
+#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\Sound.cpp"
+
+
+#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\SoundManager.cpp"
+
+
+#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\StartScene.cpp"
 

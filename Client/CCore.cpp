@@ -12,6 +12,7 @@
 #include "Texture.h"
 #include "SelectGDI.h"
 #include "resource.h"
+#include "Sound.h"
 
 CCore::CCore()
 	:
@@ -76,11 +77,30 @@ int CCore::init(HWND hWnd, POINT resolution)
 	CKeyManager::GetInstance()->init();
 	CameraManager::GetInstance()->init();
 	CSceneManager::GetInstance()->init();
+	SoundManager::GetInstance()->init();
 
 	// Sound Load 테스트
-	ResourceManager::GetInstance()->LoadSound();
-	Sound* testSound = ResourceManager::GetInstance()->FindSond();
-	testSound->Play();
+	// ============================
+	// BGM
+	ResourceManager::GetInstance()->LoadSound(L"BGM_01", L"Sounds\\BGM.wav");
+	Sound* bgm = ResourceManager::GetInstance()->FindSound(L"BGM_01");
+	// newSound->Play();
+
+	bgm->SetPosition(50.f); // 백분율, 소리 위치설정
+	
+	bgm->PlayBGM(true);
+	// ============================
+
+	// ============================
+	// Effect Sound
+	// 잘됨
+	//ResourceManager::GetInstance()->LoadSound(L"JUMP", L"Sounds\\jump.wav");
+	//Sound* effect = ResourceManager::GetInstance()->FindSound(L"JUMP");
+	//effect->SetPosition(50.f); // 백분율, 소리 위치설정
+	//effect->PlayBGM(true);
+
+	// ============================
+
 
 	return S_OK;
 }

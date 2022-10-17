@@ -19,7 +19,6 @@
 #define MOUSE_POS CKeyManager::GetInstance()->GetCurrentMousePos()
 
 
-
 #define PI 3.1415926535f
 
 #define TILE_SIZE 63

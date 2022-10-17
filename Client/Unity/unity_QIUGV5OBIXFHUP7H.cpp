@@ -1,7 +1,4 @@
 
-#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\CObject.cpp"
-
-
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\Collider.cpp"
 
 
@@ -27,4 +24,10 @@
 
 
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\Gravity.cpp"
+
+
+#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\Ground.cpp"
+
+
+#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\Idle.cpp"
 

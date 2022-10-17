@@ -75,13 +75,7 @@ Sound* ResourceManager::LoadSound(const wstring& key, const wstring& path)
 	filePath += path;
 
 	loadSound = new Sound;
-
-	// TODO
 	loadSound->Load(filePath);
-
-
-	loadSound->SetKey(key);
-	loadSound->SetRelativePath(path);
 
 	_mapSound.insert(make_pair(key, loadSound));
 

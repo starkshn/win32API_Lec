@@ -16,15 +16,12 @@ public:
 	Texture* CreateTexture(const wstring& key, UINT width, UINT height);
 
 public:
-	Texture* LoadTexture(const wstring& key, const wstring& path);
-	Sound* LoadSound(const wstring& key, const wstring& path);
+	Texture*	LoadTexture(const wstring& key, const wstring& path);
+	Sound*		LoadSound(const wstring& key, const wstring& path);
 
 public:
 	Texture*	FindTexture(const wstring& key);
 	Sound*		FindSound(const wstring& key);
-
-
-
 
 
 	/*

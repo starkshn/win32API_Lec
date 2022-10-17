@@ -28,3 +28,6 @@
 
 #include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\CMissile.cpp"
 
+
+#include "C:\Users\stark\Desktop\CPP\WinApiStudy\Client\CObject.cpp"
+
